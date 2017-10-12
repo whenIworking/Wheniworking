@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="JAVA," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="工作博客记录自己工作以来习到的技能和经验，时时复盘，常常温习，查漏补缺。倘若能顺带解他人之惑，善矣！">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://wheniworking.com/README.html">
+<meta name="description" content="在字符串中反斜杠 “\” 是有特殊意义的，常常被用来作为转义字符的开始，在表示正则表达式的开始。所以，在对其进行替换或者查找的时候会非常麻烦，这种窘境往往会与不同操作系统下的路径操作相关。 例如，在Windows中路径的表示可以使用斜杠 “/“  和 反斜杠 “\”，所以，一个不规范的路径可能会写的非常不规范。诸如e:/opt\\copic\/sma\topic    String path =">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="替换&quot;&#x2F;&quot; 和 &quot;\&quot;">
+<meta property="og:url" content="http://wheniworking.com/2015/09/10/replace-slash/index.html">
 <meta property="og:site_name" content="Hello World">
-<meta property="og:description" content="工作博客记录自己工作以来习到的技能和经验，时时复盘，常常温习，查漏补缺。倘若能顺带解他人之惑，善矣！">
+<meta property="og:description" content="在字符串中反斜杠 “\” 是有特殊意义的，常常被用来作为转义字符的开始，在表示正则表达式的开始。所以，在对其进行替换或者查找的时候会非常麻烦，这种窘境往往会与不同操作系统下的路径操作相关。 例如，在Windows中路径的表示可以使用斜杠 “/“  和 反斜杠 “\”，所以，一个不规范的路径可能会写的非常不规范。诸如e:/opt\\copic\/sma\topic    String path =">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-12T17:02:41.000Z">
+<meta property="og:updated_time" content="2017-10-12T17:15:52.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="工作博客记录自己工作以来习到的技能和经验，时时复盘，常常温习，查漏补缺。倘若能顺带解他人之惑，善矣！">
+<meta name="twitter:title" content="替换&quot;&#x2F;&quot; 和 &quot;\&quot;">
+<meta name="twitter:description" content="在字符串中反斜杠 “\” 是有特殊意义的，常常被用来作为转义字符的开始，在表示正则表达式的开始。所以，在对其进行替换或者查找的时候会非常麻烦，这种窘境往往会与不同操作系统下的路径操作相关。 例如，在Windows中路径的表示可以使用斜杠 “/“  和 反斜杠 “\”，所以，一个不规范的路径可能会写的非常不规范。诸如e:/opt\\copic\/sma\topic    String path =">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://wheniworking.com/README.html"/>
+  <link rel="canonical" href="http://wheniworking.com/2015/09/10/replace-slash/"/>
 
 
 
 
 
-  <title> | Hello World</title>
+  <title>替换"/" 和 "\" | Hello World</title>
   
 
 
@@ -220,34 +221,174 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/replace-slash/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="周东伟">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline"></h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <h2 id="工作博客"><a href="#工作博客" class="headerlink" title="工作博客"></a>工作博客</h2><p>记录自己工作以来习到的技能和经验，时时复盘，常常温习，查漏补缺。倘若能顺带解他人之惑，善矣！</p>
-
+          <h1 class="post-title" itemprop="name headline">替换"/" 和 "\"</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T00:00:00+08:00">
+                2015-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>在字符串中反斜杠 “\” 是有特殊意义的，常常被用来作为转义字符的开始，在表示正则表达式的开始。所以，在对其进行替换或者查找的时候会非常麻烦，这种窘境往往会与不同操作系统下的路径操作相关。</p>
+<p>例如，在<code>Windows</code>中路径的表示可以使用斜杠 “/“  和 反斜杠 “\”，所以，一个不规范的路径可能会写的非常不规范。诸如<code>e:/opt\\copic\/sma\topic</code><br>    String path = “e:/opt/enb/“<br>    要把路径中的斜杠 “/“ 替换为 反斜杠 “\”<br>    path.replaceAll(“/“,”\“+File.seperator);</p>
+<pre><code>String path = &quot;e:\\opt\\enb\\&quot; 
+要把反斜杠 &quot;\&quot; 替换为斜杠 &quot;/&quot;
+path.replaceAll(&quot;\\\\&quot;,File.seperator);
+</code></pre>
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/10/timestamp-border-limit/" rel="next" title="timestamp时间戳边界处理">
+                <i class="fa fa-chevron-left"></i> timestamp时间戳边界处理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/10/spring-date-inject/" rel="prev" title="Spring注入日期类型">
+                Spring注入日期类型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -278,17 +419,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -350,22 +482,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#工作博客"><span class="nav-number">1.</span> <span class="nav-text">工作博客</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

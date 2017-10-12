@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="JAVA," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="用宽容的胸怀接受不能改变的，用极大的勇气改变能够改变的">
+<meta name="description" content="为了在JSP页面中使用JSTL标签，那么需要在JSP页面中引入 JSTL 声明和启用EL的声明，如下所示：12&amp;lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; isELIgnored=&quot;false&quot; %&amp;gt;&amp;lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/">
+<meta name="keywords" content="JAVA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="滕王阁序">
-<meta property="og:url" content="http://wheniworking.com/2015/10/30/滕王阁序/index.html">
+<meta property="og:title" content="jstl">
+<meta property="og:url" content="http://wheniworking.com/2015/09/10/jstl/index.html">
 <meta property="og:site_name" content="Hello World">
-<meta property="og:description" content="用宽容的胸怀接受不能改变的，用极大的勇气改变能够改变的">
+<meta property="og:description" content="为了在JSP页面中使用JSTL标签，那么需要在JSP页面中引入 JSTL 声明和启用EL的声明，如下所示：12&amp;lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; isELIgnored=&quot;false&quot; %&amp;gt;&amp;lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-12T17:16:55.000Z">
+<meta property="og:updated_time" content="2017-10-12T17:15:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="滕王阁序">
-<meta name="twitter:description" content="用宽容的胸怀接受不能改变的，用极大的勇气改变能够改变的">
+<meta name="twitter:title" content="jstl">
+<meta name="twitter:description" content="为了在JSP页面中使用JSTL标签，那么需要在JSP页面中引入 JSTL 声明和启用EL的声明，如下所示：12&amp;lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; isELIgnored=&quot;false&quot; %&amp;gt;&amp;lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://wheniworking.com/2015/10/30/滕王阁序/"/>
+  <link rel="canonical" href="http://wheniworking.com/2015/09/10/jstl/"/>
 
 
 
 
 
-  <title>滕王阁序 | Hello World</title>
+  <title>jstl | Hello World</title>
   
 
 
@@ -232,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/10/30/滕王阁序/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/jstl/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="周东伟">
@@ -249,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">滕王阁序</h1>
+          <h1 class="post-title" itemprop="name headline">jstl</h1>
         
 
         <div class="post-meta">
@@ -261,8 +262,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-30T18:33:03+08:00">
-                2015-10-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T00:00:00+08:00">
+                2015-09-10
               </time>
             
 
@@ -271,6 +272,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -299,7 +322,14 @@
       
 
       
-        
+        <p>为了在JSP页面中使用<code>JSTL</code>标签，那么需要在JSP页面中引入 <code>JSTL</code> 声明和启用<code>EL</code>的声明，如下所示：<br><figure class="highlight jsp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> isELIgnored=<span class="string">"false"</span> %&gt;</div><div class="line">&lt;%@ taglib prefix=<span class="string">"c"</span> uri=<span class="string">"http://java.sun.com/jsp/jstl/core"</span> %&gt;</div></pre></td></tr></table></figure></p>
+<p>###<code>c:out</code><br>out.jsp：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">action parameters is : &lt;c:out value="$&#123;param.action&#125;"&gt;&lt;/c:out&gt;</div></pre></td></tr></table></figure></p>
+<p>访问：<br><code>localhost：8080/out.jsp?action=add</code><br>结果：<br><code>action parameters is : add</code></p>
+<p>###<code>c:if</code><br>if.jsp:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;param.action=='add'&#125;"</span>&gt;</div><div class="line">    &lt;table&gt;</div><div class="line">        &lt;tr&gt;</div><div class="line">            &lt;td&gt;账号&lt;/td&gt;</div><div class="line">            &lt;td&gt;&lt;input type="text" name="login"/&gt;&lt;/td&gt;</div><div class="line">        &lt;/tr&gt;</div><div class="line">        &lt;tr&gt;</div><div class="line">            &lt;td&gt;真实姓名&lt;/td&gt;</div><div class="line">            &lt;td&gt;&lt;input type="text" name="name"/&gt;&lt;/td&gt;</div><div class="line">        &lt;/tr&gt;</div><div class="line">    &lt;/table&gt;</div><div class="line">&lt;/c:if&gt;</div></pre></td></tr></table></figure></p>
+<p>访问：<br><code>localhost：8080/out.jsp?action=add</code></p>
+<p>但是 <code>if</code> 标签没有 <code>else</code> 的功能，如果要实现类似于 <code>java</code> 中 <code>if...else</code> 的功能，需要使用 <code>choose</code> 标签。</p>
+<p>choose.jsp:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;c:choose&gt;</div><div class="line">    &lt;c:when test=<span class="string">"$&#123;param.action&#125;"</span> &gt;</div><div class="line">        when 标签的输出</div><div class="line">    &lt;/c:when&gt;</div><div class="line">    &lt;c:otherwise&gt;</div><div class="line">        otherwise 标签的输出</div><div class="line">    &lt;/c:otherwise&gt;</div><div class="line">&lt;/c:choose&gt;</div></pre></td></tr></table></figure></p>
+
       
     </div>
     
@@ -314,6 +344,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+        </div>
+      
 
       
       
@@ -323,8 +359,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/10/java-date/" rel="next" title="Java日期">
-                <i class="fa fa-chevron-left"></i> Java日期
+              <a href="/2015/09/10/spring-date-inject/" rel="next" title="Spring注入日期类型">
+                <i class="fa fa-chevron-left"></i> Spring注入日期类型
               </a>
             
           </div>
@@ -333,8 +369,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/10/13/hello-world/" rel="prev" title="Hello World">
-                Hello World <i class="fa fa-chevron-right"></i>
+              <a href="/2015/09/10/io-effection/" rel="prev" title="频繁IO对系统性能的影响">
+                频繁IO对系统性能的影响 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

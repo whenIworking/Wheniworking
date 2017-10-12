@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="JAVA," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="description" content="使用Criteria查询 JpaSpecificationExecutor 接口的使用 @Query 和 @NamedQuery 的使用  使用 Criteria 查询Criteria 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。 JPQL ： select u from User u where u.old &amp;gt; 20 123456789101112publ">
+<meta name="keywords" content="JAVA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://wheniworking.com/2017/10/13/hello-world/index.html">
+<meta property="og:title" content="jpa(2)">
+<meta property="og:url" content="http://wheniworking.com/2015/09/10/jpa-2/index.html">
 <meta property="og:site_name" content="Hello World">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="使用Criteria查询 JpaSpecificationExecutor 接口的使用 @Query 和 @NamedQuery 的使用  使用 Criteria 查询Criteria 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。 JPQL ： select u from User u where u.old &amp;gt; 20 123456789101112publ">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-12T16:53:03.000Z">
+<meta property="og:updated_time" content="2017-10-12T17:13:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="twitter:title" content="jpa(2)">
+<meta name="twitter:description" content="使用Criteria查询 JpaSpecificationExecutor 接口的使用 @Query 和 @NamedQuery 的使用  使用 Criteria 查询Criteria 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。 JPQL ： select u from User u where u.old &amp;gt; 20 123456789101112publ">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://wheniworking.com/2017/10/13/hello-world/"/>
+  <link rel="canonical" href="http://wheniworking.com/2015/09/10/jpa-2/"/>
 
 
 
 
 
-  <title>Hello World | Hello World</title>
+  <title>jpa(2) | Hello World</title>
   
 
 
@@ -232,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/13/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/jpa-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="周东伟">
@@ -249,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello World</h1>
+          <h1 class="post-title" itemprop="name headline">jpa(2)</h1>
         
 
         <div class="post-meta">
@@ -261,8 +262,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-13T00:05:16+08:00">
-                2017-10-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T00:00:00+08:00">
+                2015-09-10
               </time>
             
 
@@ -271,6 +272,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -299,15 +322,17 @@
       
 
       
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <ul>
+<li>使用<code>Criteria</code>查询</li>
+<li><code>JpaSpecificationExecutor</code> 接口的使用</li>
+<li><code>@Query</code> 和 <code>@NamedQuery</code> 的使用</li>
+</ul>
+<h1 id="使用-Criteria-查询"><a href="#使用-Criteria-查询" class="headerlink" title="使用 Criteria 查询"></a>使用 <code>Criteria</code> 查询</h1><p><code>Criteria</code> 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。</p>
+<pre><code>JPQL ： select u from User u where u.old &gt; 20
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(root);</div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),<span class="number">20</span>);</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    List&lt;User&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre><code>JPQL ： select u.old,u.name from User u where u.old &gt; 20
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果只查询某几个字段，那么返回的结果就不能是对象而是一个对象数组</span></div><div class="line"><span class="keyword">public</span> List&lt;Object[]&gt; findAll()&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    <span class="comment">//cq.select(root);</span></div><div class="line">    <span class="comment">//cq.select(root.get("old"); 如果只查询一个字段，可以使用select</span></div><div class="line">    cq.multiselect(root.get(<span class="string">"old"</span>),root.get(<span class="string">"name"</span>));<span class="comment">//查询多个字段使用multiselect</span></div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),cb.parameter(Integer.class,<span class="string">"old"</span>));</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    query.setParameter(<span class="string">"old"</span>,<span class="number">20</span>);</div><div class="line">    List&lt;Object[]&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//如果想要查询多个字段，但是又想返回对象那就需要使用construct进行构造</span></div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(cb.construct(User.class,root.get(<span class="string">"old"</span>),root.get(<span class="string">"name)));</span></div><div class="line"><span class="string">    cq.multiselect(root.get("</span>old<span class="string">"),root.get("</span>name<span class="string">"));</span></div><div class="line"><span class="string">    Predicate pre = cb.greaterThan(root.get("</span>old<span class="string">").as(Integer.class),cb.parameter(Integer.class,"</span>old<span class="string">"));</span></div><div class="line"><span class="string">    cq.where(pre);</span></div><div class="line"><span class="string">    </span></div><div class="line"><span class="string">    Query query = entityManager.createQuery(cq);</span></div><div class="line"><span class="string">    query.setParameter("</span>old<span class="string">",20);</span></div><div class="line"><span class="string">    List&lt;User&gt; users = query.getResultList();</span></div><div class="line"><span class="string">    return users;</span></div><div class="line"><span class="string">&#125;</span></div></pre></td></tr></table></figure>
+<p>如果要进行<code>join</code>操作，就需要使用 <code>Root</code> 的 <code>join</code> 操作</p>
 
       
     </div>
@@ -323,6 +348,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+        </div>
+      
 
       
       
@@ -332,18 +363,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/10/30/滕王阁序/" rel="next" title="滕王阁序">
-                <i class="fa fa-chevron-left"></i> 滕王阁序
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/10/13/first-blog/" rel="prev" title="first-blog">
-                first-blog <i class="fa fa-chevron-right"></i>
+              <a href="/2015/09/10/timestamp-border-limit/" rel="prev" title="timestamp时间戳边界处理">
+                timestamp时间戳边界处理 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -476,7 +503,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-Criteria-查询"><span class="nav-number">1.</span> <span class="nav-text">使用 Criteria 查询</span></a></li></ol></div>
             
 
           </div>
