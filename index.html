@@ -294,6 +294,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -628,6 +650,28 @@ rpc.idmapd 名字映射后台进程
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -851,7 +895,7 @@ rpc.idmapd 名字映射后台进程
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/json-diff/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/java-date/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -870,7 +914,7 @@ rpc.idmapd 名字映射后台进程
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/09/10/json-diff/" itemprop="url">一个json问题</a></h1>
+                <a class="post-title-link" href="/2015/09/10/java-date/" itemprop="url">Java日期</a></h1>
         
 
         <div class="post-meta">
@@ -944,18 +988,70 @@ rpc.idmapd 名字映射后台进程
       
         
           
-            <p>JSON作为一个轻量级的文本数据交换格式常常用于web后台的数据封装和传输。JSON及其工具包给开发带来非常多的好处，提高了开发效率。然而，世间总是免不了存在一些坑，吾辈需笑看人生路，潜心研码。NULL值作为一个特殊情况，在处理的时候尤其需要小心处理。不幸的是，随着我们使用的工具类的作者的不同，对NULL的处理也有不同。此处，就扒一扒如题两家JSONObject工具类对NULL的处理。</p>
-<p>问题来了，这两家对NULL是如何处理的，示例代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">String resp = <span class="string">"&#123;"</span> +</div><div class="line">				<span class="string">"    \"id\": \"123456fdae23\",\n"</span> +</div><div class="line">				<span class="string">"    \"userName\": \"dodoro\",\n"</span> +</div><div class="line">				<span class="string">"    \"cnName\": \"清风明月多多爱工作\",\n"</span> +</div><div class="line">				<span class="string">"    \"anull\": null,\n"</span> +</div><div class="line">				<span class="string">"    \"anothernull\": null,\n"</span> +</div><div class="line">				<span class="string">"&#125;"</span>;</div><div class="line"></div><div class="line">		JSONObject jsonObject = JSONObject.fromObject(resp);</div><div class="line">		<span class="keyword">if</span>(jsonObject.getString(<span class="string">"anull"</span>).equals(<span class="string">"null"</span>))&#123;</div><div class="line">			System.out.println(<span class="string">"null became a string"</span>);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		com.alibaba.fastjson.JSONObject userInfo = com.alibaba.fastjson.JSONObject.parseObject(resp);</div><div class="line">		<span class="keyword">if</span>(userInfo.getString(<span class="string">"anull"</span>) == <span class="keyword">null</span>)&#123;</div><div class="line">			System.out.println(<span class="string">"alibaba NB, null is a null"</span>);</div><div class="line">		&#125;</div><div class="line">		System.out.println(jsonObject);</div></pre></td></tr></table></figure></p>
-<p>运行的测试结果如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">null became a string</div><div class="line">alibaba NB, null is a null</div></pre></td></tr></table></figure></p>
-<p>结果很明显，<code>net.sf.json.JSONObject</code>将null转换成了一个字符串<code>&quot;null&quot;</code>，<code>com.alibaba.fastjson</code>则是将null转换为了<code>null</code>，两者是有不同的。</p>
-<p>首先，<code>net.sf.json.JSONObject</code> 提供了一个将其他类型的数据转换为转换为<code>JSONObject</code>的方法<code>fromObject()</code></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> JSONObject <span class="title">fromObject</span><span class="params">(Object object)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> fromObject(object, <span class="keyword">new</span> JsonConfig());</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> JSONObject <span class="title">fromObject</span><span class="params">(Object object, JsonConfig jsonConfig)</span> </span>&#123;</div><div class="line">        <span class="keyword">if</span>(object != <span class="keyword">null</span> &amp;&amp; !JSONUtils.isNull(object)) &#123;</div><div class="line">            <span class="keyword">if</span>(object <span class="keyword">instanceof</span> Enum) &#123; <span class="comment">//是否是枚举类型</span></div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> JSONException(<span class="string">"\'object\' is an Enum. Use JSONArray instead"</span>);</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(!(object <span class="keyword">instanceof</span> Annotation) &amp;&amp; (object == <span class="keyword">null</span> || !object.getClass().isAnnotation())) &#123; <span class="comment">//是否是注解类型</span></div><div class="line">                <span class="keyword">if</span>(object <span class="keyword">instanceof</span> JSONObject) &#123; <span class="comment">//是不是JSONObject</span></div><div class="line">                    <span class="keyword">return</span> _fromJSONObject((JSONObject)object, jsonConfig);</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span>(object <span class="keyword">instanceof</span> DynaBean) &#123;</div><div class="line">                    <span class="keyword">return</span> _fromDynaBean((DynaBean)object, jsonConfig);</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span>(object <span class="keyword">instanceof</span> JSONTokener) &#123;</div><div class="line">                    <span class="keyword">return</span> _fromJSONTokener((JSONTokener)object, jsonConfig);</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span>(object <span class="keyword">instanceof</span> JSONString) &#123; <span class="comment">//是不是符合JSON格式的字符串</span></div><div class="line">                    <span class="keyword">return</span> _fromJSONString((JSONString)object, jsonConfig);</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span>(object <span class="keyword">instanceof</span> Map) &#123; <span class="comment">//是不是Map</span></div><div class="line">                    <span class="keyword">return</span> _fromMap((Map)object, jsonConfig);</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span>(object <span class="keyword">instanceof</span> String) &#123; <span class="comment">//是不是字符串</span></div><div class="line">                    <span class="keyword">return</span> _fromString((String)object, jsonConfig);</div><div class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span>(!JSONUtils.isNumber(object) &amp;&amp; !JSONUtils.isBoolean(object) &amp;&amp; !JSONUtils.isString(object)) &#123;</div><div class="line">                    <span class="keyword">if</span>(JSONUtils.isArray(object)) &#123; <span class="comment">//是不是数组</span></div><div class="line">                        <span class="keyword">throw</span> <span class="keyword">new</span> JSONException(<span class="string">"\'object\' is an array. Use JSONArray instead"</span>);</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        <span class="keyword">return</span> _fromBean(object, jsonConfig); <span class="comment">//从对象转换为JSONObject，需要满足Bean的getter和setter</span></div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="keyword">return</span> <span class="keyword">new</span> JSONObject();</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> JSONException(<span class="string">"\'object\' is an Annotation."</span>);</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> JSONObject(<span class="keyword">true</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>从其源代码可以看出<code>net.sf.json</code>功能强大，接口简洁，然而主要看的并不是这里,而是它的<code>_fromJSONString((JSONString)object, jsonConfig);</code> 方法。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> JSONObject <span class="title">_fromString</span><span class="params">(String str, JsonConfig jsonConfig)</span> </span>&#123;</div><div class="line">       <span class="keyword">if</span>(str != <span class="keyword">null</span> &amp;&amp; !<span class="string">"null"</span>.equals(str)) &#123;</div><div class="line">           <span class="keyword">return</span> _fromJSONTokener(<span class="keyword">new</span> JSONTokener(str), jsonConfig);</div><div class="line">       &#125; <span class="keyword">else</span> &#123;</div><div class="line">           fireObjectStartEvent(jsonConfig);</div><div class="line">           fireObjectEndEvent(jsonConfig);</div><div class="line">           <span class="keyword">return</span> <span class="keyword">new</span> JSONObject(<span class="keyword">true</span>);</div><div class="line">       &#125;</div><div class="line">   &#125;</div><div class="line">   </div><div class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> JSONObject <span class="title">_fromJSONTokener</span><span class="params">(JSONTokener tokener, JsonConfig jsonConfig)</span> </span>&#123;</div><div class="line">       <span class="keyword">try</span> &#123;</div><div class="line">           <span class="keyword">if</span>(tokener.matches(<span class="string">"null.*"</span>)) &#123;</div><div class="line">               fireObjectStartEvent(jsonConfig);</div><div class="line">               fireObjectEndEvent(jsonConfig);</div><div class="line">               <span class="keyword">return</span> <span class="keyword">new</span> JSONObject(<span class="keyword">true</span>);</div><div class="line">           &#125; <span class="keyword">else</span> <span class="keyword">if</span>(tokener.nextClean() != <span class="number">123</span>) &#123;</div><div class="line">               <span class="keyword">throw</span> tokener.syntaxError(<span class="string">"A JSONObject text must begin with \'&#123;\'"</span>);</div><div class="line">           &#125; <span class="keyword">else</span> &#123;</div><div class="line">               fireObjectStartEvent(jsonConfig);</div><div class="line">               Collection exclusions = jsonConfig.getMergedExcludes();</div><div class="line">               PropertyFilter jsonPropertyFilter = jsonConfig.getJsonPropertyFilter();</div><div class="line">               JSONObject jsonObject = <span class="keyword">new</span> JSONObject();</div><div class="line"></div><div class="line">               <span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</div><div class="line">                   <span class="keyword">char</span> jsone = tokener.nextClean();</div><div class="line">                   <span class="keyword">switch</span>(jsone) &#123;</div><div class="line">                   <span class="keyword">case</span> <span class="string">'\u0000'</span>:</div><div class="line">                       <span class="keyword">throw</span> tokener.syntaxError(<span class="string">"A JSONObject text must end with \'&#125;\'"</span>);</div><div class="line">                   <span class="keyword">case</span> <span class="string">'&#125;'</span>:</div><div class="line">                       fireObjectEndEvent(jsonConfig);</div><div class="line">                       <span class="keyword">return</span> jsonObject;</div><div class="line">                   <span class="keyword">default</span>:</div><div class="line">                       tokener.back();</div><div class="line">                       String key = tokener.nextValue(jsonConfig).toString(); <span class="comment">//此处取得一个token</span></div><div class="line">                       jsone = tokener.nextClean();</div><div class="line">                       <span class="keyword">if</span>(jsone == <span class="number">61</span>) &#123;</div><div class="line">                           <span class="keyword">if</span>(tokener.next() != <span class="number">62</span>) &#123;</div><div class="line">                               tokener.back();</div><div class="line">                           &#125;</div><div class="line">                       &#125; <span class="keyword">else</span> <span class="keyword">if</span>(jsone != <span class="number">58</span>) &#123;</div><div class="line">                           <span class="keyword">throw</span> tokener.syntaxError(<span class="string">"Expected a \':\' after a key"</span>);</div><div class="line">                       &#125;</div><div class="line"></div><div class="line">                       <span class="keyword">char</span> peek = tokener.peek();</div><div class="line">                       <span class="keyword">boolean</span> quoted = peek == <span class="number">34</span> || peek == <span class="number">39</span>;</div><div class="line">                       Object v = tokener.nextValue(jsonConfig); <span class="comment">//获取当前key的value</span></div><div class="line">                       <span class="keyword">if</span>(!quoted &amp;&amp; JSONUtils.isFunctionHeader(v)) &#123;</div><div class="line">                           String params = JSONUtils.getFunctionParams((String)v); <span class="comment">//转换为String袅</span></div><div class="line">                       <span class="comment">//省略.....</span></div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
-<p> <code>nextValue</code>方法是<code>JSONTokener</code>类的方法，代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line">     <span class="function"><span class="keyword">public</span> Object <span class="title">nextValue</span><span class="params">(JsonConfig jsonConfig)</span> </span>&#123;</div><div class="line">        <span class="keyword">char</span> c = <span class="keyword">this</span>.nextClean();</div><div class="line">        <span class="keyword">switch</span>(c) &#123;</div><div class="line">        <span class="keyword">case</span> <span class="string">'\"'</span>:</div><div class="line">        <span class="keyword">case</span> <span class="string">'\''</span>:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.nextString(c);</div><div class="line">        <span class="keyword">case</span> <span class="string">'['</span>:</div><div class="line">            <span class="keyword">this</span>.back();</div><div class="line">            <span class="keyword">return</span> JSONArray.fromObject(<span class="keyword">this</span>, jsonConfig);</div><div class="line">        <span class="keyword">case</span> <span class="string">'&#123;'</span>:</div><div class="line">            <span class="keyword">this</span>.back();</div><div class="line">            <span class="keyword">return</span> JSONObject.fromObject(<span class="keyword">this</span>, jsonConfig);</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            StringBuffer sb = <span class="keyword">new</span> StringBuffer();</div><div class="line"></div><div class="line">            <span class="keyword">char</span> b;</div><div class="line">            <span class="keyword">for</span>(b = c; c &gt;= <span class="number">32</span> &amp;&amp; <span class="string">",:]&#125;/\\\"[&#123;;=#"</span>.indexOf(c) &lt; <span class="number">0</span>; c = <span class="keyword">this</span>.next()) &#123;</div><div class="line">                sb.append(c);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">this</span>.back();</div><div class="line">            String s = sb.toString().trim();</div><div class="line">            <span class="keyword">if</span>(s.equals(<span class="string">""</span>)) &#123;</div><div class="line">                <span class="keyword">throw</span> <span class="keyword">this</span>.syntaxError(<span class="string">"Missing value."</span>);</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(s.equalsIgnoreCase(<span class="string">"true"</span>)) &#123;</div><div class="line">                <span class="keyword">return</span> Boolean.TRUE;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(s.equalsIgnoreCase(<span class="string">"false"</span>)) &#123;</div><div class="line">                <span class="keyword">return</span> Boolean.FALSE;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span>(!s.equals(<span class="string">"null"</span>) &amp;&amp; (!jsonConfig.isJavascriptCompliant() || !s.equals(<span class="string">"undefined"</span>))) &#123;</div><div class="line">                <span class="keyword">if</span>((b &lt; <span class="number">48</span> || b &gt; <span class="number">57</span>) &amp;&amp; b != <span class="number">46</span> &amp;&amp; b != <span class="number">45</span> &amp;&amp; b != <span class="number">43</span>) &#123;</div><div class="line">                    <span class="keyword">if</span>(!JSONUtils.isFunctionHeader(s) &amp;&amp; !JSONUtils.isFunction(s)) &#123;</div><div class="line">                        <span class="keyword">switch</span>(<span class="keyword">this</span>.peek()) &#123;</div><div class="line">                        <span class="keyword">case</span> <span class="string">','</span>:</div><div class="line">                        <span class="keyword">case</span> <span class="string">'['</span>:</div><div class="line">                        <span class="keyword">case</span> <span class="string">']'</span>:</div><div class="line">                        <span class="keyword">case</span> <span class="string">'&#123;'</span>:</div><div class="line">                        <span class="keyword">case</span> <span class="string">'&#125;'</span>:</div><div class="line">                            <span class="keyword">throw</span> <span class="keyword">new</span> JSONException(<span class="string">"Unquotted string \'"</span> + s + <span class="string">"\'"</span>);</div><div class="line">                        <span class="keyword">default</span>:</div><div class="line">                            <span class="keyword">return</span> s;</div><div class="line">                        &#125;</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        <span class="keyword">return</span> s;</div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="keyword">if</span>(b == <span class="number">48</span>) &#123;</div><div class="line">                        <span class="keyword">if</span>(s.length() &gt; <span class="number">2</span> &amp;&amp; (s.charAt(<span class="number">1</span>) == <span class="number">120</span> || s.charAt(<span class="number">1</span>) == <span class="number">88</span>)) &#123;</div><div class="line">                            <span class="keyword">try</span> &#123;</div><div class="line">                                <span class="keyword">return</span> <span class="keyword">new</span> Integer(Integer.parseInt(s.substring(<span class="number">2</span>), <span class="number">16</span>));</div><div class="line">                            &#125; <span class="keyword">catch</span> (Exception var13) &#123;</div><div class="line">                                ;</div><div class="line">                            &#125;</div><div class="line">                        &#125; <span class="keyword">else</span> &#123;</div><div class="line">                            <span class="keyword">try</span> &#123;</div><div class="line">                                <span class="keyword">return</span> <span class="keyword">new</span> Integer(Integer.parseInt(s, <span class="number">8</span>));</div><div class="line">                            &#125; <span class="keyword">catch</span> (Exception var12) &#123;</div><div class="line">                                ;</div><div class="line">                            &#125;</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line"></div><div class="line">                    <span class="keyword">try</span> &#123;</div><div class="line">                        <span class="keyword">return</span> <span class="keyword">new</span> Integer(s);</div><div class="line">                    &#125; <span class="keyword">catch</span> (Exception var11) &#123;</div><div class="line">                        <span class="keyword">try</span> &#123;</div><div class="line">                            <span class="keyword">return</span> <span class="keyword">new</span> Long(s);</div><div class="line">                        &#125; <span class="keyword">catch</span> (Exception var10) &#123;</div><div class="line">                            <span class="keyword">try</span> &#123;</div><div class="line">                                <span class="keyword">return</span> <span class="keyword">new</span> Double(s);</div><div class="line">                            &#125; <span class="keyword">catch</span> (Exception var9) &#123;</div><div class="line">                                <span class="keyword">return</span> s;</div><div class="line">                            &#125;</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">return</span> JSONNull.getInstance(); <span class="comment">//返回一个JSONNUll对象</span></div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    </div><div class="line">    <span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">JSONNull</span> <span class="keyword">implements</span> <span class="title">JSON</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"null"</span>; <span class="comment">//返回一个“null”字符串</span></div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">(<span class="keyword">int</span> indentFactor)</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.toString();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>至此可以看到<code>net.sf.json</code>将NULL转换为一个“null” 字符串处理。如果直接对存在null值得JSON对象使用<code>getString</code>进行操作，那么就容易出现使用<code>getString(&quot;anull&quot;) == null</code>的操作，而<code>fastjson</code>则是将null直接转换为一个<code>null</code>对象，所以可以直接使用<code>getString(&quot;anull&quot;) == null</code>进行比较。</p>
-<p>万幸的是，如果我们通过JSON的方法将JSON对象转换为封装相同字段的<code>JAVA</code>对象，无论是哪种<code>JSON</code>工具包，最后都会把NULL转换为<code>null</code>。</p>
-<p><strong>所以建议后台获取的JSON对象，如果想要使用，最好先转换为JAVABean来避免不同工具包之间的差异所带来的异常故障。</strong></p>
+            <p>Java日期的操作在日常的应用开发中使用非常普遍，然而每次使用都不得不去查文档，效率很低。工欲善其事必先利其器，所以需要好好总结一番。<br>Java的日期的常用操作其实主要有以下几种：</p>
+<ul>
+<li>字符串转为日期对象</li>
+<li>日期对象转换为字符串</li>
+<li>时间戳转换为日期对象</li>
+<li>日期对象不同的格式转换</li>
+<li>Calendar类的使用</li>
+</ul>
+<p><code>DateFormat</code> 类是一个用来格式化日期或者时间的抽象类。<code>DateFormat</code>提供了很多根据本地化或者指定类型 的格式化<em>类方法</em>。<br><code>SimpleDateFormat</code>是<code>DateFormat</code>的子类，是一个以国别敏感的方式格式化和分析数据的具体类。 它允许格式化 (<code>date -&gt; text</code>)、语法分析 (<code>text -&gt; date</code>)和标准化。</p>
+<p><code>SimpleDateFormat</code> 允许以为日期-时间格式化选择任何用户指定的方式启动。 但是，希望用 <code>DateFormat</code> 中的 <code>getTimeInstance</code>、 <code>getDateInstance</code> 或 <code>getDateTimeInstance</code> 创建一个日期-时间格式化程序。 每个类方法返回一个以缺省格式化方式初始化的日期／时间格式化程序。 可以根据需要用 <code>applyPattern</code> 方法修改格式化方式。 </p>
+<blockquote>
+<p> <code>SimpleDateFormat</code> 函数语法：<br> **- G 年代标志符</p>
+<ul>
+<li>y 年</li>
+<li>M 月</li>
+<li>d 日</li>
+<li>h 时 在上午或下午 (1~12)</li>
+<li>H 时 在一天中 (0~23)</li>
+<li>m 分</li>
+<li>s 秒</li>
+<li>S 毫秒</li>
+<li>E 星期</li>
+<li>D 一年中的第几天</li>
+<li>F 一月中第几个星期几</li>
+<li>w 一年中第几个星期</li>
+<li>W 一月中第几个星期</li>
+<li>a 上午 / 下午 标记符</li>
+<li>k 时 在一天中 (1~24)</li>
+<li>K 时 在上午或下午 (0~11)  z 时区**</li>
+</ul>
+</blockquote>
+<h2 id="字符串转为日期对象"><a href="#字符串转为日期对象" class="headerlink" title="字符串转为日期对象"></a>字符串转为日期对象</h2><p><strong>主要方法</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Date <span class="title">parse</span><span class="params">(String source)</span>  <span class="keyword">throws</span> ParseException</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Parses text from the beginning of the given string to produce a date.<br>The method may not use the entire text of the given string.</p>
+</blockquote>
+<p>用法示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String str = <span class="string">"2015-8-23 15:10:34"</span>;</div><div class="line"><span class="comment">//定义SimpleFormat格式</span></div><div class="line">SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH-mm-ss"</span>);</div><div class="line">Date date = format.parse(str); <span class="comment">//这里有异常抛出，ParseException</span></div></pre></td></tr></table></figure></p>
+<h2 id="日期对象转为字符串"><a href="#日期对象转为字符串" class="headerlink" title="日期对象转为字符串"></a>日期对象转为字符串</h2><p><strong>主要方法</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> String <span class="title">format</span><span class="params">(Date date)</span></span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Formats a Date into a date/time string.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Date date = <span class="keyword">new</span> Date();</div><div class="line"><span class="comment">//定义SimpleFormat格式</span></div><div class="line">SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH-mm-ss"</span>);</div><div class="line">String dateStr = format.foramt(date);</div></pre></td></tr></table></figure>
+<p>##时间戳与日期的转换<br><strong>主要方法</strong></p>
+<p>Date类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getTime</span><span class="params">()</span></span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>返回一个时间戳：某个时间距1970年1月1日0时0分0秒的总的毫秒数</p>
+</blockquote>
+<p>SimpleDateFormat类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> String <span class="title">format</span><span class="params">(Object obj)</span></span></div><div class="line"><span class="function"><span class="keyword">public</span> Date <span class="title">parse</span><span class="params">(String source)</span>  <span class="keyword">throws</span> ParseException</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>首先转换为format的格式的日期字符串，然后利用parse转换为日期对象</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">long</span> timestamp = <span class="number">445555555</span>；</div><div class="line"><span class="comment">//定义SimpleFormat格式</span></div><div class="line">SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH-mm-ss"</span>);</div><div class="line">String dateStr = format.foramt(timestamp);</div><div class="line">Date date = format.parse(str); <span class="comment">//这里有异常抛出，ParseException</span></div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Date或者String转化为时间戳</span></div><div class="line">SimpleDateFormat format =  newSimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</div><div class="line">String time=<span class="string">"1970-01-06 11:45:55"</span>;</div><div class="line">Date date = format.parse(time);</div><div class="line">System.out.print(<span class="string">"Format To times:"</span>+date.getTime());</div></pre></td></tr></table></figure>
+<p>##小结</p>
+<p><strong>注意：  定义<code>SimpleDateFormat时newSimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</code> 里面字符串头尾不能有空格，有空格那么用转换时对应的时间格式也要有空格（两者是对应的），如下所示：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Date或者String转化为时间戳</span></div><div class="line">      SimpleDateFormat format =  newSimpleDateFormat(<span class="string">" yyyy-MM-dd HH:mm:ss "</span>);</div><div class="line">      String time=<span class="string">"1970-01-06 11:45:55"</span>;</div><div class="line">      Date date = format.parse(time);</div><div class="line">      System.out.print(<span class="string">"Format To times:"</span>+date.getTime());</div></pre></td></tr></table></figure></p>
+<p>运行结果出错：</p>
+<pre><code>Exception in thread &quot;main&quot;java.text.ParseException: Unparseable date: &quot;1970-01-06 11:45:55&quot;
+</code></pre><p>改正，添加对应的空格：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">SimpleDateFormat format =  newSimpleDateFormat(<span class="string">" yyyy-MM-dd HH:mm:ss "</span>);</div><div class="line">String time=<span class="string">" 1970-01-06 11:45:55 "</span>;<span class="comment">//注：改正后这里前后也加了空格</span></div><div class="line">Date date = format.parse(time);</div><div class="line">System.out.print(<span class="string">"Format To times:"</span>+date.getTime());</div></pre></td></tr></table></figure></p>
+<p> 运行结果正常：</p>
+<pre><code>Format To times:445555000
+</code></pre><p>#Calendar类用法</p>
+<p><code>Calendar</code> 类是Util包下的一个用来方便管理日期的操作类。</p>
+<p><code>Calendar</code> 可以用 <code>DateFormat</code>的 <code>getCalendar</code> 方法获得，也时可以通过 <code>Calendar</code>的类方法<code>getInstance</code>方法取得。</p>
+<p><code>Calendar</code> 类的常见用法就是时间，日期时间的累加和累减以及日期的循环操作。</p>
+<p>示例：获取一段时间内的所有日期完成循环操作<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span>  <span class="keyword">void</span> <span class="title">findDates</span><span class="params">(String startTime,String endTime)</span> </span>&#123;</div><div class="line">        SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</div><div class="line">        Date dBegin= <span class="keyword">null</span>;</div><div class="line">        Date dEnd = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            dBegin = format.parse(startTime);</div><div class="line">            dEnd = format.parse(endTime);</div><div class="line">        &#125; <span class="keyword">catch</span> (ParseException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        Calendar calBegin = Calendar.getInstance();</div><div class="line">        <span class="comment">// 使用给定的 Date 设置此 Calendar 的时间</span></div><div class="line">        calBegin.setTime(dBegin);</div><div class="line">        <span class="comment">// 测试此日期是否在指定日期之后</span></div><div class="line">        <span class="keyword">while</span> (dEnd.after(calBegin.getTime())) &#123;</div><div class="line">            <span class="comment">//业务代码</span></div><div class="line">            <span class="comment">// 根据日历的规则，为给定的日历字段添加或减去指定的时间量</span></div><div class="line">            calBegin.add(Calendar.DAY_OF_MONTH, <span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//业务代码</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
 
           
         
@@ -1501,312 +1597,6 @@ rpc.idmapd 名字映射后台进程
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/jpa-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="清风明月多多想毕业">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello World">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/09/10/jpa-2/" itemprop="url">jpa(2)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T00:00:00+08:00">
-                2015-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>使用<code>Criteria</code>查询</li>
-<li><code>JpaSpecificationExecutor</code> 接口的使用</li>
-<li><code>@Query</code> 和 <code>@NamedQuery</code> 的使用</li>
-</ul>
-<h1 id="使用-Criteria-查询"><a href="#使用-Criteria-查询" class="headerlink" title="使用 Criteria 查询"></a>使用 <code>Criteria</code> 查询</h1><p><code>Criteria</code> 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。</p>
-<pre><code>JPQL ： select u from User u where u.old &gt; 20
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(root);</div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),<span class="number">20</span>);</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    List&lt;User&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<pre><code>JPQL ： select u.old,u.name from User u where u.old &gt; 20
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果只查询某几个字段，那么返回的结果就不能是对象而是一个对象数组</span></div><div class="line"><span class="keyword">public</span> List&lt;Object[]&gt; findAll()&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    <span class="comment">//cq.select(root);</span></div><div class="line">    <span class="comment">//cq.select(root.get("old"); 如果只查询一个字段，可以使用select</span></div><div class="line">    cq.multiselect(root.get(<span class="string">"old"</span>),root.get(<span class="string">"name"</span>));<span class="comment">//查询多个字段使用multiselect</span></div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),cb.parameter(Integer.class,<span class="string">"old"</span>));</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    query.setParameter(<span class="string">"old"</span>,<span class="number">20</span>);</div><div class="line">    List&lt;Object[]&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//如果想要查询多个字段，但是又想返回对象那就需要使用construct进行构造</span></div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(cb.construct(User.class,root.get(<span class="string">"old"</span>),root.get(<span class="string">"name)));</span></div><div class="line"><span class="string">    cq.multiselect(root.get("</span>old<span class="string">"),root.get("</span>name<span class="string">"));</span></div><div class="line"><span class="string">    Predicate pre = cb.greaterThan(root.get("</span>old<span class="string">").as(Integer.class),cb.parameter(Integer.class,"</span>old<span class="string">"));</span></div><div class="line"><span class="string">    cq.where(pre);</span></div><div class="line"><span class="string">    </span></div><div class="line"><span class="string">    Query query = entityManager.createQuery(cq);</span></div><div class="line"><span class="string">    query.setParameter("</span>old<span class="string">",20);</span></div><div class="line"><span class="string">    List&lt;User&gt; users = query.getResultList();</span></div><div class="line"><span class="string">    return users;</span></div><div class="line"><span class="string">&#125;</span></div></pre></td></tr></table></figure>
-<p>如果要进行<code>join</code>操作，就需要使用 <code>Root</code> 的 <code>join</code> 操作</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/Annotation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="清风明月多多想毕业">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hello World">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/09/10/Annotation/" itemprop="url">Annotation的工作原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T00:00:00+08:00">
-                2015-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Annotation的出现真的是非常惊艳，能把许多繁琐的工作化整为零。那么Annotation到底是怎么工作的呢，那么就亲自编写一个Annotation程序尝试一下就比较清楚了。</p>
-<p>下面就演示一个简单的Annotation到底是怎么起作用的:</p>
-<p>先定义一个叫Hello的Annotation注解</p>
-<p>下面就演示一个简单的Annotation到底是怎么起作用的:</p>
-<p>先定义一个叫Hello的Annotation注解<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)<span class="comment">//表示运行时能获取参数</span></div><div class="line"><span class="meta">@Target</span>(&#123;ElementType.METHOD&#125;)<span class="comment">//表示只能作用在方法上面</span></div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Hello &#123;</div><div class="line">    <span class="function">String <span class="title">name</span><span class="params">()</span> <span class="keyword">default</span> "hello world!"</span>;<span class="comment">//能设置默认值</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>但是仅仅是这个注解是没什么作用的，还必须有解析器来解析她，下面再来写一个解析器Parser.java:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Parser</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">parser</span><span class="params">(Object obj)</span></span>&#123;</div><div class="line">        Method[] ms=obj.getClass().getMethods();<span class="comment">//取得对象的所有方法</span></div><div class="line">        <span class="keyword">for</span>(Method m:ms)&#123;<span class="comment">//遍历方法</span></div><div class="line">            <span class="keyword">if</span>(m.isAnnotationPresent(Hello.class))&#123;<span class="comment">//判断方法是否有Hello注解</span></div><div class="line">                Hello hel=m.getAnnotation(Hello.class);<span class="comment">//取得Hello注解中属性的值</span></div><div class="line">                System.out.println(<span class="string">"before……"</span>+hel.name());</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    m.invoke(obj, <span class="keyword">null</span>);<span class="comment">//唤醒函数</span></div><div class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125; </div><div class="line">                System.out.println(<span class="string">"after……"</span>+hel.name());</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这样一个完整的annotation注解就完成了，下面来测试一下，先写一个目标类Sample.java：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sample</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> String something;</div><div class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getSomething</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> something;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSomething</span><span class="params">(String something)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.something = something;</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@Hello</span> <span class="comment">//在此处使用注解</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</div><div class="line">            System.out.println(something);</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>最后运行测试：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Sample sample=<span class="keyword">new</span> Sample();</div><div class="line">        sample.setSomething(<span class="string">"some functions"</span>);</div><div class="line">        Parser.parser(sample); <span class="comment">//调用解析器进行解析分析</span></div><div class="line">    &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>控制台打印结果：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">before……hello world!</div><div class="line">some functions</div><div class="line">after……hello world!</div></pre></td></tr></table></figure></p>
-<p>Spring中运用Annotation控制事务其实是一样的道理，所以Java的反射机制真的是很强大啊</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/jpa-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2095,6 +1885,319 @@ rpc.idmapd 名字映射后台进程
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/Annotation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="清风明月多多想毕业">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/09/10/Annotation/" itemprop="url">Annotation的工作原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T00:00:00+08:00">
+                2015-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Annotation的出现真的是非常惊艳，能把许多繁琐的工作化整为零。那么Annotation到底是怎么工作的呢，那么就亲自编写一个Annotation程序尝试一下就比较清楚了。</p>
+<p>下面就演示一个简单的Annotation到底是怎么起作用的:</p>
+<p>先定义一个叫Hello的Annotation注解</p>
+<p>下面就演示一个简单的Annotation到底是怎么起作用的:</p>
+<p>先定义一个叫Hello的Annotation注解<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)<span class="comment">//表示运行时能获取参数</span></div><div class="line"><span class="meta">@Target</span>(&#123;ElementType.METHOD&#125;)<span class="comment">//表示只能作用在方法上面</span></div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Hello &#123;</div><div class="line">    <span class="function">String <span class="title">name</span><span class="params">()</span> <span class="keyword">default</span> "hello world!"</span>;<span class="comment">//能设置默认值</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>但是仅仅是这个注解是没什么作用的，还必须有解析器来解析她，下面再来写一个解析器Parser.java:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Parser</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">parser</span><span class="params">(Object obj)</span></span>&#123;</div><div class="line">        Method[] ms=obj.getClass().getMethods();<span class="comment">//取得对象的所有方法</span></div><div class="line">        <span class="keyword">for</span>(Method m:ms)&#123;<span class="comment">//遍历方法</span></div><div class="line">            <span class="keyword">if</span>(m.isAnnotationPresent(Hello.class))&#123;<span class="comment">//判断方法是否有Hello注解</span></div><div class="line">                Hello hel=m.getAnnotation(Hello.class);<span class="comment">//取得Hello注解中属性的值</span></div><div class="line">                System.out.println(<span class="string">"before……"</span>+hel.name());</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    m.invoke(obj, <span class="keyword">null</span>);<span class="comment">//唤醒函数</span></div><div class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125; </div><div class="line">                System.out.println(<span class="string">"after……"</span>+hel.name());</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样一个完整的annotation注解就完成了，下面来测试一下，先写一个目标类Sample.java：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sample</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> String something;</div><div class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getSomething</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> something;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSomething</span><span class="params">(String something)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.something = something;</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@Hello</span> <span class="comment">//在此处使用注解</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</div><div class="line">            System.out.println(something);</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后运行测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Sample sample=<span class="keyword">new</span> Sample();</div><div class="line">        sample.setSomething(<span class="string">"some functions"</span>);</div><div class="line">        Parser.parser(sample); <span class="comment">//调用解析器进行解析分析</span></div><div class="line">    &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>控制台打印结果：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">before……hello world!</div><div class="line">some functions</div><div class="line">after……hello world!</div></pre></td></tr></table></figure></p>
+<p>Spring中运用Annotation控制事务其实是一样的道理，所以Java的反射机制真的是很强大啊</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/jpa-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="清风明月多多想毕业">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hello World">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/09/10/jpa-3/" itemprop="url">jpa(3)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T00:00:00+08:00">
+                2015-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近工作中频繁的使用 <code>SPring Data JPA</code> ，一开始对<code>SPring Data JPA</code>不甚了解，就感觉在利用<code>SPring Data JPA</code>进行复杂查询的时候感觉非常滞涩。事实证明，<code>SPring Data JPA</code>虽然存在一些局限性，但是只要能够了解其提供的接口就可以用来完成非常复杂的功能。本文就从实用的角度，对<code>SPring Data JPA</code>的一些较为冷门而又实用的用法进行总结。</p>
+<h2 id="利用JPQL进行-OneToMany的关联查询"><a href="#利用JPQL进行-OneToMany的关联查询" class="headerlink" title="利用JPQL进行@OneToMany的关联查询"></a>利用<code>JPQL</code>进行<code>@OneToMany</code>的关联查询</h2><p>首先，举一个一对多的例子，球队和球员，一个球队有多个球员，那么具体的映射代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="meta">@Table</span>(name=<span class="string">"Team"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Team</span></span>&#123;</div><div class="line">   <span class="comment">//....省略</span></div><div class="line">   <span class="meta">@OneToMany</span>(mappedBy=<span class="string">"team"</span>,cascade=CascadeType.ALL,fetch=FetchType.LAZY)</div><div class="line">   <span class="keyword">private</span> List&lt;Player&gt; players = <span class="keyword">new</span> ArrayList&lt;Player&gt;();</div><div class="line">   <span class="comment">//....省略</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="meta">@Table</span>(name=<span class="string">"Player"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Player</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line">   <span class="meta">@ManyToOne</span>(cascade=&#123;CascadeType.MERGE,CascadeType.REFRESH&#125;)  </div><div class="line">   <span class="meta">@JoinColumn</span>(name=<span class="string">"team_id"</span>)  </div><div class="line">   <span class="keyword">private</span> Team team;</div><div class="line">   <span class="comment">//....省略</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>现在假设要查询队员有年龄小于20的队伍有哪些，有两种方法。一种是在继承 <code>JpaRepository</code> 的接口中定义查询方法，但是当查询条件复杂的时候，查询的方法名就会非常的长，不利于阅读；于是就有了第二种方法，在自定义的查询方法上写<code>JPQL</code>查询语句<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">findByNamePlayersAgeLessThan(String name , <span class="keyword">int</span> age)</div><div class="line"><span class="comment">//虽然可以直接在定义的查询方法中直接写 players+Age，但是这种类推到JPQL中是错误的</span></div><div class="line"><span class="comment">//例如，不可以写成：SELECT DISTINCT t FROM Team t  WHERE t.players.name LIKE :name </span></div><div class="line"></div><div class="line"><span class="meta">@Query</span>(<span class="string">"select t from Team t, IN(t.players) p where p.name like ?1 and age &lt;= ?2"</span>)</div><div class="line">findTeamsAccordingAge(String name , <span class="keyword">int</span> age)</div><div class="line"><span class="comment">//或者</span></div><div class="line"><span class="meta">@Query</span>(<span class="string">"select t from Team t JOIN t.players p where p.name like ?1 and age &lt;= ?2"</span>)</div><div class="line">findTeamsAccordingAge(String name , <span class="keyword">int</span> age)</div></pre></td></tr></table></figure></p>
+<p>以上是从One到Many的查询，那么如何从Many到One进行关联查询呢？<br>例如查出某个球队下的所有球员，可以使用如下的查询语句：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> p <span class="keyword">FROM</span> Player p <span class="keyword">JOIN</span> p.team t <span class="keyword">WHERE</span> t.id = :<span class="keyword">id</span> </div><div class="line">//或者</div><div class="line"><span class="keyword">SELECT</span> p <span class="keyword">FROM</span> Player p, <span class="keyword">IN</span>(p.team) t <span class="keyword">WHERE</span> t.id = :<span class="keyword">id</span> </div><div class="line">//或者再简洁一些</div><div class="line"><span class="keyword">SELECT</span> p <span class="keyword">FROM</span> Player p <span class="keyword">WHERE</span> p.team.id = :<span class="keyword">id</span></div></pre></td></tr></table></figure>
+<p>以上的三条查询实际上会生成两条查询<code>SQL</code>，如果只想生成一条查询SQL，则需要使用<code>fetch join</code>,如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> p <span class="keyword">FROM</span> Player p <span class="keyword">JOIN</span> <span class="keyword">FETCH</span> p.team t <span class="keyword">WHERE</span> t.id = :<span class="keyword">id</span> </div><div class="line"></div><div class="line">//实际产生的<span class="keyword">SQL</span></div><div class="line">Hibernate:  </div><div class="line">    <span class="keyword">select</span> </div><div class="line">        player0_.id <span class="keyword">as</span> id1_0_,  </div><div class="line">        team1_.id <span class="keyword">as</span> id2_1_,  </div><div class="line">        player0_.name <span class="keyword">as</span> name1_0_,  </div><div class="line">        player0_.team_id <span class="keyword">as</span> team3_1_0_,  </div><div class="line">        team1_.name <span class="keyword">as</span> name2_1_  </div><div class="line">    <span class="keyword">from</span> </div><div class="line">        player player0_  </div><div class="line">    <span class="keyword">inner</span> <span class="keyword">join</span> </div><div class="line">        team team1_  </div><div class="line">            <span class="keyword">on</span> player0_.team_id=team1_.id  </div><div class="line">    <span class="keyword">where</span> </div><div class="line">        team1_.id=?</div></pre></td></tr></table></figure></p>
+<h2 id="Query（）中的Top-k查找"><a href="#Query（）中的Top-k查找" class="headerlink" title="@Query（）中的Top k查找"></a>@Query（）中的Top k查找</h2><p>为了能够处理更复杂的条件查询，常常使用<code>@Query</code>注解，自己写<code>JPQL</code>语句，但是这个时候在自定义方法查询中的<code>Top</code>关键字就不能使用了，在这种情况下如果还想要查询<code>Top k</code>记录就需要利用<code>Pageable</code>的分页功能。如下所示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"select i.nName,sum(i.number) as num from Item i where i.type = ?1 group by i.id order by num desc "</span>)</div><div class="line">List&lt;Object[]&gt; findTopk(String productType,Integer status, Pageable pageable);</div><div class="line"></div><div class="line"><span class="comment">//使用方法</span></div><div class="line">Pageable pageable = <span class="keyword">new</span> PageRequest(<span class="number">0</span>,k);</div><div class="line">List&lt;Object[]&gt; ress = findTopk(<span class="string">"type"</span>,pageable); <span class="comment">//返回Top k条记录</span></div></pre></td></tr></table></figure>
+<p>在<code>Pageable</code> 中还可以对排序结果进行排序和分页，使用如下注解</p>
+<pre><code>@PageDefault(size= 10 , sort = &quot;attributeTobeSort&quot; , direction = Sort.Directin.DESC)
+</code></pre><p>其中： <code>size</code> 表示每一页的数据条数<br>    <code>sort</code> 表示按照哪一个字段进行排序<br>    <code>direction</code> 表示排序是按照升序还是降序进行排列</p>
+<p>注解<code>@PageDefault</code>主要在<code>Controller</code>中进行使用，所以要想使用<code>Pageable</code>的功能，就需要为其传递如下的几个参数<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    "size":10, //每页的数据数量</div><div class="line">    "page":0, //第几页</div><div class="line">    "sort":attributeTobeSort,asc(desc) //按照哪一个属性进行排序，是降序还是升序</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>##Spring Data Jpa 查询返回自定义对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="meta">@Table</span>(name=<span class="string">"t_user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> Integer id;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> String address;</div><div class="line">    <span class="comment">//省略getter和setter</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">package</span> com.project.user.vo</div><div class="line"><span class="comment">//查询返回对象</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserVo</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> Integer id;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="comment">//省略getter和setter</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>查询方法如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//查询方法</span></div><div class="line"><span class="meta">@Query</span>(<span class="string">"select id,name from User u "</span>)  </div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;UserDto&gt; <span class="title">find</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure></p>
+<p>此时返回的结果是<code>List&lt;Object[]&gt;</code>，如果想要返回自定义的<code>UserVo</code>对象，则需要在类中添加构造函数如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">UserVo</span><span class="params">(Integer id, String name)</span> </span>&#123;</div><div class="line">       <span class="keyword">this</span>.id = id;</div><div class="line">       <span class="keyword">this</span>.name = name;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
+<p>查询方法如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//查询方法,要加上包名,如果使用了nativeQuery则这种方法是不起作用的</span></div><div class="line"><span class="meta">@Query</span>(<span class="string">"select new com.project.user.vo.UserVo(u.id,u.name) from User u "</span>)  </div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;UserDto&gt; <span class="title">find</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure></p>
+<p>【不定期持续更新，未完待续】</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2156,7 +2259,7 @@ rpc.idmapd 名字映射后台进程
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2167,7 +2270,7 @@ rpc.idmapd 名字映射后台进程
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
