@@ -318,10 +318,12 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">systemctl start nfs</div><div class="line">systemctl status nfs</div></pre></td></tr></table></figure>
 </li>
 <li><p>启动rpcbind服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">systemctl start rpcbind</div><div class="line">systemctl status rpcbind</div></pre></td></tr></table></figure>
+</li>
+<li><p>查看rpc</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">lsof -I :111</div><div class="line">netstat -ntlpu | grep rpcbind</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">systemctl start rpcbind</div><div class="line">systemctl status rpcbind</div></pre></td></tr></table></figure>
-<p>查看rpc<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">lsof -I :111</div><div class="line">netstat -ntlpu | grep rpcbind</div></pre></td></tr></table></figure></p>
 <p>如果找不到 lsof 和 netstat命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install net-tools lsof</div></pre></td></tr></table></figure></p>
 <p>查看nfs服务向rpc注册的端口信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpcinfo -p localhost</div></pre></td></tr></table></figure></p>
 <p>检查rpcbind是否是开机启动<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chkconfig --list rpcbind</div></pre></td></tr></table></figure></p>
@@ -332,9 +334,15 @@ mountd(rpc.mountd)管理NFS文件系统，登入者的权限管理
 rpc.lockd(非必要)用来锁定文件，用于客户端同时写入
 rpc.statd(非必要)检查文件一致性
 rpc.idmapd 名字映射后台进程
-</code></pre><p>配置nfs开机自启动<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">chkconfig rpcbind on</div><div class="line">chkconfig nfs on</div><div class="line">chkconfig --list rpcbind</div><div class="line">chekconfig --list nfs</div></pre></td></tr></table></figure></p>
-<p>nfs服务端配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">vim /etc/exports</div></pre></td></tr></table></figure></p>
-<p>exports文件配置格式<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">NFS共享目录  NFS客户端地址1(param1,param2…)  NFS客户端地址1(param1,param2…)</div></pre></td></tr></table></figure></p>
+</code></pre><ul>
+<li><p>配置nfs开机自启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">chkconfig rpcbind on</div><div class="line">chkconfig nfs on</div><div class="line">chkconfig --list rpcbind</div><div class="line">chekconfig --list nfs</div></pre></td></tr></table></figure>
+</li>
+<li><p>nfs服务端配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/exports</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="exports文件配置格式"><a href="#exports文件配置格式" class="headerlink" title="exports文件配置格式"></a>exports文件配置格式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NFS共享目录  NFS客户端地址1(param1,param2…)  NFS客户端地址1(param1,param2…)</div></pre></td></tr></table></figure>
 <ul>
 <li><p>NFS共享目录 ： </p>
 <ul>
@@ -365,11 +373,23 @@ rpc.idmapd 名字映射后台进程
 </ul>
 </li>
 </ul>
-<h3 id="共享目录"><a href="#共享目录" class="headerlink" title="共享目录"></a>共享目录</h3><p>创建要共享的目录<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir -p /data/WebRoot</div><div class="line">chown nfnobody:nfsnobody /data/WebRoot</div></pre></td></tr></table></figure></p>
-<p>重新加载nfs配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">exportfs -rv</div></pre></td></tr></table></figure></p>
-<p>客户端查看nfs服务器挂载情况<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">showmount -e 172.18.80.55 (服务端ip)</div></pre></td></tr></table></figure></p>
-<p>客户端挂载测试<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">mkdir -p /data/WebRoot</div><div class="line">mount -t nfs 172.18.80.55:/data/WebRoot /data/WebRoot</div></pre></td></tr></table></figure></p>
-<p>卸载挂载<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">umount /data/WebRoot</div></pre></td></tr></table></figure></p>
+<h3 id="挂载共享目录"><a href="#挂载共享目录" class="headerlink" title="挂载共享目录"></a>挂载共享目录</h3><ul>
+<li><p>创建要共享的目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir -p /data/WebRoot</div><div class="line">chown nfnobody:nfsnobody /data/WebRoot</div></pre></td></tr></table></figure>
+</li>
+<li><p>重新加载nfs配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">exportfs -rv</div></pre></td></tr></table></figure>
+</li>
+<li><p>客户端查看nfs服务器挂载情况</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">showmount -e 172.18.80.55 (服务端ip)</div></pre></td></tr></table></figure>
+</li>
+<li><p>客户端挂载测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir -p /data/WebRoot</div><div class="line">mount -t nfs 172.18.80.55:/data/WebRoot /data/WebRoot</div></pre></td></tr></table></figure>
+</li>
+<li><p>卸载挂载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">umount /data/WebRoot</div></pre></td></tr></table></figure>
+</li>
+</ul>
 
           
         
