@@ -640,23 +640,19 @@ rpc.idmapd 名字映射后台进程
             <p>在服务器上启动Docker发现无法启动服务。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl status docker</div></pre></td></tr></table></figure></p>
 <p>查看信息发现服务停在 </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mkfs.xfs /dev/mapper/docker-253:0-100986945-base</div></pre></td></tr></table></figure>
-<p><br>trace该命令看它的执行过程</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">strace mkfs.xfs /dev/mapper/docker-253:0-100986945-base</div></pre></td></tr></table></figure>
+<p>trace该命令看它的执行过程<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">strace mkfs.xfs /dev/mapper/docker-253:0-100986945-base</div></pre></td></tr></table></figure></p>
 <p>查看输出，执行过程在执行到如下步骤的时候停止<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">stat</span>(/data/WebRoot/fz.gz.cvte.cn/web-pub)</div></pre></td></tr></table></figure></p>
-<p>发现该目录是一个通过nfs挂载过来的共享目录。尝试访问该目录。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ll  /data/WebRoot/fz.gz.cvte.cn/web-pub</div></pre></td></tr></table></figure></p>
+<p>发现该目录是一个通过nfs挂载过来的共享目录。尝试访问该目录。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ll  /data/WebRoot/fz.gz.cvte.cn/web-pub</div></pre></td></tr></table></figure></p>
 <p>发现无法读取，初步判断nfs服务不正常。</p>
-<p>尝试重启nfs服务。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl start nfs</div></pre></td></tr></table></figure></p>
+<p>尝试重启nfs服务。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl start nfs</div></pre></td></tr></table></figure></p>
 <p>Docker服务仍然无法启动,停在mksfs上。</p>
-<p>查看nfs服务器共享的目录情况。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">showamount -e 172.18.80.55</div></pre></td></tr></table></figure></p>
-<p>发现无法连接。telnet服务器的111端口也失败了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">telnet 172.18.80.55 111</div></pre></td></tr></table></figure></p>
-<p>登录nfs服务器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">netstat -ntlp | grep 111</div></pre></td></tr></table></figure></p>
+<p>查看nfs服务器共享的目录情况。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">showamount -e 172.18.80.55</div></pre></td></tr></table></figure></p>
+<p>发现无法连接。telnet服务器的111端口也失败了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">telnet 172.18.80.55 111</div></pre></td></tr></table></figure></p>
+<p>登录nfs服务器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">netstat -ntlp | grep 111</div></pre></td></tr></table></figure></p>
 <p>发现111端口正在侦听。</p>
-<p>查看防火墙</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl status firewalld</div></pre></td></tr></table></figure>
-<p>关闭防火墙<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl stop firewalld</div></pre></td></tr></table></figure></p>
-<p>回到docker服务器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl start docker</div></pre></td></tr></table></figure>
-<p>成功。</p>
+<p>查看防火墙<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl status firewalld</div></pre></td></tr></table></figure></p>
+<p>关闭防火墙<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl stop firewalld</div></pre></td></tr></table></figure></p>
+<p>回到docker服务器, 启动成功。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">systemctl start docker</div></pre></td></tr></table></figure></p>
 
           
         
