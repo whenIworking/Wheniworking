@@ -366,7 +366,8 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NAME DESIRED CURRENT AGE</div><div class="line">mysql 1        1      1m</div></pre></td></tr></table></figure>
 <p>查看pod<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl get pods</div></pre></td></tr></table></figure></p>
 <p>发现并没有创建mysql对应的pod, 解决方法在这里 <a href="http://www.voidcn.com/article/p-kvceqhez-vb.html" target="_blank" rel="external">解决认证问题</a><br>。<br><img src="/2017/10/14/k8s-setup-issues/pod-no-exist.jpeg" alt="pod-no-exist"><br></p>
-<h3 id="创建pod-status-pending"><a href="#创建pod-status-pending" class="headerlink" title="创建pod status pending"></a>创建pod status pending</h3><p>K8S 创建容器后，查看pod状态，一直是 ContainerCreating，主要原因运行POD所需要的镜像由于网路原因无法获取<img src="/2017/10/14/k8s-setup-issues/can-not-get-images.jpeg" alt="can-not-get-images"><br>可以先通过其他仓库获取对应的镜像，重新tag。</p>
+<h3 id="创建pod-status-pending"><a href="#创建pod-status-pending" class="headerlink" title="创建pod status pending"></a>创建pod status pending</h3><p>K8S 创建容器后，查看pod状态，一直是 ContainerCreating，主要原因运行POD所需要的镜像由于网路原因无法获取.<br><img src="/2017/10/14/k8s-setup-issues/can-not-get-images.jpeg" alt="can-not-get-images"></p>
+<p>网路上还有另外一种说法是无法获取 gcr.io/pause:2.0镜像。可以先通过其他仓库获取对应的镜像，重新tag。</p>
 
           
         
