@@ -262,6 +262,148 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/16/k8s-pod-volume/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="清风明月多多想毕业">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="清风明月的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/16/k8s-pod-volume/" itemprop="url">k8s:Pod容器共享Volume</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T22:08:25+08:00">
+                2017-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在同个Pod中的多个容器能够共享Pod的存储卷Volume。Volume可以被定义为各种类型，多个容器各自进行挂在操作，将一根Volume挂载为容器内部需要的目录。<br><img src="/2017/10/16/k8s-pod-volume/k8s-pod-volume.jpg" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/16/k8s-pod-pause/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1729,163 +1871,11 @@ batchCount : 1605 ms
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/11/03/jpa-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="清风明月多多想毕业">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="清风明月的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/11/03/jpa-2/" itemprop="url">jpa(2)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-03T00:00:00+08:00">
-                2015-11-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ul>
-<li>使用<code>Criteria</code>查询</li>
-<li><code>JpaSpecificationExecutor</code> 接口的使用</li>
-<li><code>@Query</code> 和 <code>@NamedQuery</code> 的使用</li>
-</ul>
-<h1 id="使用-Criteria-查询"><a href="#使用-Criteria-查询" class="headerlink" title="使用 Criteria 查询"></a>使用 <code>Criteria</code> 查询</h1><p><code>Criteria</code> 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。</p>
-<pre><code>JPQL ： select u from User u where u.old &gt; 20
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(root);</div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),<span class="number">20</span>);</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    List&lt;User&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<pre><code>JPQL ： select u.old,u.name from User u where u.old &gt; 20
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果只查询某几个字段，那么返回的结果就不能是对象而是一个对象数组</span></div><div class="line"><span class="keyword">public</span> List&lt;Object[]&gt; findAll()&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    <span class="comment">//cq.select(root);</span></div><div class="line">    <span class="comment">//cq.select(root.get("old"); 如果只查询一个字段，可以使用select</span></div><div class="line">    cq.multiselect(root.get(<span class="string">"old"</span>),root.get(<span class="string">"name"</span>));<span class="comment">//查询多个字段使用multiselect</span></div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),cb.parameter(Integer.class,<span class="string">"old"</span>));</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    query.setParameter(<span class="string">"old"</span>,<span class="number">20</span>);</div><div class="line">    List&lt;Object[]&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//如果想要查询多个字段，但是又想返回对象那就需要使用construct进行构造</span></div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(cb.construct(User.class,root.get(<span class="string">"old"</span>),root.get(<span class="string">"name)));</span></div><div class="line"><span class="string">    cq.multiselect(root.get("</span>old<span class="string">"),root.get("</span>name<span class="string">"));</span></div><div class="line"><span class="string">    Predicate pre = cb.greaterThan(root.get("</span>old<span class="string">").as(Integer.class),cb.parameter(Integer.class,"</span>old<span class="string">"));</span></div><div class="line"><span class="string">    cq.where(pre);</span></div><div class="line"><span class="string">    </span></div><div class="line"><span class="string">    Query query = entityManager.createQuery(cq);</span></div><div class="line"><span class="string">    query.setParameter("</span>old<span class="string">",20);</span></div><div class="line"><span class="string">    List&lt;User&gt; users = query.getResultList();</span></div><div class="line"><span class="string">    return users;</span></div><div class="line"><span class="string">&#125;</span></div></pre></td></tr></table></figure>
-<p>如果要进行<code>join</code>操作，就需要使用 <code>Root</code> 的 <code>join</code> 操作</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1931,7 +1921,7 @@ batchCount : 1605 ms
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

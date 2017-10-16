@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="JAVA," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,18 +79,16 @@
 
 
 
-<meta name="description" content="在处理时间戳的问题的时候，首先需要了解时间戳是什么，如何计算。那么，时间戳实际上一个long型的数值，代表了距离1970年1月1日上午8点0分0秒的全部毫秒数。 这里格外需要注意的一点就是，是上午8点0分0秒，而不是从0点0分0秒算起。如果忽略这一个细节，就会很容易犯错误。例如，判断两个时间戳是否是同一天。 如果两个时间戳所代表的时间距离1970年1月1日的天数相同，则表明两者同一天为真，否则为假">
-<meta name="keywords" content="JAVA">
-<meta property="og:type" content="article">
-<meta property="og:title" content="timestamp时间戳边界处理">
-<meta property="og:url" content="http://wheniworking.com/2015/09/10/timestamp-border-limit/index.html">
+<meta name="description" content="用宽容的胸怀接受不能改变的，用极大的勇气改变能够改变的">
+<meta property="og:type" content="website">
+<meta property="og:title" content="清风明月的博客">
+<meta property="og:url" content="http://wheniworking.com/page/3/index.html">
 <meta property="og:site_name" content="清风明月的博客">
-<meta property="og:description" content="在处理时间戳的问题的时候，首先需要了解时间戳是什么，如何计算。那么，时间戳实际上一个long型的数值，代表了距离1970年1月1日上午8点0分0秒的全部毫秒数。 这里格外需要注意的一点就是，是上午8点0分0秒，而不是从0点0分0秒算起。如果忽略这一个细节，就会很容易犯错误。例如，判断两个时间戳是否是同一天。 如果两个时间戳所代表的时间距离1970年1月1日的天数相同，则表明两者同一天为真，否则为假">
+<meta property="og:description" content="用宽容的胸怀接受不能改变的，用极大的勇气改变能够改变的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-12T17:16:40.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="timestamp时间戳边界处理">
-<meta name="twitter:description" content="在处理时间戳的问题的时候，首先需要了解时间戳是什么，如何计算。那么，时间戳实际上一个long型的数值，代表了距离1970年1月1日上午8点0分0秒的全部毫秒数。 这里格外需要注意的一点就是，是上午8点0分0秒，而不是从0点0分0秒算起。如果忽略这一个细节，就会很容易犯错误。例如，判断两个时间戳是否是同一天。 如果两个时间戳所代表的时间距离1970年1月1日的天数相同，则表明两者同一天为真，否则为假">
+<meta name="twitter:title" content="清风明月的博客">
+<meta name="twitter:description" content="用宽容的胸怀接受不能改变的，用极大的勇气改变能够改变的">
 
 
 
@@ -120,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://wheniworking.com/2015/09/10/timestamp-border-limit/"/>
+  <link rel="canonical" href="http://wheniworking.com/page/3/"/>
 
 
 
 
 
-  <title>timestamp时间戳边界处理 | 清风明月的博客</title>
+  <title>清风明月的博客</title>
   
 
 
@@ -145,7 +143,8 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -248,9 +247,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -263,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/timestamp-border-limit/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/Annotation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -280,7 +279,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">timestamp时间戳边界处理</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/09/10/Annotation/" itemprop="url">Annotation的工作原理</a></h1>
         
 
         <div class="post-meta">
@@ -352,11 +353,24 @@
       
 
       
-        <p>在处理时间戳的问题的时候，首先需要了解时间戳是什么，如何计算。那么，<strong><em>时间戳</em></strong>实际上一个long型的数值，代表了距离<strong>1970年1月1日上午8点0分0秒</strong>的全部毫秒数。</p>
-<p>这里格外需要注意的一点就是，是<strong>上午8点0分0秒</strong>，而不是从<strong>0点0分0秒</strong>算起。<br>如果忽略这一个细节，就会很容易犯错误。例如，判断两个时间戳是否是同一天。</p>
-<p>如果两个时间戳所代表的时间距离1970年1月1日的天数相同，则表明两者同一天为真，否则为假。但是，考虑到时间戳为0的时间实际上表示的是<strong>1970年1月1日上午8点0分0秒</strong>，那么在进行运算的时候，就必须要补上这8个小时的误差。如下代码所示：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> EIGHT_COMPLEMENT_MILLISECONDS = <span class="number">8</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000L</span>;</div><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> MILLISECONDS_OF_DAY = <span class="number">24</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000L</span>;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSameDay</span><span class="params">(<span class="keyword">long</span> timestamp1,<span class="keyword">long</span> timestamp2)</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> ((timestamp1+EIGHT_COMPLEMENT_MILLISECONDS) / MILLISECONDS_OF_DAY) </div><div class="line">		== ((timestamp2+EIGHT_COMPLEMENT_MILLISECONDS) / MILLISECONDS_OF_DAY);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        
+          
+            <p>Annotation的出现真的是非常惊艳，能把许多繁琐的工作化整为零。那么Annotation到底是怎么工作的呢，那么就亲自编写一个Annotation程序尝试一下就比较清楚了。</p>
+<p>下面就演示一个简单的Annotation到底是怎么起作用的:</p>
+<p>先定义一个叫Hello的Annotation注解</p>
+<p>下面就演示一个简单的Annotation到底是怎么起作用的:</p>
+<p>先定义一个叫Hello的Annotation注解<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)<span class="comment">//表示运行时能获取参数</span></div><div class="line"><span class="meta">@Target</span>(&#123;ElementType.METHOD&#125;)<span class="comment">//表示只能作用在方法上面</span></div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Hello &#123;</div><div class="line">    <span class="function">String <span class="title">name</span><span class="params">()</span> <span class="keyword">default</span> "hello world!"</span>;<span class="comment">//能设置默认值</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>但是仅仅是这个注解是没什么作用的，还必须有解析器来解析她，下面再来写一个解析器Parser.java:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Parser</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">parser</span><span class="params">(Object obj)</span></span>&#123;</div><div class="line">        Method[] ms=obj.getClass().getMethods();<span class="comment">//取得对象的所有方法</span></div><div class="line">        <span class="keyword">for</span>(Method m:ms)&#123;<span class="comment">//遍历方法</span></div><div class="line">            <span class="keyword">if</span>(m.isAnnotationPresent(Hello.class))&#123;<span class="comment">//判断方法是否有Hello注解</span></div><div class="line">                Hello hel=m.getAnnotation(Hello.class);<span class="comment">//取得Hello注解中属性的值</span></div><div class="line">                System.out.println(<span class="string">"before……"</span>+hel.name());</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    m.invoke(obj, <span class="keyword">null</span>);<span class="comment">//唤醒函数</span></div><div class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125; </div><div class="line">                System.out.println(<span class="string">"after……"</span>+hel.name());</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样一个完整的annotation注解就完成了，下面来测试一下，先写一个目标类Sample.java：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sample</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> String something;</div><div class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getSomething</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> something;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSomething</span><span class="params">(String something)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.something = something;</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@Hello</span> <span class="comment">//在此处使用注解</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</div><div class="line">            System.out.println(something);</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后运行测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Sample sample=<span class="keyword">new</span> Sample();</div><div class="line">        sample.setSomething(<span class="string">"some functions"</span>);</div><div class="line">        Parser.parser(sample); <span class="comment">//调用解析器进行解析分析</span></div><div class="line">    &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>控制台打印结果：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">before……hello world!</div><div class="line">some functions</div><div class="line">after……hello world!</div></pre></td></tr></table></figure></p>
+<p>Spring中运用Annotation控制事务其实是一样的道理，所以Java的反射机制真的是很强大啊</p>
 
+          
+        
       
     </div>
     
@@ -371,40 +385,14 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
-          
-        </div>
+
+      
+
       
 
       
       
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2015/09/10/java-date/" rel="next" title="Java日期">
-                <i class="fa fa-chevron-left"></i> Java日期
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/09/13/spring-date-inject/" rel="prev" title="Spring注入日期类型">
-                Spring注入日期类型 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -414,11 +402,14 @@
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
 
 
           </div>
@@ -426,8 +417,6 @@
 
 
           
-  
-
 
         </div>
         
@@ -630,10 +619,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
-
-
 
   
 
