@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="## issues 测试环境，重启Docker服务之后，原本部署的Docker Harbor突然不能使用了，访问Harbor，返回502，Bad GateWay。 排查思路 进入Harbor目录，执行启动命令1docker-compose up   结果显示 harbor-ui exit with code 1 - 检查Harbor的log信息发现harbor-ui访问harbor-mysq">
+<meta name="description" content="## issues 测试环境，重启Docker服务之后，原本部署的Docker Harbor突然不能使用了，访问Harbor，返回502，Bad GateWay。 排查思路进入Harbor目录，执行启动命令1docker-compose up 结果显示 harbor-ui exit with code 1 检查Harbor的log信息发现harbor-ui访问harbor-mysql被拒绝了。">
 <meta name="keywords" content="docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker-harbor-ui-issues.md">
 <meta property="og:url" content="http://wheniworking.com/2017/10/16/docker-harbor-ui-issues/index.html">
 <meta property="og:site_name" content="清风明月的博客">
-<meta property="og:description" content="## issues 测试环境，重启Docker服务之后，原本部署的Docker Harbor突然不能使用了，访问Harbor，返回502，Bad GateWay。 排查思路 进入Harbor目录，执行启动命令1docker-compose up   结果显示 harbor-ui exit with code 1 - 检查Harbor的log信息发现harbor-ui访问harbor-mysq">
+<meta property="og:description" content="## issues 测试环境，重启Docker服务之后，原本部署的Docker Harbor突然不能使用了，访问Harbor，返回502，Bad GateWay。 排查思路进入Harbor目录，执行启动命令1docker-compose up 结果显示 harbor-ui exit with code 1 检查Harbor的log信息发现harbor-ui访问harbor-mysql被拒绝了。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://wheniworking.com/2017/10/16/docker-harbor-ui-issues/docker-harbor-ui-log.png">
-<meta property="og:updated_time" content="2017-10-16T09:52:47.000Z">
+<meta property="og:updated_time" content="2017-10-16T09:54:28.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker-harbor-ui-issues.md">
-<meta name="twitter:description" content="## issues 测试环境，重启Docker服务之后，原本部署的Docker Harbor突然不能使用了，访问Harbor，返回502，Bad GateWay。 排查思路 进入Harbor目录，执行启动命令1docker-compose up   结果显示 harbor-ui exit with code 1 - 检查Harbor的log信息发现harbor-ui访问harbor-mysq">
+<meta name="twitter:description" content="## issues 测试环境，重启Docker服务之后，原本部署的Docker Harbor突然不能使用了，访问Harbor，返回502，Bad GateWay。 排查思路进入Harbor目录，执行启动命令1docker-compose up 结果显示 harbor-ui exit with code 1 检查Harbor的log信息发现harbor-ui访问harbor-mysql被拒绝了。">
 <meta name="twitter:image" content="http://wheniworking.com/2017/10/16/docker-harbor-ui-issues/docker-harbor-ui-log.png">
 
 
@@ -356,24 +356,13 @@
       
         <p>## issues</p>
 <p>测试环境，重启Docker服务之后，原本部署的Docker Harbor突然不能使用了，访问Harbor，返回502，Bad GateWay。</p>
-<h2 id="排查思路"><a href="#排查思路" class="headerlink" title="排查思路"></a>排查思路</h2><ul>
-<li>进入Harbor目录，执行启动命令<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker-compose up</div></pre></td></tr></table></figure>
-</li>
-</ul>
+<h2 id="排查思路"><a href="#排查思路" class="headerlink" title="排查思路"></a>排查思路</h2><h3 id="进入Harbor目录，执行启动命令"><a href="#进入Harbor目录，执行启动命令" class="headerlink" title="进入Harbor目录，执行启动命令"></a>进入Harbor目录，执行启动命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker-compose up</div></pre></td></tr></table></figure>
 <p>结果显示 <code>harbor-ui exit with code 1</code></p>
-<p>- 检查Harbor的log信息<br><img src="/2017/10/16/docker-harbor-ui-issues/docker-harbor-ui-log.png" alt=""><br>发现harbor-ui访问harbor-mysql被拒绝了。</p>
-<ul>
-<li>检查harbor-mysql 和 harbor-ui的信息<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker inspect harbor-ui</div><div class="line">docker inspect harbor-mysql</div></pre></td></tr></table></figure>
-</li>
-</ul>
+<h3 id="检查Harbor的log信息"><a href="#检查Harbor的log信息" class="headerlink" title="检查Harbor的log信息"></a>检查Harbor的log信息</h3><p><img src="/2017/10/16/docker-harbor-ui-issues/docker-harbor-ui-log.png" alt=""><br>发现harbor-ui访问harbor-mysql被拒绝了。</p>
+<h3 id="检查harbor-mysql-和-harbor-ui的信息"><a href="#检查harbor-mysql-和-harbor-ui的信息" class="headerlink" title="检查harbor-mysql 和 harbor-ui的信息"></a>检查harbor-mysql 和 harbor-ui的信息</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker inspect harbor-ui</div><div class="line">docker inspect harbor-mysql</div></pre></td></tr></table></figure>
 <p>其中，harbor-mysql的IP地址是172.20.0.3， 从上面的log信息可以知道harbor-ui启动的时候ip地址是172.20.0.6. 对比前后的运行情况，基本可以判定，mysql初始化时候的授权应该是指定了某个IP段的才有权限，重启docker后，有可能网桥被修改了。</p>
-<ul>
-<li><p>查看网络docker0<br>发现docker0的网段是10.10.14.129/24</p>
-</li>
-<li><p>删除docker0网桥，重启docker。</p>
-</li>
-</ul>
-<p>docker0的网段变为 172.19.0.0/16</p>
+<h3 id="查看网络docker0"><a href="#查看网络docker0" class="headerlink" title="查看网络docker0"></a>查看网络docker0</h3><p>发现docker0的网段是10.10.14.129/24</p>
+<h3 id="删除docker0网桥，重启docker。"><a href="#删除docker0网桥，重启docker。" class="headerlink" title="删除docker0网桥，重启docker。"></a>删除docker0网桥，重启docker。</h3><p>docker0的网段变为 172.19.0.0/16</p>
 <p>重启Harbor，服务依然不可用。此时，问题就是harbor的数据已经被持久化到了磁盘上。找到harbor的数据文件位置 /data/database ，删除数据文件。<br>重启Harbor，服务正常。</p>
 
       
@@ -545,7 +534,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#排查思路"><span class="nav-number">1.</span> <span class="nav-text">排查思路</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#排查思路"><span class="nav-number">1.</span> <span class="nav-text">排查思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进入Harbor目录，执行启动命令"><span class="nav-number">1.1.</span> <span class="nav-text">进入Harbor目录，执行启动命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查Harbor的log信息"><span class="nav-number">1.2.</span> <span class="nav-text">检查Harbor的log信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查harbor-mysql-和-harbor-ui的信息"><span class="nav-number">1.3.</span> <span class="nav-text">检查harbor-mysql 和 harbor-ui的信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看网络docker0"><span class="nav-number">1.4.</span> <span class="nav-text">查看网络docker0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除docker0网桥，重启docker。"><span class="nav-number">1.5.</span> <span class="nav-text">删除docker0网桥，重启docker。</span></a></li></ol></li></ol></div>
             
 
           </div>
