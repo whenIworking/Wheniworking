@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://wheniworking.com/2017/10/14/k8s-setup-issues/pod-no-exist.jpeg">
 <meta property="og:image" content="http://wheniworking.com/2017/10/14/k8s-setup-issues/can-not-get-images.jpeg">
-<meta property="og:updated_time" content="2017-10-16T09:13:23.000Z">
+<meta property="og:updated_time" content="2017-10-16T09:15:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="安装K8S与问题解决">
 <meta name="twitter:description" content="安装K8s在CentOS7的环境中安装k8s还是比较容易的。目前，CentOS仓库中的Kubernetes是1.5.2，能够支持的Docker的版本为1.12。所以，在安装的时候，需要确认CentOS中是否已经安装了Docker。如果已经安装了Docker并且Docker的版本大于1.12，那么安装Kubernetes可能会失败。1rpm -qa | grep docker 如果已经安装了比较新的">
@@ -365,9 +365,8 @@
 <p>查看刚刚创建的RC：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl get rc</div></pre></td></tr></table></figure></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NAME DESIRED CURRENT AGE</div><div class="line">mysql 1        1      1m</div></pre></td></tr></table></figure>
 <p>查看pod<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl get pods</div></pre></td></tr></table></figure></p>
-<p>发现并没有创建mysql对应的pod, 解决方法在这里 <a href="http://www.voidcn.com/article/p-kvceqhez-vb.html" target="_blank" rel="external">解决认证问题</a><br>。<br><img src="/2017/10/14/k8s-setup-issues/pod-no-exist.jpeg" alt="pod-no-exist"><br></p>
-<h3 id="issue-2-：-创建pod-status-pending"><a href="#issue-2-：-创建pod-status-pending" class="headerlink" title="issue 2 ： 创建pod status pending"></a>issue 2 ： 创建pod status pending</h3><p>K8S 创建容器后，查看pod状态，一直是 ContainerCreating，主要原因运行POD所需要的镜像由于网路原因无法获取. 发现是无法获取<code>registry.access.redhat.com/rhel7/pod-infrastructure:latest</code> 这个镜像。<br>去到测试服务器上，将该镜像tag为私有仓库的镜像，推送到私有仓库。从私有仓库拉下来，重新tag回 <code>registry.access.redhat.com/rhel7/pod-infrastructure:latest</code> 。<br><img src="/2017/10/14/k8s-setup-issues/can-not-get-images.jpeg" alt="can-not-get-images"></p>
-<p>网路上还有另外一种说法是无法获取 <code>gcr.io/pause:2.0</code> 镜像，但是解决的思路是一样的。</p>
+<p><img src="/2017/10/14/k8s-setup-issues/pod-no-exist.jpeg" alt="pod-no-exist"><br>发现并没有创建mysql对应的pod, 这里的主要问题就是没有认证，解决方法在这里 <a href="http://www.voidcn.com/article/p-kvceqhez-vb.html" target="_blank" rel="external">解决认证问题</a>。</p>
+<h3 id="issue-2-：-创建pod-status-pending"><a href="#issue-2-：-创建pod-status-pending" class="headerlink" title="issue 2 ： 创建pod status pending"></a>issue 2 ： 创建pod status pending</h3><p>K8S 创建容器后，查看pod状态，一直是 ContainerCreating，主要原因运行POD所需要的镜像由于网路原因无法获取. 发现是无法获取<code>registry.access.redhat.com/rhel7/pod-infrastructure:latest</code> 这个镜像。<br>去到测试服务器上，将该镜像tag为私有仓库的镜像，推送到私有仓库。从私有仓库拉下来，重新tag回 <code>registry.access.redhat.com/rhel7/pod-infrastructure:latest</code> 。<br><img src="/2017/10/14/k8s-setup-issues/can-not-get-images.jpeg" alt="can-not-get-images"><br>网路上还有另外一种说法是无法获取 <code>gcr.io/pause:2.0</code> 镜像，但是解决的思路是一样的。</p>
 
       
     </div>
