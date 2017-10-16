@@ -355,8 +355,7 @@
       
         
           
-            <p>## issues</p>
-<p>测试环境，重启Docker服务之后，原本部署的Docker Harbor突然不能使用了，访问Harbor，返回502，Bad GateWay。</p>
+            <h2 id="issues"><a href="#issues" class="headerlink" title="issues"></a>issues</h2><p>测试环境，重启Docker服务之后，原本部署的Docker Harbor突然不能使用了，访问Harbor，返回502，Bad GateWay。</p>
 <h2 id="排查思路"><a href="#排查思路" class="headerlink" title="排查思路"></a>排查思路</h2><h3 id="进入Harbor目录，执行启动命令"><a href="#进入Harbor目录，执行启动命令" class="headerlink" title="进入Harbor目录，执行启动命令"></a>进入Harbor目录，执行启动命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker-compose up</div></pre></td></tr></table></figure>
 <p>结果显示 <code>harbor-ui exit with code 1</code></p>
 <h3 id="检查Harbor的log信息"><a href="#检查Harbor的log信息" class="headerlink" title="检查Harbor的log信息"></a>检查Harbor的log信息</h3><p><img src="/2017/10/16/docker-harbor-ui-issues/docker-harbor-ui-log.png" alt=""><br>发现harbor-ui访问harbor-mysql被拒绝了。</p>
