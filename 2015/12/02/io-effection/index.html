@@ -83,11 +83,11 @@
 <meta name="keywords" content="JAVA">
 <meta property="og:type" content="article">
 <meta property="og:title" content="频繁IO对系统性能的影响">
-<meta property="og:url" content="http://wheniworking.com/2015/09/10/io-effection/index.html">
+<meta property="og:url" content="http://wheniworking.com/2015/12/02/io-effection/index.html">
 <meta property="og:site_name" content="清风明月的博客">
 <meta property="og:description" content="最近在维护系统的时候，发现有个页面加载速度明显比其他页面的加载速度慢一些，遂逐行进行跟踪排查，最后发现一段操作数据库的代码，其形式如下：12345List&amp;lt;T&amp;gt; ts = **Dao.findBy**(query);for(T t : ts)&amp;#123;    E e = *****Dao.findBy***(t.get**());    ...&amp;#125; 这里在循环中出现了频繁的数">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-12T17:09:55.000Z">
+<meta property="og:updated_time" content="2017-10-16T10:03:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="频繁IO对系统性能的影响">
 <meta name="twitter:description" content="最近在维护系统的时候，发现有个页面加载速度明显比其他页面的加载速度慢一些，遂逐行进行跟踪排查，最后发现一段操作数据库的代码，其形式如下：12345List&amp;lt;T&amp;gt; ts = **Dao.findBy**(query);for(T t : ts)&amp;#123;    E e = *****Dao.findBy***(t.get**());    ...&amp;#125; 这里在循环中出现了频繁的数">
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://wheniworking.com/2015/09/10/io-effection/"/>
+  <link rel="canonical" href="http://wheniworking.com/2015/12/02/io-effection/"/>
 
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/io-effection/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/12/02/io-effection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T00:00:00+08:00">
-                2015-09-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-02T00:00:00+08:00">
+                2015-12-02
               </time>
             
 
@@ -429,8 +429,8 @@ batchCount : 1605 ms
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/10/json-diff/" rel="next" title="一个json问题">
-                <i class="fa fa-chevron-left"></i> 一个json问题
+              <a href="/2015/11/15/java-reflection/" rel="next" title="Java反射">
+                <i class="fa fa-chevron-left"></i> Java反射
               </a>
             
           </div>
@@ -439,8 +439,8 @@ batchCount : 1605 ms
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/09/10/jpa-0/" rel="prev" title="jpa(0)">
-                jpa(0) <i class="fa fa-chevron-right"></i>
+              <a href="/2017/10/12/docker-start-bug/" rel="prev" title="Docker启动卡死在mkfs.xfs阶段">
+                Docker启动卡死在mkfs.xfs阶段 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

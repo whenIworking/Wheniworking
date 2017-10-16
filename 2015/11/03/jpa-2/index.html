@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="为了在JSP页面中使用JSTL标签，那么需要在JSP页面中引入 JSTL 声明和启用EL的声明，如下所示：12&amp;lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; isELIgnored=&quot;false&quot; %&amp;gt;&amp;lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/">
+<meta name="description" content="使用Criteria查询 JpaSpecificationExecutor 接口的使用 @Query 和 @NamedQuery 的使用  使用 Criteria 查询Criteria 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。 JPQL ： select u from User u where u.old &amp;gt; 20 123456789101112publ">
 <meta name="keywords" content="JAVA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jstl">
-<meta property="og:url" content="http://wheniworking.com/2015/09/10/jstl/index.html">
+<meta property="og:title" content="jpa(2)">
+<meta property="og:url" content="http://wheniworking.com/2015/11/03/jpa-2/index.html">
 <meta property="og:site_name" content="清风明月的博客">
-<meta property="og:description" content="为了在JSP页面中使用JSTL标签，那么需要在JSP页面中引入 JSTL 声明和启用EL的声明，如下所示：12&amp;lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; isELIgnored=&quot;false&quot; %&amp;gt;&amp;lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/">
+<meta property="og:description" content="使用Criteria查询 JpaSpecificationExecutor 接口的使用 @Query 和 @NamedQuery 的使用  使用 Criteria 查询Criteria 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。 JPQL ： select u from User u where u.old &amp;gt; 20 123456789101112publ">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-12T17:15:33.000Z">
+<meta property="og:updated_time" content="2017-10-16T10:02:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jstl">
-<meta name="twitter:description" content="为了在JSP页面中使用JSTL标签，那么需要在JSP页面中引入 JSTL 声明和启用EL的声明，如下所示：12&amp;lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; isELIgnored=&quot;false&quot; %&amp;gt;&amp;lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/">
+<meta name="twitter:title" content="jpa(2)">
+<meta name="twitter:description" content="使用Criteria查询 JpaSpecificationExecutor 接口的使用 @Query 和 @NamedQuery 的使用  使用 Criteria 查询Criteria 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。 JPQL ： select u from User u where u.old &amp;gt; 20 123456789101112publ">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://wheniworking.com/2015/09/10/jstl/"/>
+  <link rel="canonical" href="http://wheniworking.com/2015/11/03/jpa-2/"/>
 
 
 
 
 
-  <title>jstl | 清风明月的博客</title>
+  <title>jpa(2) | 清风明月的博客</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/jstl/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/11/03/jpa-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">jstl</h1>
+          <h1 class="post-title" itemprop="name headline">jpa(2)</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T00:00:00+08:00">
-                2015-09-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-03T00:00:00+08:00">
+                2015-11-03
               </time>
             
 
@@ -352,13 +352,17 @@
       
 
       
-        <p>为了在JSP页面中使用<code>JSTL</code>标签，那么需要在JSP页面中引入 <code>JSTL</code> 声明和启用<code>EL</code>的声明，如下所示：<br><figure class="highlight jsp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> isELIgnored=<span class="string">"false"</span> %&gt;</div><div class="line">&lt;%@ taglib prefix=<span class="string">"c"</span> uri=<span class="string">"http://java.sun.com/jsp/jstl/core"</span> %&gt;</div></pre></td></tr></table></figure></p>
-<p>###<code>c:out</code><br>out.jsp：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">action parameters is : &lt;c:out value="$&#123;param.action&#125;"&gt;&lt;/c:out&gt;</div></pre></td></tr></table></figure></p>
-<p>访问：<br><code>localhost：8080/out.jsp?action=add</code><br>结果：<br><code>action parameters is : add</code></p>
-<p>###<code>c:if</code><br>if.jsp:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;c:<span class="keyword">if</span> test=<span class="string">"$&#123;param.action=='add'&#125;"</span>&gt;</div><div class="line">    &lt;table&gt;</div><div class="line">        &lt;tr&gt;</div><div class="line">            &lt;td&gt;账号&lt;/td&gt;</div><div class="line">            &lt;td&gt;&lt;input type="text" name="login"/&gt;&lt;/td&gt;</div><div class="line">        &lt;/tr&gt;</div><div class="line">        &lt;tr&gt;</div><div class="line">            &lt;td&gt;真实姓名&lt;/td&gt;</div><div class="line">            &lt;td&gt;&lt;input type="text" name="name"/&gt;&lt;/td&gt;</div><div class="line">        &lt;/tr&gt;</div><div class="line">    &lt;/table&gt;</div><div class="line">&lt;/c:if&gt;</div></pre></td></tr></table></figure></p>
-<p>访问：<br><code>localhost：8080/out.jsp?action=add</code></p>
-<p>但是 <code>if</code> 标签没有 <code>else</code> 的功能，如果要实现类似于 <code>java</code> 中 <code>if...else</code> 的功能，需要使用 <code>choose</code> 标签。</p>
-<p>choose.jsp:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;c:choose&gt;</div><div class="line">    &lt;c:when test=<span class="string">"$&#123;param.action&#125;"</span> &gt;</div><div class="line">        when 标签的输出</div><div class="line">    &lt;/c:when&gt;</div><div class="line">    &lt;c:otherwise&gt;</div><div class="line">        otherwise 标签的输出</div><div class="line">    &lt;/c:otherwise&gt;</div><div class="line">&lt;/c:choose&gt;</div></pre></td></tr></table></figure></p>
+        <ul>
+<li>使用<code>Criteria</code>查询</li>
+<li><code>JpaSpecificationExecutor</code> 接口的使用</li>
+<li><code>@Query</code> 和 <code>@NamedQuery</code> 的使用</li>
+</ul>
+<h1 id="使用-Criteria-查询"><a href="#使用-Criteria-查询" class="headerlink" title="使用 Criteria 查询"></a>使用 <code>Criteria</code> 查询</h1><p><code>Criteria</code> 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。</p>
+<pre><code>JPQL ： select u from User u where u.old &gt; 20
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(root);</div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),<span class="number">20</span>);</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    List&lt;User&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre><code>JPQL ： select u.old,u.name from User u where u.old &gt; 20
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果只查询某几个字段，那么返回的结果就不能是对象而是一个对象数组</span></div><div class="line"><span class="keyword">public</span> List&lt;Object[]&gt; findAll()&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    <span class="comment">//cq.select(root);</span></div><div class="line">    <span class="comment">//cq.select(root.get("old"); 如果只查询一个字段，可以使用select</span></div><div class="line">    cq.multiselect(root.get(<span class="string">"old"</span>),root.get(<span class="string">"name"</span>));<span class="comment">//查询多个字段使用multiselect</span></div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),cb.parameter(Integer.class,<span class="string">"old"</span>));</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    query.setParameter(<span class="string">"old"</span>,<span class="number">20</span>);</div><div class="line">    List&lt;Object[]&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//如果想要查询多个字段，但是又想返回对象那就需要使用construct进行构造</span></div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(cb.construct(User.class,root.get(<span class="string">"old"</span>),root.get(<span class="string">"name)));</span></div><div class="line"><span class="string">    cq.multiselect(root.get("</span>old<span class="string">"),root.get("</span>name<span class="string">"));</span></div><div class="line"><span class="string">    Predicate pre = cb.greaterThan(root.get("</span>old<span class="string">").as(Integer.class),cb.parameter(Integer.class,"</span>old<span class="string">"));</span></div><div class="line"><span class="string">    cq.where(pre);</span></div><div class="line"><span class="string">    </span></div><div class="line"><span class="string">    Query query = entityManager.createQuery(cq);</span></div><div class="line"><span class="string">    query.setParameter("</span>old<span class="string">",20);</span></div><div class="line"><span class="string">    List&lt;User&gt; users = query.getResultList();</span></div><div class="line"><span class="string">    return users;</span></div><div class="line"><span class="string">&#125;</span></div></pre></td></tr></table></figure>
+<p>如果要进行<code>join</code>操作，就需要使用 <code>Root</code> 的 <code>join</code> 操作</p>
 
       
     </div>
@@ -389,8 +393,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/10/jpa-0/" rel="next" title="jpa(0)">
-                <i class="fa fa-chevron-left"></i> jpa(0)
+              <a href="/2015/10/30/滕王阁序/" rel="next" title="滕王阁序">
+                <i class="fa fa-chevron-left"></i> 滕王阁序
               </a>
             
           </div>
@@ -399,8 +403,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/09/10/Annotation/" rel="prev" title="Annotation的工作原理">
-                Annotation的工作原理 <i class="fa fa-chevron-right"></i>
+              <a href="/2015/11/10/jpa-3/" rel="prev" title="jpa(3)">
+                jpa(3) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -451,8 +455,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -514,6 +527,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-Criteria-查询"><span class="nav-number">1.</span> <span class="nav-text">使用 Criteria 查询</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

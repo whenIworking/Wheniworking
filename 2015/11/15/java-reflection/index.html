@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="使用Criteria查询 JpaSpecificationExecutor 接口的使用 @Query 和 @NamedQuery 的使用  使用 Criteria 查询Criteria 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。 JPQL ： select u from User u where u.old &amp;gt; 20 123456789101112publ">
+<meta name="description" content="需求场景： 一个由键值对组成的字符串，需要将该字符串转换为对象。字符串形式如下：1&quot;username:dodoro|sex:male|address:KeZhu Road|phone:153864422&quot; 首先，声明一个对应字段的POJO类，User如下：1234567public class User&amp;#123;    String username;    String sex;    Str">
 <meta name="keywords" content="JAVA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jpa(2)">
-<meta property="og:url" content="http://wheniworking.com/2015/09/10/jpa-2/index.html">
+<meta property="og:title" content="Java反射">
+<meta property="og:url" content="http://wheniworking.com/2015/11/15/java-reflection/index.html">
 <meta property="og:site_name" content="清风明月的博客">
-<meta property="og:description" content="使用Criteria查询 JpaSpecificationExecutor 接口的使用 @Query 和 @NamedQuery 的使用  使用 Criteria 查询Criteria 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。 JPQL ： select u from User u where u.old &amp;gt; 20 123456789101112publ">
+<meta property="og:description" content="需求场景： 一个由键值对组成的字符串，需要将该字符串转换为对象。字符串形式如下：1&quot;username:dodoro|sex:male|address:KeZhu Road|phone:153864422&quot; 首先，声明一个对应字段的POJO类，User如下：1234567public class User&amp;#123;    String username;    String sex;    Str">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-12T17:13:16.000Z">
+<meta property="og:updated_time" content="2017-10-16T10:02:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jpa(2)">
-<meta name="twitter:description" content="使用Criteria查询 JpaSpecificationExecutor 接口的使用 @Query 和 @NamedQuery 的使用  使用 Criteria 查询Criteria 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。 JPQL ： select u from User u where u.old &amp;gt; 20 123456789101112publ">
+<meta name="twitter:title" content="Java反射">
+<meta name="twitter:description" content="需求场景： 一个由键值对组成的字符串，需要将该字符串转换为对象。字符串形式如下：1&quot;username:dodoro|sex:male|address:KeZhu Road|phone:153864422&quot; 首先，声明一个对应字段的POJO类，User如下：1234567public class User&amp;#123;    String username;    String sex;    Str">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://wheniworking.com/2015/09/10/jpa-2/"/>
+  <link rel="canonical" href="http://wheniworking.com/2015/11/15/java-reflection/"/>
 
 
 
 
 
-  <title>jpa(2) | 清风明月的博客</title>
+  <title>Java反射 | 清风明月的博客</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/jpa-2/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/11/15/java-reflection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">jpa(2)</h1>
+          <h1 class="post-title" itemprop="name headline">Java反射</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T00:00:00+08:00">
-                2015-09-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-15T00:00:00+08:00">
+                2015-11-15
               </time>
             
 
@@ -352,17 +352,16 @@
       
 
       
-        <ul>
-<li>使用<code>Criteria</code>查询</li>
-<li><code>JpaSpecificationExecutor</code> 接口的使用</li>
-<li><code>@Query</code> 和 <code>@NamedQuery</code> 的使用</li>
+        <p>需求场景：<br> <em>一个由键值对组成的字符串，需要将该字符串转换为对象。字符串形式如下：</em><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"username:dodoro|sex:male|address:KeZhu Road|phone:153864422"</span></div></pre></td></tr></table></figure></p>
+<p>首先，声明一个对应字段的POJO类，User如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;</div><div class="line">    String username;</div><div class="line">    String sex;</div><div class="line">    String address;</div><div class="line">    String phone;</div><div class="line">    <span class="comment">//省略getter和setter</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>直观的印象是在转换的过程中，首先将字符串拆分出来，然后逐一判断，调用setter设置，代码片段如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">User user = <span class="keyword">new</span> User();</div><div class="line">String[] keyValues = str.split(<span class="string">"\\|"</span>);</div><div class="line"><span class="keyword">for</span>(String keyValue : keyValues)&#123;</div><div class="line">    String[] field = keyValue.split(<span class="string">":"</span>);</div><div class="line">    <span class="keyword">if</span>(field.length == <span class="number">2</span>)&#123;</div><div class="line">        <span class="keyword">if</span>(field[<span class="number">0</span>].equals(<span class="string">"username"</span>)&#123; user.setUsername(field[<span class="number">1</span>]) ;&#125;   </div><div class="line">        <span class="comment">//....类推，省略</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>那么在这里就需要重复的多写很多的判断语句，如果POJO类的属性很多，有几十个，那就需要写几十个<code>if</code>逐一判断，那么在这里可以利用<code>JAVA</code>的反射技巧轻松的完成该任务。</p>
+<ul>
+<li>首先，根据字符串名字获取POJO类的属性名</li>
+<li>其次，设置属性的Access属性为true </li>
+<li>最后，调用setter方法</li>
 </ul>
-<h1 id="使用-Criteria-查询"><a href="#使用-Criteria-查询" class="headerlink" title="使用 Criteria 查询"></a>使用 <code>Criteria</code> 查询</h1><p><code>Criteria</code> 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。</p>
-<pre><code>JPQL ： select u from User u where u.old &gt; 20
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(root);</div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),<span class="number">20</span>);</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    List&lt;User&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<pre><code>JPQL ： select u.old,u.name from User u where u.old &gt; 20
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果只查询某几个字段，那么返回的结果就不能是对象而是一个对象数组</span></div><div class="line"><span class="keyword">public</span> List&lt;Object[]&gt; findAll()&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    <span class="comment">//cq.select(root);</span></div><div class="line">    <span class="comment">//cq.select(root.get("old"); 如果只查询一个字段，可以使用select</span></div><div class="line">    cq.multiselect(root.get(<span class="string">"old"</span>),root.get(<span class="string">"name"</span>));<span class="comment">//查询多个字段使用multiselect</span></div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),cb.parameter(Integer.class,<span class="string">"old"</span>));</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    query.setParameter(<span class="string">"old"</span>,<span class="number">20</span>);</div><div class="line">    List&lt;Object[]&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//如果想要查询多个字段，但是又想返回对象那就需要使用construct进行构造</span></div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(cb.construct(User.class,root.get(<span class="string">"old"</span>),root.get(<span class="string">"name)));</span></div><div class="line"><span class="string">    cq.multiselect(root.get("</span>old<span class="string">"),root.get("</span>name<span class="string">"));</span></div><div class="line"><span class="string">    Predicate pre = cb.greaterThan(root.get("</span>old<span class="string">").as(Integer.class),cb.parameter(Integer.class,"</span>old<span class="string">"));</span></div><div class="line"><span class="string">    cq.where(pre);</span></div><div class="line"><span class="string">    </span></div><div class="line"><span class="string">    Query query = entityManager.createQuery(cq);</span></div><div class="line"><span class="string">    query.setParameter("</span>old<span class="string">",20);</span></div><div class="line"><span class="string">    List&lt;User&gt; users = query.getResultList();</span></div><div class="line"><span class="string">    return users;</span></div><div class="line"><span class="string">&#125;</span></div></pre></td></tr></table></figure>
-<p>如果要进行<code>join</code>操作，就需要使用 <code>Root</code> 的 <code>join</code> 操作</p>
+<p>代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">User user = <span class="keyword">new</span> User();</div><div class="line">String[] fields = str.split(<span class="string">"\\|"</span>);</div><div class="line"><span class="keyword">for</span>(String field : fields)&#123;</div><div class="line">	keyValue = field.split(<span class="string">":"</span>);</div><div class="line">	<span class="keyword">if</span>(keyValue.length == <span class="number">2</span>) &#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Field f = UnitCheckVo.class.getDeclaredField(keyValue[<span class="number">0</span>]);</div><div class="line">			f.setAccessible(<span class="keyword">true</span>);</div><div class="line">			f.set(unitCheckVo, keyValue[<span class="number">1</span>]);</div><div class="line">		&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</div><div class="line">			log.info(<span class="string">"No field "</span> + keyValue[<span class="number">0</span>] + <span class="string">" exists!"</span>);</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</div><div class="line">			log.info(<span class="string">"Set property for "</span> + keyValue[<span class="number">0</span>] + <span class="string">" denied!"</span>);</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -393,8 +392,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/09/10/java-date/" rel="next" title="Java日期">
-                <i class="fa fa-chevron-left"></i> Java日期
+              <a href="/2015/11/10/jpa-3/" rel="next" title="jpa(3)">
+                <i class="fa fa-chevron-left"></i> jpa(3)
               </a>
             
           </div>
@@ -403,8 +402,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/09/10/jpa-1/" rel="prev" title="jpa(1)">
-                jpa(1) <i class="fa fa-chevron-right"></i>
+              <a href="/2015/12/02/io-effection/" rel="prev" title="频繁IO对系统性能的影响">
+                频繁IO对系统性能的影响 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -455,17 +454,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -527,22 +517,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-Criteria-查询"><span class="nav-number">1.</span> <span class="nav-text">使用 Criteria 查询</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
