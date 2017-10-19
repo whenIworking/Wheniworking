@@ -79,19 +79,20 @@
 
 
 
-<meta name="description" content="在同个Pod中的多个容器能够共享Pod的存储卷Volume。Volume可以被定义为各种类型，多个容器各自进行挂在操作，将一根Volume挂载为容器内部需要的目录。">
+<meta name="description" content="容器共享在同个Pod中的多个容器能够共享Pod的存储卷Volume。Volume可以被定义为各种类型，多个容器各自进行挂在操作，将一根Volume挂载为容器内部需要的目录。 定义Pod的配置文件 pod-volume.yaml： 12345678910111213141516171819202122apiVersion: v1kind: Podmetadata:  name: pod-volume">
 <meta name="keywords" content="docker,k8s">
 <meta property="og:type" content="article">
 <meta property="og:title" content="k8s:Pod容器共享Volume">
 <meta property="og:url" content="http://wheniworking.com/2017/10/16/k8s-pod-volume/index.html">
 <meta property="og:site_name" content="清风明月的博客">
-<meta property="og:description" content="在同个Pod中的多个容器能够共享Pod的存储卷Volume。Volume可以被定义为各种类型，多个容器各自进行挂在操作，将一根Volume挂载为容器内部需要的目录。">
+<meta property="og:description" content="容器共享在同个Pod中的多个容器能够共享Pod的存储卷Volume。Volume可以被定义为各种类型，多个容器各自进行挂在操作，将一根Volume挂载为容器内部需要的目录。 定义Pod的配置文件 pod-volume.yaml： 12345678910111213141516171819202122apiVersion: v1kind: Podmetadata:  name: pod-volume">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://wheniworking.com/2017/10/16/k8s-pod-volume/k8s-pod-volume.jpg">
-<meta property="og:updated_time" content="2017-10-16T14:13:12.000Z">
+<meta property="og:image" content="http://wheniworking.com/2017/10/16/k8s-pod-volume/k8s-pod-logreader.png">
+<meta property="og:updated_time" content="2017-10-19T13:17:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="k8s:Pod容器共享Volume">
-<meta name="twitter:description" content="在同个Pod中的多个容器能够共享Pod的存储卷Volume。Volume可以被定义为各种类型，多个容器各自进行挂在操作，将一根Volume挂载为容器内部需要的目录。">
+<meta name="twitter:description" content="容器共享在同个Pod中的多个容器能够共享Pod的存储卷Volume。Volume可以被定义为各种类型，多个容器各自进行挂在操作，将一根Volume挂载为容器内部需要的目录。 定义Pod的配置文件 pod-volume.yaml： 12345678910111213141516171819202122apiVersion: v1kind: Podmetadata:  name: pod-volume">
 <meta name="twitter:image" content="http://wheniworking.com/2017/10/16/k8s-pod-volume/k8s-pod-volume.jpg">
 
 
@@ -354,7 +355,25 @@
       
 
       
-        <p>在同个Pod中的多个容器能够共享Pod的存储卷Volume。Volume可以被定义为各种类型，多个容器各自进行挂在操作，将一根Volume挂载为容器内部需要的目录。<br><img src="/2017/10/16/k8s-pod-volume/k8s-pod-volume.jpg" alt=""></p>
+        <h2 id="容器共享"><a href="#容器共享" class="headerlink" title="容器共享"></a>容器共享</h2><p>在同个Pod中的多个容器能够共享Pod的存储卷Volume。Volume可以被定义为各种类型，多个容器各自进行挂在操作，将一根Volume挂载为容器内部需要的目录。<br><img src="/2017/10/16/k8s-pod-volume/k8s-pod-volume.jpg" alt=""></p>
+<p>定义Pod的配置文件 <code>pod-volume.yaml</code>：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></div><div class="line"><span class="attr">kind:</span> <span class="string">Pod</span></div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> <span class="string">pod-volume</span></div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  containers:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">tomcat</span></div><div class="line"><span class="attr">    image:</span> <span class="string">tomcat</span></div><div class="line"><span class="attr">    ports:</span></div><div class="line"><span class="attr">    - containerPort:</span> <span class="number">8080</span></div><div class="line"><span class="attr">    volumeMounts:</span></div><div class="line"><span class="attr">    - name:</span> <span class="string">app-logs</span></div><div class="line"><span class="attr">      mountPath:</span> <span class="string">/usr/local/tomcat/logs</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">busybox</span></div><div class="line"><span class="attr">    image:</span> <span class="string">busybox</span></div><div class="line"><span class="attr">    command:</span> <span class="string">["sh",</span> <span class="string">"-c"</span> <span class="string">,"tail</span> <span class="bullet">-f</span> <span class="string">/logs/catalina*.log"]</span></div><div class="line"><span class="attr">    volumeMounts:</span></div><div class="line"><span class="attr">    - name:</span> <span class="string">app-logs</span></div><div class="line"><span class="attr">      mountPath:</span> <span class="string">/logs</span></div><div class="line"><span class="attr">  volumes:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">app-logs</span></div><div class="line"><span class="attr">    emptyDir:</span> <span class="string">&#123;&#125;</span></div></pre></td></tr></table></figure>
+<p>创建Pod<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl create -f pod-volume.yaml</div></pre></td></tr></table></figure></p>
+<p>查看<br>这里设置的volume的名称为 <code>app-logs</code>， 类型为emptyDir,挂载到tomcat容器内的 <code>/usr/local/tomcat/logs</code> 目录， 同时挂载到 busybox 容器内的<code>logs</code> 目录。 tomcat容器在启动后会想 <code>/usr/local/tomcat/logs</code> 写文件， busybox 就可以读取目录中的文件了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl logs pod-volume -c busybox</div></pre></td></tr></table></figure></p>
+<p><img src="/2017/10/16/k8s-pod-volume/k8s-pod-logreader.png" alt=""></p>
+<h2 id="Volume类型"><a href="#Volume类型" class="headerlink" title="Volume类型"></a>Volume类型</h2><h3 id="emptyDir"><a href="#emptyDir" class="headerlink" title="emptyDir"></a>emptyDir</h3><p>一个emptyDir是在Pod分到Node时创建的。它的初始内容为空，并且无须指定宿主机上对应的目录文件，是K8s自动分配的一个目录。当Pod从Node上移除时，emptyDir的数据也会被永久删除。它的主要用途如下：</p>
+<ul>
+<li>临时空间。</li>
+<li>长时间任务的中间过程CheckPoint的临时保存目录</li>
+<li>一个容器需要从另一个容器获取数据的目录（多容器的共享目录）</li>
+</ul>
+<h3 id="hostPath"><a href="#hostPath" class="headerlink" title="hostPath"></a>hostPath</h3><p>hostPath为在Pod上挂载宿主机上的文件或目录，它通常可以用于以下几个方面：</p>
+<ul>
+<li>容器应用程序生成的日志文件需要永久保存，可以使用宿主机的高速文件系统进行存储</li>
+<li>需要访问宿主机上Docker引擎内部数据结构的容器应用，可以通过定义hostPath为宿主机<code>/var/lib/docker</code>目录，使容器内部应用可以直接访问Docker的文件系统。需要注意的时，不同Node上的相同配置的Pod可能会因为宿主机上的目录和文件不同而导致对Volume上目录和文件的访问结果不一致。如果使用了资源配额管理，k8s无法将hostPath在宿主机上使用的资源纳入管理</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attr">volumes:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">persist-storage</span></div><div class="line"><span class="attr">    hostPath:</span></div><div class="line"><span class="attr">      path:</span> <span class="string">"/data"</span></div></pre></td></tr></table></figure>
+<h3 id="NFS"><a href="#NFS" class="headerlink" title="NFS"></a>NFS</h3><p>使用NFS网络类型文件系统提供的共享目录存储数据是，需要在系统中部署NFS server。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="attr">volumes:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">nfs</span></div><div class="line"><span class="attr">    nfs:</span></div><div class="line"><span class="attr">      server:</span> <span class="string">nfs-server.localhost</span></div><div class="line"><span class="attr">      path:</span> <span class="string">/</span></div></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -396,6 +415,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/17/k8s-service/" rel="prev" title="K8s中的Service">
+                K8s中的Service <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -445,8 +468,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -461,7 +493,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -483,7 +515,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -508,6 +540,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#容器共享"><span class="nav-number">1.</span> <span class="nav-text">容器共享</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Volume类型"><span class="nav-number">2.</span> <span class="nav-text">Volume类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#emptyDir"><span class="nav-number">2.1.</span> <span class="nav-text">emptyDir</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hostPath"><span class="nav-number">2.2.</span> <span class="nav-text">hostPath</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NFS"><span class="nav-number">2.3.</span> <span class="nav-text">NFS</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

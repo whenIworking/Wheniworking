@@ -262,6 +262,148 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/17/k8s-service/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="清风明月多多想毕业">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="清风明月的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/17/k8s-service/" itemprop="url">K8s中的Service</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-17T23:20:11+08:00">
+                2017-10-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Service是Kubernetes的核心概念，通过创建Service，可以统一为一组具有相同功能的容器提供一个统一的入口地址，并且将请求负载分发到后端的各个容器应用上。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/16/k8s-pod-volume/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -355,7 +497,25 @@
       
         
           
-            <p>在同个Pod中的多个容器能够共享Pod的存储卷Volume。Volume可以被定义为各种类型，多个容器各自进行挂在操作，将一根Volume挂载为容器内部需要的目录。<br><img src="/2017/10/16/k8s-pod-volume/k8s-pod-volume.jpg" alt=""></p>
+            <h2 id="容器共享"><a href="#容器共享" class="headerlink" title="容器共享"></a>容器共享</h2><p>在同个Pod中的多个容器能够共享Pod的存储卷Volume。Volume可以被定义为各种类型，多个容器各自进行挂在操作，将一根Volume挂载为容器内部需要的目录。<br><img src="/2017/10/16/k8s-pod-volume/k8s-pod-volume.jpg" alt=""></p>
+<p>定义Pod的配置文件 <code>pod-volume.yaml</code>：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></div><div class="line"><span class="attr">kind:</span> <span class="string">Pod</span></div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> <span class="string">pod-volume</span></div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  containers:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">tomcat</span></div><div class="line"><span class="attr">    image:</span> <span class="string">tomcat</span></div><div class="line"><span class="attr">    ports:</span></div><div class="line"><span class="attr">    - containerPort:</span> <span class="number">8080</span></div><div class="line"><span class="attr">    volumeMounts:</span></div><div class="line"><span class="attr">    - name:</span> <span class="string">app-logs</span></div><div class="line"><span class="attr">      mountPath:</span> <span class="string">/usr/local/tomcat/logs</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">busybox</span></div><div class="line"><span class="attr">    image:</span> <span class="string">busybox</span></div><div class="line"><span class="attr">    command:</span> <span class="string">["sh",</span> <span class="string">"-c"</span> <span class="string">,"tail</span> <span class="bullet">-f</span> <span class="string">/logs/catalina*.log"]</span></div><div class="line"><span class="attr">    volumeMounts:</span></div><div class="line"><span class="attr">    - name:</span> <span class="string">app-logs</span></div><div class="line"><span class="attr">      mountPath:</span> <span class="string">/logs</span></div><div class="line"><span class="attr">  volumes:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">app-logs</span></div><div class="line"><span class="attr">    emptyDir:</span> <span class="string">&#123;&#125;</span></div></pre></td></tr></table></figure>
+<p>创建Pod<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl create -f pod-volume.yaml</div></pre></td></tr></table></figure></p>
+<p>查看<br>这里设置的volume的名称为 <code>app-logs</code>， 类型为emptyDir,挂载到tomcat容器内的 <code>/usr/local/tomcat/logs</code> 目录， 同时挂载到 busybox 容器内的<code>logs</code> 目录。 tomcat容器在启动后会想 <code>/usr/local/tomcat/logs</code> 写文件， busybox 就可以读取目录中的文件了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl logs pod-volume -c busybox</div></pre></td></tr></table></figure></p>
+<p><img src="/2017/10/16/k8s-pod-volume/k8s-pod-logreader.png" alt=""></p>
+<h2 id="Volume类型"><a href="#Volume类型" class="headerlink" title="Volume类型"></a>Volume类型</h2><h3 id="emptyDir"><a href="#emptyDir" class="headerlink" title="emptyDir"></a>emptyDir</h3><p>一个emptyDir是在Pod分到Node时创建的。它的初始内容为空，并且无须指定宿主机上对应的目录文件，是K8s自动分配的一个目录。当Pod从Node上移除时，emptyDir的数据也会被永久删除。它的主要用途如下：</p>
+<ul>
+<li>临时空间。</li>
+<li>长时间任务的中间过程CheckPoint的临时保存目录</li>
+<li>一个容器需要从另一个容器获取数据的目录（多容器的共享目录）</li>
+</ul>
+<h3 id="hostPath"><a href="#hostPath" class="headerlink" title="hostPath"></a>hostPath</h3><p>hostPath为在Pod上挂载宿主机上的文件或目录，它通常可以用于以下几个方面：</p>
+<ul>
+<li>容器应用程序生成的日志文件需要永久保存，可以使用宿主机的高速文件系统进行存储</li>
+<li>需要访问宿主机上Docker引擎内部数据结构的容器应用，可以通过定义hostPath为宿主机<code>/var/lib/docker</code>目录，使容器内部应用可以直接访问Docker的文件系统。需要注意的时，不同Node上的相同配置的Pod可能会因为宿主机上的目录和文件不同而导致对Volume上目录和文件的访问结果不一致。如果使用了资源配额管理，k8s无法将hostPath在宿主机上使用的资源纳入管理</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attr">volumes:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">persist-storage</span></div><div class="line"><span class="attr">    hostPath:</span></div><div class="line"><span class="attr">      path:</span> <span class="string">"/data"</span></div></pre></td></tr></table></figure>
+<h3 id="NFS"><a href="#NFS" class="headerlink" title="NFS"></a>NFS</h3><p>使用NFS网络类型文件系统提供的共享目录存储数据是，需要在系统中部署NFS server。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="attr">volumes:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">nfs</span></div><div class="line"><span class="attr">    nfs:</span></div><div class="line"><span class="attr">      server:</span> <span class="string">nfs-server.localhost</span></div><div class="line"><span class="attr">      path:</span> <span class="string">/</span></div></pre></td></tr></table></figure></p>
 
           
         
@@ -1712,165 +1872,6 @@ batchCount : 1605 ms
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/11/10/jpa-3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="清风明月多多想毕业">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="清风明月的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/11/10/jpa-3/" itemprop="url">jpa(3)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-10T00:00:00+08:00">
-                2015-11-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近工作中频繁的使用 <code>SPring Data JPA</code> ，一开始对<code>SPring Data JPA</code>不甚了解，就感觉在利用<code>SPring Data JPA</code>进行复杂查询的时候感觉非常滞涩。事实证明，<code>SPring Data JPA</code>虽然存在一些局限性，但是只要能够了解其提供的接口就可以用来完成非常复杂的功能。本文就从实用的角度，对<code>SPring Data JPA</code>的一些较为冷门而又实用的用法进行总结。</p>
-<h2 id="利用JPQL进行-OneToMany的关联查询"><a href="#利用JPQL进行-OneToMany的关联查询" class="headerlink" title="利用JPQL进行@OneToMany的关联查询"></a>利用<code>JPQL</code>进行<code>@OneToMany</code>的关联查询</h2><p>首先，举一个一对多的例子，球队和球员，一个球队有多个球员，那么具体的映射代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="meta">@Table</span>(name=<span class="string">"Team"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Team</span></span>&#123;</div><div class="line">   <span class="comment">//....省略</span></div><div class="line">   <span class="meta">@OneToMany</span>(mappedBy=<span class="string">"team"</span>,cascade=CascadeType.ALL,fetch=FetchType.LAZY)</div><div class="line">   <span class="keyword">private</span> List&lt;Player&gt; players = <span class="keyword">new</span> ArrayList&lt;Player&gt;();</div><div class="line">   <span class="comment">//....省略</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="meta">@Table</span>(name=<span class="string">"Player"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Player</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</div><div class="line">   <span class="meta">@ManyToOne</span>(cascade=&#123;CascadeType.MERGE,CascadeType.REFRESH&#125;)  </div><div class="line">   <span class="meta">@JoinColumn</span>(name=<span class="string">"team_id"</span>)  </div><div class="line">   <span class="keyword">private</span> Team team;</div><div class="line">   <span class="comment">//....省略</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>现在假设要查询队员有年龄小于20的队伍有哪些，有两种方法。一种是在继承 <code>JpaRepository</code> 的接口中定义查询方法，但是当查询条件复杂的时候，查询的方法名就会非常的长，不利于阅读；于是就有了第二种方法，在自定义的查询方法上写<code>JPQL</code>查询语句<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">findByNamePlayersAgeLessThan(String name , <span class="keyword">int</span> age)</div><div class="line"><span class="comment">//虽然可以直接在定义的查询方法中直接写 players+Age，但是这种类推到JPQL中是错误的</span></div><div class="line"><span class="comment">//例如，不可以写成：SELECT DISTINCT t FROM Team t  WHERE t.players.name LIKE :name </span></div><div class="line"></div><div class="line"><span class="meta">@Query</span>(<span class="string">"select t from Team t, IN(t.players) p where p.name like ?1 and age &lt;= ?2"</span>)</div><div class="line">findTeamsAccordingAge(String name , <span class="keyword">int</span> age)</div><div class="line"><span class="comment">//或者</span></div><div class="line"><span class="meta">@Query</span>(<span class="string">"select t from Team t JOIN t.players p where p.name like ?1 and age &lt;= ?2"</span>)</div><div class="line">findTeamsAccordingAge(String name , <span class="keyword">int</span> age)</div></pre></td></tr></table></figure></p>
-<p>以上是从One到Many的查询，那么如何从Many到One进行关联查询呢？<br>例如查出某个球队下的所有球员，可以使用如下的查询语句：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> p <span class="keyword">FROM</span> Player p <span class="keyword">JOIN</span> p.team t <span class="keyword">WHERE</span> t.id = :<span class="keyword">id</span> </div><div class="line">//或者</div><div class="line"><span class="keyword">SELECT</span> p <span class="keyword">FROM</span> Player p, <span class="keyword">IN</span>(p.team) t <span class="keyword">WHERE</span> t.id = :<span class="keyword">id</span> </div><div class="line">//或者再简洁一些</div><div class="line"><span class="keyword">SELECT</span> p <span class="keyword">FROM</span> Player p <span class="keyword">WHERE</span> p.team.id = :<span class="keyword">id</span></div></pre></td></tr></table></figure>
-<p>以上的三条查询实际上会生成两条查询<code>SQL</code>，如果只想生成一条查询SQL，则需要使用<code>fetch join</code>,如下：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">SELECT</span> p <span class="keyword">FROM</span> Player p <span class="keyword">JOIN</span> <span class="keyword">FETCH</span> p.team t <span class="keyword">WHERE</span> t.id = :<span class="keyword">id</span> </div><div class="line"></div><div class="line">//实际产生的<span class="keyword">SQL</span></div><div class="line">Hibernate:  </div><div class="line">    <span class="keyword">select</span> </div><div class="line">        player0_.id <span class="keyword">as</span> id1_0_,  </div><div class="line">        team1_.id <span class="keyword">as</span> id2_1_,  </div><div class="line">        player0_.name <span class="keyword">as</span> name1_0_,  </div><div class="line">        player0_.team_id <span class="keyword">as</span> team3_1_0_,  </div><div class="line">        team1_.name <span class="keyword">as</span> name2_1_  </div><div class="line">    <span class="keyword">from</span> </div><div class="line">        player player0_  </div><div class="line">    <span class="keyword">inner</span> <span class="keyword">join</span> </div><div class="line">        team team1_  </div><div class="line">            <span class="keyword">on</span> player0_.team_id=team1_.id  </div><div class="line">    <span class="keyword">where</span> </div><div class="line">        team1_.id=?</div></pre></td></tr></table></figure></p>
-<h2 id="Query（）中的Top-k查找"><a href="#Query（）中的Top-k查找" class="headerlink" title="@Query（）中的Top k查找"></a>@Query（）中的Top k查找</h2><p>为了能够处理更复杂的条件查询，常常使用<code>@Query</code>注解，自己写<code>JPQL</code>语句，但是这个时候在自定义方法查询中的<code>Top</code>关键字就不能使用了，在这种情况下如果还想要查询<code>Top k</code>记录就需要利用<code>Pageable</code>的分页功能。如下所示</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Query</span>(<span class="string">"select i.nName,sum(i.number) as num from Item i where i.type = ?1 group by i.id order by num desc "</span>)</div><div class="line">List&lt;Object[]&gt; findTopk(String productType,Integer status, Pageable pageable);</div><div class="line"></div><div class="line"><span class="comment">//使用方法</span></div><div class="line">Pageable pageable = <span class="keyword">new</span> PageRequest(<span class="number">0</span>,k);</div><div class="line">List&lt;Object[]&gt; ress = findTopk(<span class="string">"type"</span>,pageable); <span class="comment">//返回Top k条记录</span></div></pre></td></tr></table></figure>
-<p>在<code>Pageable</code> 中还可以对排序结果进行排序和分页，使用如下注解</p>
-<pre><code>@PageDefault(size= 10 , sort = &quot;attributeTobeSort&quot; , direction = Sort.Directin.DESC)
-</code></pre><p>其中： <code>size</code> 表示每一页的数据条数<br>    <code>sort</code> 表示按照哪一个字段进行排序<br>    <code>direction</code> 表示排序是按照升序还是降序进行排列</p>
-<p>注解<code>@PageDefault</code>主要在<code>Controller</code>中进行使用，所以要想使用<code>Pageable</code>的功能，就需要为其传递如下的几个参数<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    "size":10, //每页的数据数量</div><div class="line">    "page":0, //第几页</div><div class="line">    "sort":attributeTobeSort,asc(desc) //按照哪一个属性进行排序，是降序还是升序</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>##Spring Data Jpa 查询返回自定义对象<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="meta">@Table</span>(name=<span class="string">"t_user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line">    <span class="keyword">private</span> Integer id;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> String address;</div><div class="line">    <span class="comment">//省略getter和setter</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">package</span> com.project.user.vo</div><div class="line"><span class="comment">//查询返回对象</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserVo</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> Integer id;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="comment">//省略getter和setter</span></div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>查询方法如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//查询方法</span></div><div class="line"><span class="meta">@Query</span>(<span class="string">"select id,name from User u "</span>)  </div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;UserDto&gt; <span class="title">find</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure></p>
-<p>此时返回的结果是<code>List&lt;Object[]&gt;</code>，如果想要返回自定义的<code>UserVo</code>对象，则需要在类中添加构造函数如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="title">UserVo</span><span class="params">(Integer id, String name)</span> </span>&#123;</div><div class="line">       <span class="keyword">this</span>.id = id;</div><div class="line">       <span class="keyword">this</span>.name = name;</div><div class="line">   &#125;</div></pre></td></tr></table></figure></p>
-<p>查询方法如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//查询方法,要加上包名,如果使用了nativeQuery则这种方法是不起作用的</span></div><div class="line"><span class="meta">@Query</span>(<span class="string">"select new com.project.user.vo.UserVo(u.id,u.name) from User u "</span>)  </div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;UserDto&gt; <span class="title">find</span><span class="params">()</span></span>;</div></pre></td></tr></table></figure></p>
-<p>【不定期持续更新，未完待续】</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1921,7 +1922,7 @@ batchCount : 1605 ms
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1943,7 +1944,7 @@ batchCount : 1605 ms
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
