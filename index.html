@@ -356,6 +356,13 @@
         
           
             <p>Service是Kubernetes的核心概念，通过创建Service，可以统一为一组具有相同功能的容器提供一个统一的入口地址，并且将请求负载分发到后端的各个容器应用上。</p>
+<p>Pod, Rc 和 Service之间的关系如图：<br><img src="/2017/10/17/k8s-service/k8s-service-overview.jpg" alt=""></p>
+<p>K8s的Service定义了一个服务的访问入口地址，前端应用通过这个入口地址访问其背后的一组由Pod副本组成的集群实例，Service与其后端Pod副本集群直接则是通过 Label Selector 类实现无缝对接的。而 RC 的作用实际上是保证Service的服务能力和服务质量始终处于预期的标准。</p>
+<p>在K8s中每个Pod都会被分配一个单独的IP地址，而且每个Pod都提供了一个独立的Endpoint(PodId + ContainerPort) 以被客户端访问，但是多个Pod副本组成一个集群类提供服务，那么就需要部署负载均衡，为这组Pod开启一个对外服务的端口，将这些Pod的Endpoint列表加入对外服务端口的转发列表。客户端就可以通过负载均衡服务器的IP地址+服务端口访问该服务，至于客户端的请求到达哪一个Pod，则由负载均衡算法决定。</p>
+<p>K8s中的Kube-proxy就是这样一个负载均衡，它负责吧Service的请求转发到后端的Pod上。比较鸡贼的是，K8s为每个Service分配了一个全局唯一的虚拟IP地址，这个虚拟IP地址就是Cluster IP。如此一来，每个服务都有一个唯一的IP地址。</p>
+<p>在Pod的在创建和销毁的过程中，IP地址会发生变化。但是Service一旦被创建就会被分配一个Cluster IP，并且在Service的整个生命周期，它的Cluster IP不会发生变化。那么只需要在Service的Name和Cluster Ip之间左一层DNS解析，就可以轻松的解决服务发现的问题。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></div><div class="line"><span class="attr">kind:</span> <span class="string">Service</span></div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> <span class="string">mysql</span></div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  ports:</span></div><div class="line"><span class="attr">    - port:</span> <span class="number">3306</span></div><div class="line"><span class="attr">  selector:</span></div><div class="line"><span class="attr">    app:</span> <span class="string">mysql</span></div></pre></td></tr></table></figure>
+<p><img src="/2017/10/17/k8s-service/k8s-service-example.png" alt=""></p>
 
           
         
