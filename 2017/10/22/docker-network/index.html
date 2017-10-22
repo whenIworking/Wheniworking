@@ -89,7 +89,10 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://wheniworking.com/2017/10/22/docker-network/docker-network-inspect.png">
 <meta property="og:image" content="http://wheniworking.com/2017/10/22/docker-network/docker-network-inspect-containers.png">
-<meta property="og:updated_time" content="2017-10-21T23:58:38.000Z">
+<meta property="og:image" content="http://wheniworking.com/2017/10/22/docker-network/docker-network-bridge-map.png">
+<meta property="og:image" content="http://wheniworking.com/2017/10/22/docker-network/docker-network-container.png">
+<meta property="og:image" content="http://wheniworking.com/2017/10/22/docker-network/docker-network-ip-route.png">
+<meta property="og:updated_time" content="2017-10-22T00:24:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker网络">
 <meta name="twitter:description" content="Docker的网络类型Docker 安装成功后会安装三种网络，可以通过命令docker network ls查看1234NETWORK ID          NAME                DRIVER              SCOPE7135d9d919c3        bridge              bridge              local86e79a49b2">
@@ -356,11 +359,17 @@
 
       
         <h2 id="Docker的网络类型"><a href="#Docker的网络类型" class="headerlink" title="Docker的网络类型"></a>Docker的网络类型</h2><p>Docker 安装成功后会安装三种网络，可以通过命令<code>docker network ls</code>查看<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">NETWORK ID          NAME                DRIVER              SCOPE</div><div class="line">7135d9d919c3        bridge              bridge              <span class="built_in">local</span></div><div class="line">86e79a49b27f        host                host                <span class="built_in">local</span></div><div class="line">0015c3361f3d        none                null                <span class="built_in">local</span></div></pre></td></tr></table></figure></p>
-<p>在创建容器的时候，可以通过<code>--net</code>进行指定。<br>另外，Docker安装成功之后，会为bridge网络创建一个默认的docker0的网络设备，所有的docker容器都是通过桥接模式挂载到docker0上实现宿主机上容器和容器之间的通信。</p>
+<p>在创建容器的时候，可以通过<code>--net</code>进行指定。 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  ~ docker run -d --net=host docker.gz.cvte.cn/hello-world-jar/hello-docker:master-91d61c7</div><div class="line">ab14e449f4241372ce034ca2fede8d6cd9dd7cf55ad0713db02f649df02ef341</div></pre></td></tr></table></figure>
 <p><code>docker network inspect &lt;net&gt;</code>查看网络详情。</p>
 <p><img src="/2017/10/22/docker-network/docker-network-inspect.png" alt=""></p>
 <p>当启动一个容器的时候，就会想对应的网络的containers中添加subnet和gateway, 在全局注册相关的网络信息。</p>
 <p><img src="/2017/10/22/docker-network/docker-network-inspect-containers.png" alt=""></p>
+<h2 id="docker0"><a href="#docker0" class="headerlink" title="docker0"></a>docker0</h2><p>另外，Docker安装成功之后，会为bridge网络创建一个默认的docker0的虚拟网络设备，所有的docker容器都是通过桥接模式挂载到docker0上实现宿主机上容器和容器之间的通信。<br>使用brctl show可以看到虚拟机的网络关系:<br><img src="/2017/10/22/docker-network/docker-network-bridge-map.png" alt=""></p>
+<p>其中veth开头的是docker container的虚拟网卡，docker每新建一个container, docker0就会创建一个新的虚拟网卡，名称以veth开头，其余是随机的.</p>
+<p>在container上实际看到的是eth0这些.<br><img src="/2017/10/22/docker-network/docker-network-container.png" alt=""><br>container上的eth0 和 宿主机上的veth2368ab8 类似一个 PIPE.<br>挂载到docker0上docker container就这样实现网络互通。</p>
+<p>Docker使用route和iptables（要注意 MASQUERADE），为容器创建NAT，这样就可以连接到外网。</p>
+<p><img src="/2017/10/22/docker-network/docker-network-ip-route.png" alt=""></p>
 
       
     </div>
@@ -531,7 +540,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker的网络类型"><span class="nav-number">1.</span> <span class="nav-text">Docker的网络类型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker的网络类型"><span class="nav-number">1.</span> <span class="nav-text">Docker的网络类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker0"><span class="nav-number">2.</span> <span class="nav-text">docker0</span></a></li></ol></div>
             
 
           </div>
