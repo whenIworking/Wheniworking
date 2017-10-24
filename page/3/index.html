@@ -552,151 +552,6 @@ path.replaceAll(&quot;\\\\&quot;,File.seperator);
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/timestamp-border-limit/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="清风明月多多想毕业">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="清风明月的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/09/10/timestamp-border-limit/" itemprop="url">timestamp时间戳边界处理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T00:00:00+08:00">
-                2015-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在处理时间戳的问题的时候，首先需要了解时间戳是什么，如何计算。那么，<strong><em>时间戳</em></strong>实际上一个long型的数值，代表了距离<strong>1970年1月1日上午8点0分0秒</strong>的全部毫秒数。</p>
-<p>这里格外需要注意的一点就是，是<strong>上午8点0分0秒</strong>，而不是从<strong>0点0分0秒</strong>算起。<br>如果忽略这一个细节，就会很容易犯错误。例如，判断两个时间戳是否是同一天。</p>
-<p>如果两个时间戳所代表的时间距离1970年1月1日的天数相同，则表明两者同一天为真，否则为假。但是，考虑到时间戳为0的时间实际上表示的是<strong>1970年1月1日上午8点0分0秒</strong>，那么在进行运算的时候，就必须要补上这8个小时的误差。如下代码所示：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> EIGHT_COMPLEMENT_MILLISECONDS = <span class="number">8</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000L</span>;</div><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> MILLISECONDS_OF_DAY = <span class="number">24</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000L</span>;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSameDay</span><span class="params">(<span class="keyword">long</span> timestamp1,<span class="keyword">long</span> timestamp2)</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> ((timestamp1+EIGHT_COMPLEMENT_MILLISECONDS) / MILLISECONDS_OF_DAY) </div><div class="line">		== ((timestamp2+EIGHT_COMPLEMENT_MILLISECONDS) / MILLISECONDS_OF_DAY);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/java-date/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1008,6 +863,151 @@ path.replaceAll(&quot;\\\\&quot;,File.seperator);
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Sample sample=<span class="keyword">new</span> Sample();</div><div class="line">        sample.setSomething(<span class="string">"some functions"</span>);</div><div class="line">        Parser.parser(sample); <span class="comment">//调用解析器进行解析分析</span></div><div class="line">    &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
 <p>控制台打印结果：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">before……hello world!</div><div class="line">some functions</div><div class="line">after……hello world!</div></pre></td></tr></table></figure></p>
 <p>Spring中运用Annotation控制事务其实是一样的道理，所以Java的反射机制真的是很强大啊</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/timestamp-border-limit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="清风明月多多想毕业">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="清风明月的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/09/10/timestamp-border-limit/" itemprop="url">timestamp时间戳边界处理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T00:00:00+08:00">
+                2015-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在处理时间戳的问题的时候，首先需要了解时间戳是什么，如何计算。那么，<strong><em>时间戳</em></strong>实际上一个long型的数值，代表了距离<strong>1970年1月1日上午8点0分0秒</strong>的全部毫秒数。</p>
+<p>这里格外需要注意的一点就是，是<strong>上午8点0分0秒</strong>，而不是从<strong>0点0分0秒</strong>算起。<br>如果忽略这一个细节，就会很容易犯错误。例如，判断两个时间戳是否是同一天。</p>
+<p>如果两个时间戳所代表的时间距离1970年1月1日的天数相同，则表明两者同一天为真，否则为假。但是，考虑到时间戳为0的时间实际上表示的是<strong>1970年1月1日上午8点0分0秒</strong>，那么在进行运算的时候，就必须要补上这8个小时的误差。如下代码所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> EIGHT_COMPLEMENT_MILLISECONDS = <span class="number">8</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000L</span>;</div><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> MILLISECONDS_OF_DAY = <span class="number">24</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000L</span>;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSameDay</span><span class="params">(<span class="keyword">long</span> timestamp1,<span class="keyword">long</span> timestamp2)</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> ((timestamp1+EIGHT_COMPLEMENT_MILLISECONDS) / MILLISECONDS_OF_DAY) </div><div class="line">		== ((timestamp2+EIGHT_COMPLEMENT_MILLISECONDS) / MILLISECONDS_OF_DAY);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
