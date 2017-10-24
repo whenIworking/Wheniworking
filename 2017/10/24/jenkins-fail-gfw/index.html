@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="今天是1024，程序员的节日，也是十九大胜利闭幕的日子。刚到公司，还没有开始干活，就听到了微信群里讲，Jenkins挂了。自从方舟上线以来，jenkins就成为了整个CI的入口，现在因为重启失败，已经激起民怨了。 打开浏览器，就是Jenkins正在重启的首页，等待10分钟左右也不见好转。查看日子，也是没有任何错误信息。百思不得其解，拷贝jenkins.war到备份服务器，运行war包。仍然是">
+<meta name="description" content="今天是1024，程序员的节日，也是十九大胜利闭幕的日子。刚到公司，还没有开始干活，就听到了微信群里讲，Jenkins挂了。自从方舟上线以来，jenkins就成为了整个CI/CD的入口，现在因为重启失败，已经激起民怨了。 打开浏览器，就是Jenkins正在重启的首页，等待10分钟左右也不见好转。查看log，也是没有任何错误信息。百思不得其解，拷贝jenkins.war到备份服务器，运行war包。">
 <meta name="keywords" content="jenkins">
 <meta property="og:type" content="article">
 <meta property="og:title" content="1024 Jenkins重启Failed">
 <meta property="og:url" content="http://wheniworking.com/2017/10/24/jenkins-fail-gfw/index.html">
 <meta property="og:site_name" content="清风明月的博客">
-<meta property="og:description" content="今天是1024，程序员的节日，也是十九大胜利闭幕的日子。刚到公司，还没有开始干活，就听到了微信群里讲，Jenkins挂了。自从方舟上线以来，jenkins就成为了整个CI的入口，现在因为重启失败，已经激起民怨了。 打开浏览器，就是Jenkins正在重启的首页，等待10分钟左右也不见好转。查看日子，也是没有任何错误信息。百思不得其解，拷贝jenkins.war到备份服务器，运行war包。仍然是">
+<meta property="og:description" content="今天是1024，程序员的节日，也是十九大胜利闭幕的日子。刚到公司，还没有开始干活，就听到了微信群里讲，Jenkins挂了。自从方舟上线以来，jenkins就成为了整个CI/CD的入口，现在因为重启失败，已经激起民怨了。 打开浏览器，就是Jenkins正在重启的首页，等待10分钟左右也不见好转。查看log，也是没有任何错误信息。百思不得其解，拷贝jenkins.war到备份服务器，运行war包。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-24T06:45:13.000Z">
+<meta property="og:updated_time" content="2017-10-24T12:46:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1024 Jenkins重启Failed">
-<meta name="twitter:description" content="今天是1024，程序员的节日，也是十九大胜利闭幕的日子。刚到公司，还没有开始干活，就听到了微信群里讲，Jenkins挂了。自从方舟上线以来，jenkins就成为了整个CI的入口，现在因为重启失败，已经激起民怨了。 打开浏览器，就是Jenkins正在重启的首页，等待10分钟左右也不见好转。查看日子，也是没有任何错误信息。百思不得其解，拷贝jenkins.war到备份服务器，运行war包。仍然是">
+<meta name="twitter:description" content="今天是1024，程序员的节日，也是十九大胜利闭幕的日子。刚到公司，还没有开始干活，就听到了微信群里讲，Jenkins挂了。自从方舟上线以来，jenkins就成为了整个CI/CD的入口，现在因为重启失败，已经激起民怨了。 打开浏览器，就是Jenkins正在重启的首页，等待10分钟左右也不见好转。查看log，也是没有任何错误信息。百思不得其解，拷贝jenkins.war到备份服务器，运行war包。">
 
 
 
@@ -352,8 +352,8 @@
       
 
       
-        <p>今天是1024，程序员的节日，也是十九大胜利闭幕的日子。<br>刚到公司，还没有开始干活，就听到了微信群里讲，Jenkins挂了。<br>自从方舟上线以来，jenkins就成为了整个CI的入口，现在因为重启失败，已经激起民怨了。</p>
-<p>打开浏览器，就是Jenkins正在重启的首页，等待10分钟左右也不见好转。查看日子，也是没有任何错误信息。百思不得其解，拷贝jenkins.war到备份服务器，运行war包。仍然是卡死在jenkins重启的界面，难道今天Jenkins要放假？</p>
+        <p>今天是1024，程序员的节日，也是十九大胜利闭幕的日子。<br>刚到公司，还没有开始干活，就听到了微信群里讲，Jenkins挂了。<br>自从方舟上线以来，jenkins就成为了整个CI/CD的入口，现在因为重启失败，已经激起民怨了。</p>
+<p>打开浏览器，就是Jenkins正在重启的首页，等待10分钟左右也不见好转。查看log，也是没有任何错误信息。百思不得其解，拷贝jenkins.war到备份服务器，运行war包。仍然是卡死在jenkins重启的界面，难道今天Jenkins要放假？</p>
 <p>本着程序员不信玄学的精神，坚持为人民服务的思想，我把war包scp到本地，运行war包，依然是重启的界面。</p>
 <p>多年以后，你如果想问我是怎么解决这个问题的。我可能会说，我关掉了WIFI。</p>
 <p>Jenkins日志出现了，连接update center失败的信息，原来重启后，需要访问 update.jenkins-ci.org 。然而在1024这天，这个网站被墙了。</p>
