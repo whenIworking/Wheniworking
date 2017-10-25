@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="JAVA," />
+  <meta name="keywords" content="docker," />
 
 
 
@@ -79,18 +79,22 @@
 
 
 
-<meta name="description" content="使用Criteria查询 JpaSpecificationExecutor 接口的使用 @Query 和 @NamedQuery 的使用  使用 Criteria 查询Criteria 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。 JPQL ： select u from User u where u.old &amp;gt; 20 123456789101112publ">
-<meta name="keywords" content="JAVA">
+<meta name="description" content="为 Docker Harbor 设置HTTPS, 需要经历如下步骤：  设置域名 开启https 生成证书 配置Harbor的证书 docker daemon信任证书  设置Harbor的域名打开 harbor.cfg 配置 hostname1hostname = test.registry.azure 打开https打开 harbor.cfg 配置 ui_url_protocol1ui_u">
+<meta name="keywords" content="docker">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jpa(2)">
-<meta property="og:url" content="http://wheniworking.com/2015/11/03/jpa-2/index.html">
+<meta property="og:title" content="为Harbor设置Https">
+<meta property="og:url" content="http://wheniworking.com/2017/10/25/harbor-ui-https/index.html">
 <meta property="og:site_name" content="清风明月的博客">
-<meta property="og:description" content="使用Criteria查询 JpaSpecificationExecutor 接口的使用 @Query 和 @NamedQuery 的使用  使用 Criteria 查询Criteria 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。 JPQL ： select u from User u where u.old &amp;gt; 20 123456789101112publ">
+<meta property="og:description" content="为 Docker Harbor 设置HTTPS, 需要经历如下步骤：  设置域名 开启https 生成证书 配置Harbor的证书 docker daemon信任证书  设置Harbor的域名打开 harbor.cfg 配置 hostname1hostname = test.registry.azure 打开https打开 harbor.cfg 配置 ui_url_protocol1ui_u">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-16T10:02:18.000Z">
+<meta property="og:image" content="http://wheniworking.com/2017/10/25/harbor-ui-https/harbor-ui-https/harbor-login-1.png">
+<meta property="og:image" content="http://wheniworking.com/2017/10/25/harbor-ui-https/harbor-ui-https/harbor-login-2.png">
+<meta property="og:image" content="http://wheniworking.com/2017/10/25/harbor-ui-https/harbor-ui-https/harbor-login-3.png">
+<meta property="og:updated_time" content="2017-10-25T15:05:09.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jpa(2)">
-<meta name="twitter:description" content="使用Criteria查询 JpaSpecificationExecutor 接口的使用 @Query 和 @NamedQuery 的使用  使用 Criteria 查询Criteria 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。 JPQL ： select u from User u where u.old &amp;gt; 20 123456789101112publ">
+<meta name="twitter:title" content="为Harbor设置Https">
+<meta name="twitter:description" content="为 Docker Harbor 设置HTTPS, 需要经历如下步骤：  设置域名 开启https 生成证书 配置Harbor的证书 docker daemon信任证书  设置Harbor的域名打开 harbor.cfg 配置 hostname1hostname = test.registry.azure 打开https打开 harbor.cfg 配置 ui_url_protocol1ui_u">
+<meta name="twitter:image" content="http://wheniworking.com/2017/10/25/harbor-ui-https/harbor-ui-https/harbor-login-1.png">
 
 
 
@@ -120,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://wheniworking.com/2015/11/03/jpa-2/"/>
+  <link rel="canonical" href="http://wheniworking.com/2017/10/25/harbor-ui-https/"/>
 
 
 
 
 
-  <title>jpa(2) | 清风明月的博客</title>
+  <title>为Harbor设置Https | 清风明月的博客</title>
   
 
 
@@ -263,7 +267,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/11/03/jpa-2/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/25/harbor-ui-https/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -280,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">jpa(2)</h1>
+          <h1 class="post-title" itemprop="name headline">为Harbor设置Https</h1>
         
 
         <div class="post-meta">
@@ -292,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-03T00:00:00+08:00">
-                2015-11-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-25T22:43:06+08:00">
+                2017-10-25
               </time>
             
 
@@ -315,8 +319,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA</span>
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
                   </a>
                 </span>
 
@@ -352,17 +356,28 @@
       
 
       
-        <ul>
-<li>使用<code>Criteria</code>查询</li>
-<li><code>JpaSpecificationExecutor</code> 接口的使用</li>
-<li><code>@Query</code> 和 <code>@NamedQuery</code> 的使用</li>
+        <p>为 Docker Harbor 设置HTTPS, 需要经历如下步骤：</p>
+<ul>
+<li>设置域名</li>
+<li>开启https</li>
+<li>生成证书</li>
+<li>配置Harbor的证书</li>
+<li>docker daemon信任证书</li>
 </ul>
-<h1 id="使用-Criteria-查询"><a href="#使用-Criteria-查询" class="headerlink" title="使用 Criteria 查询"></a>使用 <code>Criteria</code> 查询</h1><p><code>Criteria</code> 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。</p>
-<pre><code>JPQL ： select u from User u where u.old &gt; 20
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(root);</div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),<span class="number">20</span>);</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    List&lt;User&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<pre><code>JPQL ： select u.old,u.name from User u where u.old &gt; 20
-</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果只查询某几个字段，那么返回的结果就不能是对象而是一个对象数组</span></div><div class="line"><span class="keyword">public</span> List&lt;Object[]&gt; findAll()&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    <span class="comment">//cq.select(root);</span></div><div class="line">    <span class="comment">//cq.select(root.get("old"); 如果只查询一个字段，可以使用select</span></div><div class="line">    cq.multiselect(root.get(<span class="string">"old"</span>),root.get(<span class="string">"name"</span>));<span class="comment">//查询多个字段使用multiselect</span></div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),cb.parameter(Integer.class,<span class="string">"old"</span>));</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    query.setParameter(<span class="string">"old"</span>,<span class="number">20</span>);</div><div class="line">    List&lt;Object[]&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//如果想要查询多个字段，但是又想返回对象那就需要使用construct进行构造</span></div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(cb.construct(User.class,root.get(<span class="string">"old"</span>),root.get(<span class="string">"name)));</span></div><div class="line"><span class="string">    cq.multiselect(root.get("</span>old<span class="string">"),root.get("</span>name<span class="string">"));</span></div><div class="line"><span class="string">    Predicate pre = cb.greaterThan(root.get("</span>old<span class="string">").as(Integer.class),cb.parameter(Integer.class,"</span>old<span class="string">"));</span></div><div class="line"><span class="string">    cq.where(pre);</span></div><div class="line"><span class="string">    </span></div><div class="line"><span class="string">    Query query = entityManager.createQuery(cq);</span></div><div class="line"><span class="string">    query.setParameter("</span>old<span class="string">",20);</span></div><div class="line"><span class="string">    List&lt;User&gt; users = query.getResultList();</span></div><div class="line"><span class="string">    return users;</span></div><div class="line"><span class="string">&#125;</span></div></pre></td></tr></table></figure>
-<p>如果要进行<code>join</code>操作，就需要使用 <code>Root</code> 的 <code>join</code> 操作</p>
+<h2 id="设置Harbor的域名"><a href="#设置Harbor的域名" class="headerlink" title="设置Harbor的域名"></a>设置Harbor的域名</h2><p>打开 harbor.cfg 配置 hostname<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hostname = test.registry.azure</div></pre></td></tr></table></figure></p>
+<h2 id="打开https"><a href="#打开https" class="headerlink" title="打开https"></a>打开https</h2><p>打开 harbor.cfg 配置 ui_url_protocol<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ui_url_protocol = https</div></pre></td></tr></table></figure></p>
+<h2 id="生成证书"><a href="#生成证书" class="headerlink" title="生成证书"></a>生成证书</h2><h3 id="创建自签的CA"><a href="#创建自签的CA" class="headerlink" title="创建自签的CA"></a>创建自签的CA</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl req  -newkey rsa:4096 -nodes -sha256 -keyout ca.key  -x509 -days 365 -out ca.crt</div></pre></td></tr></table></figure>
+<h3 id="生成签名"><a href="#生成签名" class="headerlink" title="生成签名"></a>生成签名</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl req  -newkey rsa:4096 -nodes -sha256 -keyout registry.azure.key  -out registry.azure.csr</div></pre></td></tr></table></figure>
+<p><br>ps： 如果使用域名访问registry，这里是test.registry.azure， 那么签名的CN(Common Name) 必须是test.registry.azure。如果使用IP地址，那么CN可以任意选择。</p>
+<h3 id="生成证书-1"><a href="#生成证书-1" class="headerlink" title="生成证书"></a>生成证书</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl x509 -req -days 365 -in registry.azure.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out registry.azure.crt</div></pre></td></tr></table></figure>
+<p>如果使用的是IP地址，可以执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">echo</span> subjectAltName = IP:192.168.1.101 &gt; extfile.cnf</div><div class="line"></div><div class="line">  openssl x509 -req -days 365 -<span class="keyword">in</span> registry.azure.csr -CA ca.crt -CAkey ca.key -CAcreateserial -extfile extfile.cnf -out registry.azure</div><div class="line">.crt</div></pre></td></tr></table></figure>
+<h2 id="配置Harbor证书"><a href="#配置Harbor证书" class="headerlink" title="配置Harbor证书"></a>配置Harbor证书</h2><p>打开harbor.cfg<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ssl_cert = /home/psd/ca/registry.azure.crt</div><div class="line">ssl_cert_key = /home/psd/ca/registry.azure.key</div></pre></td></tr></table></figure></p>
+<h2 id="Docker-daemon信任证书"><a href="#Docker-daemon信任证书" class="headerlink" title="Docker daemon信任证书"></a>Docker daemon信任证书</h2><p>保证Docker daemon没有开启 <code>-insecure-registry</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir /etc/docker/certs.d/test.registry.azure</div><div class="line">cp /home/psd/ca/ca.crt /etc/docker/certs.d/test.registry.azure</div></pre></td></tr></table></figure></p>
+<p>重启docker。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">docker login test.registry.azure</div><div class="line">Username: admin</div><div class="line">Password:</div><div class="line">Login Success</div></pre></td></tr></table></figure>
+<p>完成。</p>
+<p>问题： harbor部署在内网，如果外网想要访问就需要通过堡垒机的nginx代理转发，nginx没有配置https导致不能登录harbor。<br><img src="harbor-ui-https/harbor-login-1.png" alt=""><br><img src="harbor-ui-https/harbor-login-2.png" alt=""><br>如图所示，login返回状态码200，带有cookie，但是获取当前用户时，并没有把该cookie带上。<br>login登录返回的cookie中，带有secure属性，强制要求使用https，否则就会失效。<br>配置nginx使用https后登录成功。<br><img src="harbor-ui-https/harbor-login-3.png" alt=""></p>
 
       
     </div>
@@ -380,7 +395,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+            <a href="/tags/docker/" rel="tag"># docker</a>
           
         </div>
       
@@ -393,8 +408,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/10/30/滕王阁序/" rel="next" title="滕王阁序">
-                <i class="fa fa-chevron-left"></i> 滕王阁序
+              <a href="/2017/10/25/docker-run-common/" rel="next" title="docker run命令">
+                <i class="fa fa-chevron-left"></i> docker run命令
               </a>
             
           </div>
@@ -402,10 +417,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/11/10/jpa-3/" rel="prev" title="jpa(3)">
-                jpa(3) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -537,7 +548,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用-Criteria-查询"><span class="nav-number">1.</span> <span class="nav-text">使用 Criteria 查询</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#设置Harbor的域名"><span class="nav-number">1.</span> <span class="nav-text">设置Harbor的域名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打开https"><span class="nav-number">2.</span> <span class="nav-text">打开https</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成证书"><span class="nav-number">3.</span> <span class="nav-text">生成证书</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建自签的CA"><span class="nav-number">3.1.</span> <span class="nav-text">创建自签的CA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成签名"><span class="nav-number">3.2.</span> <span class="nav-text">生成签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成证书-1"><span class="nav-number">3.3.</span> <span class="nav-text">生成证书</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Harbor证书"><span class="nav-number">4.</span> <span class="nav-text">配置Harbor证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-daemon信任证书"><span class="nav-number">5.</span> <span class="nav-text">Docker daemon信任证书</span></a></li></ol></div>
             
 
           </div>
