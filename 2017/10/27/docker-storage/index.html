@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="Docker为了节约存储空间及共享数据，会对镜像和容器分层。不同的镜像可以共享相同的数据。Docker为了加快容器的启动速度，在启动容器时，会在镜像上为容器分配一个可写数据层。在容器运行中，新增，修改和删除的数据都保存在这个容器层中。 镜像，容器和存储驱动的关系镜像和镜像层每个镜像都由多个镜像层组成。这些镜像层都是只读的。从下往上，以栈的方式组合在一起，组成容器的根文件系统。Docker的存储">
+<meta name="description" content="Docker为了节约存储空间及共享数据，会对镜像和容器分层。不同的镜像可以共享相同的数据。Docker为了加快容器的启动速度，在启动容器时，会在镜像上为容器分配一个可写数据层。在容器运行中，新增，修改和删除的数据都保存在这个容器层中。 镜像和镜像层每个镜像都由多个镜像层组成。这些镜像层都是只读的。从下往上，以栈的方式组合在一起，组成容器的根文件系统。Docker的存储驱动用于管理这些镜像层">
 <meta name="keywords" content="docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker的存储结构">
 <meta property="og:url" content="http://wheniworking.com/2017/10/27/docker-storage/index.html">
 <meta property="og:site_name" content="清风明月的博客">
-<meta property="og:description" content="Docker为了节约存储空间及共享数据，会对镜像和容器分层。不同的镜像可以共享相同的数据。Docker为了加快容器的启动速度，在启动容器时，会在镜像上为容器分配一个可写数据层。在容器运行中，新增，修改和删除的数据都保存在这个容器层中。 镜像，容器和存储驱动的关系镜像和镜像层每个镜像都由多个镜像层组成。这些镜像层都是只读的。从下往上，以栈的方式组合在一起，组成容器的根文件系统。Docker的存储">
+<meta property="og:description" content="Docker为了节约存储空间及共享数据，会对镜像和容器分层。不同的镜像可以共享相同的数据。Docker为了加快容器的启动速度，在启动容器时，会在镜像上为容器分配一个可写数据层。在容器运行中，新增，修改和删除的数据都保存在这个容器层中。 镜像和镜像层每个镜像都由多个镜像层组成。这些镜像层都是只读的。从下往上，以栈的方式组合在一起，组成容器的根文件系统。Docker的存储驱动用于管理这些镜像层">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://wheniworking.com/2017/10/27/docker-storage/image_layer.png">
-<meta property="og:updated_time" content="2017-10-29T00:19:34.000Z">
+<meta property="og:updated_time" content="2017-10-30T00:31:36.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker的存储结构">
-<meta name="twitter:description" content="Docker为了节约存储空间及共享数据，会对镜像和容器分层。不同的镜像可以共享相同的数据。Docker为了加快容器的启动速度，在启动容器时，会在镜像上为容器分配一个可写数据层。在容器运行中，新增，修改和删除的数据都保存在这个容器层中。 镜像，容器和存储驱动的关系镜像和镜像层每个镜像都由多个镜像层组成。这些镜像层都是只读的。从下往上，以栈的方式组合在一起，组成容器的根文件系统。Docker的存储">
+<meta name="twitter:description" content="Docker为了节约存储空间及共享数据，会对镜像和容器分层。不同的镜像可以共享相同的数据。Docker为了加快容器的启动速度，在启动容器时，会在镜像上为容器分配一个可写数据层。在容器运行中，新增，修改和删除的数据都保存在这个容器层中。 镜像和镜像层每个镜像都由多个镜像层组成。这些镜像层都是只读的。从下往上，以栈的方式组合在一起，组成容器的根文件系统。Docker的存储驱动用于管理这些镜像层">
 <meta name="twitter:image" content="http://wheniworking.com/2017/10/27/docker-storage/image_layer.png">
 
 
@@ -355,12 +355,15 @@
 
       
         <p>Docker为了节约存储空间及共享数据，会对镜像和容器分层。不同的镜像可以共享相同的数据。Docker为了加快容器的启动速度，在启动容器时，会在镜像上为容器分配一个可写数据层。在容器运行中，新增，修改和删除的数据都保存在这个容器层中。</p>
-<h2 id="镜像，容器和存储驱动的关系"><a href="#镜像，容器和存储驱动的关系" class="headerlink" title="镜像，容器和存储驱动的关系"></a>镜像，容器和存储驱动的关系</h2><h3 id="镜像和镜像层"><a href="#镜像和镜像层" class="headerlink" title="镜像和镜像层"></a>镜像和镜像层</h3><p>每个镜像都由多个镜像层组成。这些镜像层都是只读的。从下往上，以栈的方式组合在一起，组成容器的根文件系统。Docker的存储驱动用于管理这些镜像层    ，对外提供一个单一的文件系统。</p>
+<h3 id="镜像和镜像层"><a href="#镜像和镜像层" class="headerlink" title="镜像和镜像层"></a>镜像和镜像层</h3><p>每个镜像都由多个镜像层组成。这些镜像层都是只读的。从下往上，以栈的方式组合在一起，组成容器的根文件系统。Docker的存储驱动用于管理这些镜像层    ，对外提供一个单一的文件系统。</p>
 <p>镜像中的层都是只读的。镜像启动容器后，在容器中需要有可读写的区域，用于存储容器运行时的数据。当启动容器时，Docker会新建一个可读写的容器层，把这个容器层添加到镜像层上。这个容器层是thin类型的层，采用预分配存储空间的方式。在开始时并不分配存储空间，当需要新建文件或修改文件时，才从容器池中分配一部分存储空间。容器运行时，所有文件变化的数据都保存在容器层中。</p>
 <p><img src="/2017/10/27/docker-storage/image_layer.png" alt=""></p>
-<p>如图所示，容器和镜像都由多个层组成，最大的区别在于容器的最上面一层是读写层，叫做容器层。而镜像的所有层都是只读层，叫做镜像层。容器启动后，Docker daemon会在容器使用的镜像上添加一个容器层。容器运行时，所有与数据变化相关的操作都是在这个容器层上完成的。删除容器时，Docker daemon会删除这个容器层。每个容器运行时都有自己的容器层，并在容器层中保留容器运行时的相关的数据。容器层之下的所有镜像层都是只读的，因此多个容器可以共享同一个镜像层。</p>
+<p>如图所示，容器和镜像都由多个层组成，最大的区别在于容器的最上面一层是读写层，叫做容器层。而镜像的所有层都是只读层，叫做镜像层。容器启动后，Docker daemon会在容器使用的镜像上添加一个容器层。容器运行时，所有与数据变化相关的操作都是在这个容器层上完成的。删除容器时，Docker daemon会删除这个容器层。每个容器运行时都有自己的容器层，并在容器层中保留容器运行时的相关的数据。容器层之下的所有镜像层都是只读的，因此多个容器可以共享同一个镜像层。<br>Docker中的存储驱动用于管理镜像层和容器层。不同的存储驱动使用不同的算法和管理方式。在容器和镜像管理中，使用的两大技术是栈式层管理和写时复制。</p>
 <h2 id="写时复制侧略"><a href="#写时复制侧略" class="headerlink" title="写时复制侧略"></a>写时复制侧略</h2><p>写时复制侧略，针对相同的数据，系统只保留一份数据，所有操作都访问一份数据。当有操作需要修改或添加数据时，操作系统会把这部分数据复制到新的地方，这个操作会在新的数据区修改或添加数据。</p>
-<h2 id="使用共享技术减小镜像体积"><a href="#使用共享技术减小镜像体积" class="headerlink" title="使用共享技术减小镜像体积"></a>使用共享技术减小镜像体积</h2>
+<h2 id="使用共享技术减小镜像体积"><a href="#使用共享技术减小镜像体积" class="headerlink" title="使用共享技术减小镜像体积"></a>使用共享技术减小镜像体积</h2><p>在Docker中可以共享镜像层。下载镜像时,Docker daemon会检查镜像中的镜像层，与宿主机的文件系统中的镜像层进行比较。如果发现这些镜像层已经存在，Docker daemon将会忽略这些镜像层，只下载不存在的镜像层。通过这种方式Docker会节约大量的存储空间。</p>
+<h2 id="加快启动"><a href="#加快启动" class="headerlink" title="加快启动"></a>加快启动</h2><p>在容器中，所有的写操作都发生在容器层中，其下的镜像层都是只读模式，不能修改其中的数据。通过这种方式，多个容器可以共享底部的镜像层。<br>这种特性，在启动多个Docker容器的时候也可以用来加快Docker的启动。Docker daemon只需要为每个容器创建一个可写的数据层，而不用复制所有的镜像层。如果每次新建容器时，Docker daemon都需要复制镜像中的所有层，容器启动将会非常慢。</p>
+<p>Ps：不同的容器占用的存储空间是不同的。如果在容器中有很多文件修改或者创建的操作，会占用更多的存储空间。每次修改文件都会在容器层中分配新的存储空间。如果在容器中，需要大量的写操作，最好使用挂载卷，把这些数据写在挂载卷中。</p>
+
       
     </div>
     
@@ -399,6 +402,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/30/docker-daemon/" rel="prev" title="docker-daemon">
+                docker-daemon <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -473,7 +480,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -530,7 +537,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像，容器和存储驱动的关系"><span class="nav-number">1.</span> <span class="nav-text">镜像，容器和存储驱动的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#镜像和镜像层"><span class="nav-number">1.1.</span> <span class="nav-text">镜像和镜像层</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写时复制侧略"><span class="nav-number">2.</span> <span class="nav-text">写时复制侧略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用共享技术减小镜像体积"><span class="nav-number">3.</span> <span class="nav-text">使用共享技术减小镜像体积</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#镜像和镜像层"><span class="nav-number">1.</span> <span class="nav-text">镜像和镜像层</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写时复制侧略"><span class="nav-number"></span> <span class="nav-text">写时复制侧略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用共享技术减小镜像体积"><span class="nav-number"></span> <span class="nav-text">使用共享技术减小镜像体积</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加快启动"><span class="nav-number"></span> <span class="nav-text">加快启动</span></a></div>
             
 
           </div>
