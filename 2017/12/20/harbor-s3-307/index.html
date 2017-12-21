@@ -88,8 +88,8 @@
 <meta property="og:description" content="问题分析最近公司的Harbor仓库使用Amazon S3。docker在push和pull镜像会出现失败的情况，主要原因是公司内网某些网段无法访问acc.gz.cvte.cn。 1error pulling image configuration: Get http://acc.gz.cvte.cn/Vault_For_Test/harbor/prefix/docker/registry/v2/b">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://wheniworking.com/2017/12/20/harbor-s3-307/harbor-nginx-log.png">
-<meta property="og:image" content="http://wheniworking.com/2017/12/20/harbor-s3-307/(harbor-s3-307/harbor-s3-307-solution.png">
-<meta property="og:updated_time" content="2017-12-21T04:21:48.000Z">
+<meta property="og:image" content="http://wheniworking.com/2017/12/20/harbor-s3-307/harbor-s3-307-solution.png">
+<meta property="og:updated_time" content="2017-12-21T05:04:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Harbor定制nginx">
 <meta name="twitter:description" content="问题分析最近公司的Harbor仓库使用Amazon S3。docker在push和pull镜像会出现失败的情况，主要原因是公司内网某些网段无法访问acc.gz.cvte.cn。 1error pulling image configuration: Get http://acc.gz.cvte.cn/Vault_For_Test/harbor/prefix/docker/registry/v2/b">
@@ -361,7 +361,7 @@
 <p>通过错误信息，可以判断docker在push或者pull的时候，发生了重定向的操作。重定向的Location就是报错信息中的<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http://acc.gz.cvte.cn/Vault_For_Test/harbor/prefix/docker/registry/v2/blobs/sha256/c5/c59f17fe53b08db7dae3f597e863281517faf09739f1f6b35965cd6931de</div><div class="line">88b3/data?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=bv2enbwmVLqusc1teSvh%2F20171218%2Fus-west-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20171218T032155Z&amp;X-Amz-Expires=1200&amp;X-Amz-SignedHeaders</div><div class="line">=host&amp;X-Amz-Signature=3fc5d5bdb223efeedc6da18f90b4f300fd1bec06dedcf947a88621fd8d5aae7a</div></pre></td></tr></table></figure></p>
 <p>查看nginx的日志信息，发现在访问Registry的V2接口的时候，有返回307的响应。<br><img src="/2017/12/20/harbor-s3-307/harbor-nginx-log.png" alt=""></p>
 <p>那么，在Harbor的nginx这里做一些手脚，当返回的响应是307的时候，修改Location字段，将acc.gz.cvte.cn替换为其他可以被DNS解析的域名，将该域名代理到acc.gz.cvte.cn。</p>
-<p><img src="/2017/12/20/harbor-s3-307/(harbor-s3-307/harbor-s3-307-solution.png" alt=""></p>
+<p><img src="/2017/12/20/harbor-s3-307/harbor-s3-307-solution.png" alt=""></p>
 <h2 id="定制Nginx"><a href="#定制Nginx" class="headerlink" title="定制Nginx"></a>定制Nginx</h2><p>因为需要修改HTTP响应，Harbor自带的Nginx是不行的，需要使用openresty。</p>
 <p>首先，修改docker-compose.yml 文件。<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attr">proxy:</span></div><div class="line"><span class="attr">    image:</span> <span class="string">openresty/openresty:alpine</span></div><div class="line"><span class="attr">    container_name:</span> <span class="string">nginx</span></div><div class="line"><span class="attr">    restart:</span> <span class="string">always</span></div><div class="line"><span class="attr">    volumes:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">./common/config/nginx:/usr/local/openresty/nginx/conf:z</span></div><div class="line">      <span class="comment">#- ./common/config/nginx:/etc/nginx:z</span></div></pre></td></tr></table></figure></p>
 <p>其次，修改common/templates/nginx/nginx.https.conf。将acc.gz.cvte.cn 替换为其他可在内网解析域名，例如 acc-test.gz.cvte.cn。</p>
