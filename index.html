@@ -304,6 +304,28 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -440,6 +462,161 @@
 <p>  如果不需要添加 tar 文件，推荐使用COPY。</p>
 </li>
 </ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/30/harbor-s3-307/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="清风明月多多想毕业">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="清风明月的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/30/harbor-s3-307/" itemprop="url">Harbor定制nginx</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-30T10:15:10+08:00">
+                2017-10-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>最近公司的Harbor仓库使用Amazon S3。docker在push和pull镜像会出现失败的情况，主要原因是公司内网某些网段无法访问acc.gz.cvte.cn。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error pulling image configuration: Get http://acc.gz.cvte.cn/Vault_For_Test/harbor/prefix/docker/registry/v2/blobs/sha256/c5/c59f17fe53b08db7dae3f597e863281517faf09739f1f6b35965cd6931de 88b3/data?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=bv2enbwmVLqusc1teSvh%2F20171218%2Fus-west-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20171218T032155Z&amp;X-Amz-Expires=1200&amp;X-Amz-SignedHeaders =host&amp;X-Amz-Signature=3fc5d5bdb223efeedc6da18f90b4f300fd1bec06dedcf947a88621fd8d5aae7a: dial tcp: lookup ac.gz.cvte.cn on 172.17.82.12:53: no such host</div></pre></td></tr></table></figure>
+<p>本来该问题的解决方法比较简单，在内网找一个能够访问acc.gz.cvte.cn的网关，通过Nginx代理，在不能访问的网段配置Hosts文件即可即可。然而考虑到用户的使用习惯，还是决定解决一下。</p>
+<p>通过错误信息，可以判断docker在push或者pull的时候，发生了重定向的操作。重定向的Location就是报错信息中的<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http://acc.gz.cvte.cn/Vault_For_Test/harbor/prefix/docker/registry/v2/blobs/sha256/c5/c59f17fe53b08db7dae3f597e863281517faf09739f1f6b35965cd6931de</div><div class="line">88b3/data?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=bv2enbwmVLqusc1teSvh%2F20171218%2Fus-west-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20171218T032155Z&amp;X-Amz-Expires=1200&amp;X-Amz-SignedHeaders</div><div class="line">=host&amp;X-Amz-Signature=3fc5d5bdb223efeedc6da18f90b4f300fd1bec06dedcf947a88621fd8d5aae7a</div></pre></td></tr></table></figure></p>
+<p>查看nginx的日志信息，发现在访问Registry的V2接口的时候，有返回307的响应。<br><img src="/2017/10/30/harbor-s3-307/harbor-nginx-log.png" alt=""></p>
+<p>那么，在Harbor的nginx这里做一些手脚，当返回的响应是307的时候，修改Location字段，将acc.gz.cvte.cn替换为其他可以被DNS解析的域名，将该域名代理到acc.gz.cvte.cn。</p>
+<p><img src="/2017/10/30/harbor-s3-307/(harbor-s3-307/harbor-s3-307-solution.png" alt=""></p>
+<h2 id="定制Nginx"><a href="#定制Nginx" class="headerlink" title="定制Nginx"></a>定制Nginx</h2><p>因为需要修改HTTP响应，Harbor自带的Nginx是不行的，需要使用openresty。</p>
+<p>首先，修改docker-compose.yml 文件。<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attr">proxy:</span></div><div class="line"><span class="attr">    image:</span> <span class="string">openresty/openresty:alpine</span></div><div class="line"><span class="attr">    container_name:</span> <span class="string">nginx</span></div><div class="line"><span class="attr">    restart:</span> <span class="string">always</span></div><div class="line"><span class="attr">    volumes:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">./common/config/nginx:/usr/local/openresty/nginx/conf:z</span></div><div class="line">      <span class="comment">#- ./common/config/nginx:/etc/nginx:z</span></div></pre></td></tr></table></figure></p>
+<p>其次，修改common/templates/nginx/nginx.https.conf。将acc.gz.cvte.cn 替换为其他可在内网解析域名，例如 acc-test.gz.cvte.cn。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">location</span> /v2/ &#123;</div><div class="line">      <span class="attribute">proxy_pass</span> http://ui/registryproxy/v2/;</div><div class="line">      <span class="attribute">proxy_set_header</span> Host $<span class="variable">$http_host</span>;</div><div class="line">      <span class="attribute">proxy_set_header</span> X-Real-IP $<span class="variable">$remote_addr</span>;</div><div class="line">      <span class="attribute">proxy_set_header</span> X-Forwarded-For $<span class="variable">$proxy_add_x_forwarded_for</span>;</div><div class="line"></div><div class="line">      <span class="comment"># When setting up Harbor behind other proxy, such as an Nginx instance, remove the below line if the proxy already has similar settings.</span></div><div class="line">      <span class="attribute">proxy_set_header</span> X-Forwarded-Proto $<span class="variable">$scheme</span>;</div><div class="line">      <span class="attribute">proxy_buffering</span> <span class="literal">off</span>;</div><div class="line">      <span class="attribute">proxy_request_buffering</span> <span class="literal">off</span>;</div><div class="line">      <span class="attribute">header_filter_by_lua</span> <span class="string">'</span></div><div class="line"><span class="string">          if 307 == ngx.status then</span></div><div class="line"><span class="string">              location = ngx.header.Location</span></div><div class="line"><span class="string">              ngx.header.Location = string.gsub(location,"acc.gz.cvte.cn","acc-test.gz.cvte.cn")</span></div><div class="line"><span class="string">          end</span></div><div class="line"><span class="string">      '</span>;</div><div class="line"></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>接下来，不要忘了修改https的证书位置。Harbor默认将nginx的证书挂载到/etc/nginx/cert/。但是没有提供修改的方式，可以执行完./install 或者 ./prepare 之后，人工修改证书挂载到openresty中的位置 。修改./common/config/nginx/nginx.conf 。<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">ssl_certificate</span> /usr/local/openresty/nginx/conf/cert/gz.cvte.cn.crt;</div><div class="line"><span class="attribute">ssl_certificate_key</span> /usr/local/openresty/nginx/conf/cert/gz.cvte.cn.key;</div></pre></td></tr></table></figure></p>
+<p>最后，重启harbor 。此时不要再执行./install 或 ./prepare<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker-compose down </div><div class="line">docker-compose up -d</div></pre></td></tr></table></figure></p>
+<h2 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h2><p> 其中，需要注意设置正确的Host  proxy_set_header Host acc.gz.cvte.cn;<br> <figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"> <span class="section">server</span> &#123;</div><div class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</div><div class="line">    <span class="attribute">server_name</span>  acc-test.gz.cvte.cn;</div><div class="line"></div><div class="line">    <span class="comment">#charset koi8-r;</span></div><div class="line">    <span class="attribute">access_log</span>  /usr/local/nginx/log/acc-test.gz.cvte.cn.log  main;</div><div class="line"></div><div class="line">    <span class="attribute">location</span>  / &#123;</div><div class="line">        <span class="attribute">proxy_pass</span> http://acc.gz.cvte.cn/;</div><div class="line">        <span class="attribute">proxy_redirect</span>     <span class="literal">off</span>;</div><div class="line">        <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span>   Connection <span class="string">""</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span>   Cookie <span class="variable">$http_cookie</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span>   Host acc.gz.cvte.cn;</div><div class="line">        <span class="attribute">proxy_set_header</span>   X-Real-IP <span class="variable">$remote_addr</span>;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
           
         
@@ -1749,155 +1926,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/17/k8s-service/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="清风明月多多想毕业">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="清风明月的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/17/k8s-service/" itemprop="url">K8s中的Service</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-17T23:20:11+08:00">
-                2017-10-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/服务器/" itemprop="url" rel="index">
-                    <span itemprop="name">服务器</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Service是Kubernetes的核心概念，通过创建Service，可以统一为一组具有相同功能的容器提供一个统一的入口地址，并且将请求负载分发到后端的各个容器应用上。</p>
-<p>Pod, Rc 和 Service之间的关系如图：<br><img src="/2017/10/17/k8s-service/k8s-service-overview.jpg" alt=""></p>
-<p>K8s的Service定义了一个服务的访问入口地址，前端应用通过这个入口地址访问其背后的一组由Pod副本组成的集群实例，Service与其后端Pod副本集群直接则是通过 Label Selector 类实现无缝对接的。而 RC 的作用实际上是保证Service的服务能力和服务质量始终处于预期的标准。</p>
-<p>在K8s中每个Pod都会被分配一个单独的IP地址，而且每个Pod都提供了一个独立的Endpoint(PodId + ContainerPort) 以被客户端访问，但是多个Pod副本组成一个集群类提供服务，那么就需要部署负载均衡，为这组Pod开启一个对外服务的端口，将这些Pod的Endpoint列表加入对外服务端口的转发列表。客户端就可以通过负载均衡服务器的IP地址+服务端口访问该服务，至于客户端的请求到达哪一个Pod，则由负载均衡算法决定。</p>
-<p>K8s中的Kube-proxy就是这样一个负载均衡，它负责吧Service的请求转发到后端的Pod上。比较鸡贼的是，K8s为每个Service分配了一个全局唯一的虚拟IP地址，这个虚拟IP地址就是Cluster IP。如此一来，每个服务都有一个唯一的IP地址。</p>
-<p>在Pod的在创建和销毁的过程中，IP地址会发生变化。但是Service一旦被创建就会被分配一个Cluster IP，并且在Service的整个生命周期，它的Cluster IP不会发生变化。那么只需要在Service的Name和Cluster Ip之间左一层DNS解析，就可以轻松的解决服务发现的问题。</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></div><div class="line"><span class="attr">kind:</span> <span class="string">Service</span></div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> <span class="string">mysql</span></div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  ports:</span></div><div class="line"><span class="attr">    - port:</span> <span class="number">3306</span></div><div class="line"><span class="attr">  selector:</span></div><div class="line"><span class="attr">    app:</span> <span class="string">mysql</span></div></pre></td></tr></table></figure>
-<p><img src="/2017/10/17/k8s-service/k8s-service-example.png" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1948,7 +1976,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
