@@ -262,6 +262,217 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/21/nat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="清风明月多多想毕业">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="清风明月的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/10/21/nat/" itemprop="url">nat网络地址转换</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-21T10:14:41+08:00">
+                2017-10-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/network/" itemprop="url" rel="index">
+                    <span itemprop="name">network</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>From <a href="https://zh.wikipedia.org/wiki/%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2" target="_blank" rel="external">Wiki</a></p>
+<p>在计算机网络中，网络地址转换（Network Address Translation，缩写为NAT），也叫做网络掩蔽或者IP掩蔽（IP masquerading），是一种在IP数据包通过路由器或防火墙时重写来源IP地址或目的IP地址的技术。这种技术普遍使用在有多台主机但只通过一个公有IP地址访问因特网的私有网络中。根据规范，路由器是不能这样工作，但它的确是一个方便且得到了广泛应用的技术。当然，NAT也让主机之间的通信变得复杂，导致降低了通信效率。</p>
+<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>1990年代中期，NAT是作为一种解决IPv4地址短缺以避免保留IP地址困难的方案而流行起来的。网络地址转换在很多国家都有很广泛的使用。所以NAT就成了家庭和小型办公室网络连接上的路由器的一个标准特征，因为对他们来说，申请独立的IP地址的代价要高于所带来的效益。<br>在一个典型的配置中，一个本地网络使用一个专有网络的指定子网（比如192.168.x.x或10.x.x.x）和连在这个网络上的一个路由器。这个路由器占有这个网络地址空间的一个专有地址（比如192.168.0.1），同时它还通过一个或多个因特网服务提供商提供的公有的IP地址（叫做“过载”NAT）连接到因特网上。当信息由本地网络向因特网传递时，源地址被立即从专有地址转换为公用地址。由路由器跟踪每个连接上的基本数据，主要是目的地址和端口。当有回复返回路由器时，它通过输出阶段记录的连接跟踪数据来决定该转发给内部网的哪个主机；如果有多个公用地址可用，当数据包返回时，TCP或UDP客户机的端口号可以用来分解数据包。对于因特网上的一个系统，路由器本身充当通信的源和目的地址。<br>流行在网络上的一种看法认为，IPv6的广泛采用将使得NAT不再需要，因为NAT只是一个处理IPv4的地址空间不足的方法。</p>
+<p><img src="/2017/10/21/nat/nat-1.svg.png" alt=""><br>无NAT网络，假设每个接入子网都需要一组/24的IP，而且还能对外连接，对外的路由至少要保留或申请1000个对外IP</p>
+<p><img src="/2017/10/21/nat/677px-Nat2.svg.png" alt=""><br>带NAT网络，通过NAT转换，接入子网可以使用私用IP，对外连接时由路由绑定私用IP与对外IP的关系，修改传输的IP包上的地址，从而只需要255个对外IP就能满足内部接入子网的对外连接需求</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>在一个具有NAT功能的路由器下的主机并没有创建真正的IP地址，并且不能参与一些因特网协议。一些需要初始化从外部网络创建的TCP连接和无状态协议（比如UDP）无法实现。除非NAT路由器管理者预先设置了规则，否则送来的数据包将不能到达正确的目的地址。一些协议有时可以在应用层网关（见下）的辅助下，在参与NAT的主机之间容纳一个NAT的实例，比如FTP。NAT也会使安全协议变的复杂，比如IPsec。<br>端对端连接是被IAB委员会（Internet Architecture Board）支持的核心因特网协议之一，因此有些人据此认为NAT是对公用因特网的一个破坏。一些因特网服务提供商只向他们的客户提供本地IP地址，所以他们必须通过NAT来访问ISP网络以外的服务，并且这些公司能不能算的上真正的提供了因特网服务的话题也被谈起。<br>NAT除了带来方便和代价之外，对全双工连接支持的缺少在一些情况下可以看作是一个有好处的特征而不是一个限制。在一定程度上，NAT依赖于本地网络上的一台机器来初始化和路由器另一边的主机的任何连接，它可以阻止外部网络上的主机的恶意活动。这样就可以阻止网络蠕虫病毒来提高本地系统的可靠性，阻挡恶意浏览来提高本地系统的私密性。很多具有NAT功能的防火墙都是使用这种功能来提供核心保护的。另外，它也为UDP的跨局域网的传输提供了方便。</p>
+<h2 id="基本NAT和端口号转换"><a href="#基本NAT和端口号转换" class="headerlink" title="基本NAT和端口号转换"></a>基本NAT和端口号转换</h2><h3 id="基本网络地址转换（Basic-NAT）"><a href="#基本网络地址转换（Basic-NAT）" class="headerlink" title="基本网络地址转换（Basic NAT）"></a>基本网络地址转换（Basic NAT）</h3><p>这一种也可称作NAT或“静态NAT”。它在技术上比较简单一点，仅支持地址转换，不支持端口映射。Basic NAT要求对每一个当前连接都要对应一个公网IP地址，因此要维护一个公网的地址池。宽带（broadband）路由器通常使用这种方式来允许一台指定的设备去管理所有的外部链接，甚至当路由器本身只有一个可用外部IP时也如此，这台路由器有时也被标记为DMZ主机。<br>基本NAT要维护一个无端口号NAT表，结构如下。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内网IP</th>
+<th style="text-align:center">外网IP </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">192.168.1.55</td>
+<td style="text-align:center">219.152.168.222</td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.1.59</td>
+<td style="text-align:center">219.152.168.223</td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.1.155</td>
+<td style="text-align:center">219.152.168.224</td>
+</tr>
+</tbody>
+</table>
+<h3 id="网络地址端口转换（NAPT）"><a href="#网络地址端口转换（NAPT）" class="headerlink" title="网络地址端口转换（NAPT）"></a>网络地址端口转换（NAPT）</h3><p>这种方式支持端口的映射，并允许多台主机共享一个公网IP地址。<br>支持端口转换的NAT又可以分为两类：源地址转换和目的地址转换。前一种情形下发起连接的计算机的IP地址将会被重写，使得内网主机发出的数据包能够到达外网主机。后一种情况下被连接计算机的IP地址将被重写，使得外网主机发出的数据包能够到达内网主机。实际上，以上两种方式通常会一起被使用以支持双向通信。<br>NAPT维护一个带有IP以及端口号的NAT表，结构如下。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内网IP</th>
+<th style="text-align:center">外网IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">192.168.1.55:5566</td>
+<td style="text-align:center">219.152.168.222:9200</td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.1.59:80</td>
+<td style="text-align:center">219.152.168.222:9201</td>
+</tr>
+<tr>
+<td style="text-align:center">192.168.1.59:4465</td>
+<td style="text-align:center">219.152.168.222:9202</td>
+</tr>
+</tbody>
+</table>
+<h2 id="受到NAT影响的应用程序"><a href="#受到NAT影响的应用程序" class="headerlink" title="受到NAT影响的应用程序"></a>受到NAT影响的应用程序</h2><p>一些高层协议（比如FTP，Quake，SIP）在IP包的有效数据内发送网络层（第三层）信息。比如，主动模式的FTP使用单独的端口分别来控制命令传输和数据传输。当请求一个文件传输时，主机在发送请求的同时也通知对方自己想要在哪个端口接受数据。但是，如果主机是在一个简单的NAT防火墙后发送的请求，那么由于端口的映射，将会使对方接收到的信息无效。<br>一个应用层网关（Application Layer Gateway，ALG）可以修正这个问题。运行在NAT防火墙设备上的ALG软件模块可以更新任何由地址转换而导致无效的信息。显然，ALG需要明白它所要修正的上层协议，所以每个有这种问题的协议都需要有一个单独的ALG。<br>但是，除FTP外的大多数传统的客户机－服务器协议不需要发送网络层（第三层）信息，也就不需要ALG。<br>这个问题的另一个可能的解决方法是使用像STUN这样的技术，但是这只针对创建在UDP上的高层协议，并且需要它内建这种技术。这种技术对于对称NAT也是无效的。还有一种可能的方案是UPnP，但它需要和NAT设备配合起来使用</p>
+<h2 id="NAT其他用途实例"><a href="#NAT其他用途实例" class="headerlink" title="NAT其他用途实例"></a>NAT其他用途实例</h2><ul>
+<li>负载均衡：目的地址转换NAT可以重定向一些服务器的连接到其他随机选定的服务器。</li>
+<li>失效终结：目的地址转换NAT可以用来提供高可靠性的服务。如果一个系统有一台通过路由器访问的关键服务器，一旦路由器检测到该服务器宕机，它可以使用目的地址转换NAT透明的把连接转移到一个备份服务器上。</li>
+<li>透明代理：NAT可以把连接到因特网的HTTP连接重定向到一个指定的HTTP代理服务器以缓存数据和过滤请求。一些因特网服务提供商就使用这种技术来减少带宽的使用而不用让他们的客户配置他们的浏览器支持代理连接。</li>
+</ul>
+<h2 id="NAT穿透"><a href="#NAT穿透" class="headerlink" title="NAT穿透"></a>NAT穿透</h2><p>1．完全锥形（Full Cone）NAT</p>
+<p>处于不同内网的主机A和主机B，各自先连接服务器，从而在各自NAT设备上打开了一个“孔”，服务器收到主机A和主机B的连接后，知道A与B的公网地址和NAT分配给它们的端口号，然后把这些NAT地址与端口号告诉A与B，由于在完全锥形NAT的特点，A和B给服务器所打开的“孔”，能给别的任何的主机使用。故A与B可连接对方的公网地址和端口直接进行通信。服务器在这里充当“介绍人”，告诉A与B对方的地址和端口号。</p>
+<p>2．受限制锥形（Restricted Cone）NAT</p>
+<p>A和B还是要先连接服务器，服务器发送A和B的地址和端口信息给A和B，但由于受限制锥形NAT的特点，他们所打开的“孔”，只能与服务器通信。要使他们可以直接通信，解决办法如下：</p>
+<p>假如主机A开始发送一个UDP信息到主机B的公网地址上，与此同时，它又通过服务器中转发送了一个邀请信息给主机B，请求主机B也给主机A发送一个UDP信息到主机A的公网地址上。这时主机A向主机B的公网IP发送的信息导致NAT A打开一个处于主机A的和主机B之间的会话，与此同时，NAT B也打开了一个处于主机B和主机A的会话。一旦这个新的UDP会话各自向对方打开了，主机A和主机B之间就可以直接通信了[14]。</p>
+<p>3．端口受限制锥形（Port Restricted Cone）NAT</p>
+<p>对于该类型的NAT，解决办法跟上面的方法一样。</p>
+<p>4．对称型（Symmetric）NAT</p>
+<p>对称型NAT，对于不同的外网主机地址，它都会分配不同的端口号，所以进行UDP打孔比较困难，但也可以进行端口预测打孔，不过不能保证成功。</p>
+<p>以上的穿透NAT，是对NAPT来进行穿透，主要是针对UDP协议。TCP协议也有可能，但是可行性非常小，要求更高。并且，语音视频通信是用UDP传输的，故针对TCP的NAT穿透在这里不作讨论。基础NAT不修改经过的数据包的端口号，它们可以看作是完全锥形NAT的精简版本，即基础NAT也可以被穿透。NAT设备将在一定时间后关闭UDP的一个映射，所以为了保持与服务器能够一直通信，服务器或客户端必须要周期性地发送UDP包，保持映射不被关闭。</p>
+<p>5．花生壳NAT-DDNS穿透</p>
+<p>花生壳DDNS是将用户的动态IP 地址映射到一个固定的域名上，用户每次连接网络的时候客户端程序就会通过信息传递把该主机的动态IP 地址传送给位于服务商主机上的服务器程序，服务项目器程序负责提供 DNS 服务并实现动态域名解析。DDNS 的主要作用就是捕获用户每次变化的 IP 地址，然后将其与域名相对应，这样其他上网用户就可以通过域名来与用户交流了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/17/k8s-service/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1728,157 +1939,6 @@ batchCount : 1605 ms
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/11/15/java-reflection/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="清风明月多多想毕业">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="清风明月的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/11/15/java-reflection/" itemprop="url">Java反射</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-15T00:00:00+08:00">
-                2015-11-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>需求场景：<br> <em>一个由键值对组成的字符串，需要将该字符串转换为对象。字符串形式如下：</em><br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="string">"username:dodoro|sex:male|address:KeZhu Road|phone:153864422"</span></div></pre></td></tr></table></figure></p>
-<p>首先，声明一个对应字段的POJO类，User如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;</div><div class="line">    String username;</div><div class="line">    String sex;</div><div class="line">    String address;</div><div class="line">    String phone;</div><div class="line">    <span class="comment">//省略getter和setter</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>直观的印象是在转换的过程中，首先将字符串拆分出来，然后逐一判断，调用setter设置，代码片段如下:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">User user = <span class="keyword">new</span> User();</div><div class="line">String[] keyValues = str.split(<span class="string">"\\|"</span>);</div><div class="line"><span class="keyword">for</span>(String keyValue : keyValues)&#123;</div><div class="line">    String[] field = keyValue.split(<span class="string">":"</span>);</div><div class="line">    <span class="keyword">if</span>(field.length == <span class="number">2</span>)&#123;</div><div class="line">        <span class="keyword">if</span>(field[<span class="number">0</span>].equals(<span class="string">"username"</span>)&#123; user.setUsername(field[<span class="number">1</span>]) ;&#125;   </div><div class="line">        <span class="comment">//....类推，省略</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>那么在这里就需要重复的多写很多的判断语句，如果POJO类的属性很多，有几十个，那就需要写几十个<code>if</code>逐一判断，那么在这里可以利用<code>JAVA</code>的反射技巧轻松的完成该任务。</p>
-<ul>
-<li>首先，根据字符串名字获取POJO类的属性名</li>
-<li>其次，设置属性的Access属性为true </li>
-<li>最后，调用setter方法</li>
-</ul>
-<p>代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">User user = <span class="keyword">new</span> User();</div><div class="line">String[] fields = str.split(<span class="string">"\\|"</span>);</div><div class="line"><span class="keyword">for</span>(String field : fields)&#123;</div><div class="line">	keyValue = field.split(<span class="string">":"</span>);</div><div class="line">	<span class="keyword">if</span>(keyValue.length == <span class="number">2</span>) &#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			Field f = UnitCheckVo.class.getDeclaredField(keyValue[<span class="number">0</span>]);</div><div class="line">			f.setAccessible(<span class="keyword">true</span>);</div><div class="line">			f.set(unitCheckVo, keyValue[<span class="number">1</span>]);</div><div class="line">		&#125; <span class="keyword">catch</span> (NoSuchFieldException e) &#123;</div><div class="line">			log.info(<span class="string">"No field "</span> + keyValue[<span class="number">0</span>] + <span class="string">" exists!"</span>);</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</div><div class="line">			log.info(<span class="string">"Set property for "</span> + keyValue[<span class="number">0</span>] + <span class="string">" denied!"</span>);</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1929,7 +1989,7 @@ batchCount : 1605 ms
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
