@@ -355,8 +355,8 @@
       
         
           
-            <h2 id="校对时区"><a href="#校对时区" class="headerlink" title="校对时区"></a>校对时区</h2><p>在Dockerfile中增加<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">RUN</span><span class="bash"> cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \</span></div><div class="line"><span class="bash">    &amp;&amp; <span class="built_in">echo</span> <span class="string">"Asia/Shanghai"</span> &gt; /etc/timezone</span></div></pre></td></tr></table></figure></p>
-<h2 id="应用日志中文乱码"><a href="#应用日志中文乱码" class="headerlink" title="应用日志中文乱码"></a>应用日志中文乱码</h2><p>在Dockerfile中增加<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">RUN</span><span class="bash"> yum -y install kde-l10n-Chinese &amp;&amp; yum -y reinstall glibc-common</span></div><div class="line"><span class="bash">RUN localedef -c -f UTF-8 -i zh_CN zh_CN.utf8</span></div><div class="line"><span class="bash">ENV LC_ALL zh_CN.utf8</span></div></pre></td></tr></table></figure></p>
+            <h2 id="校对时区"><a href="#校对时区" class="headerlink" title="校对时区"></a>校对时区</h2><p>在Dockerfile中增加<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">RUN</span> cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \</div><div class="line">    &amp;&amp; echo "Asia/Shanghai" &gt; /etc/timezone</div></pre></td></tr></table></figure></p>
+<h2 id="应用日志中文乱码"><a href="#应用日志中文乱码" class="headerlink" title="应用日志中文乱码"></a>应用日志中文乱码</h2><p>在Dockerfile中增加<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">RUN</span> yum -y install kde-l10n-Chinese &amp;&amp; yum -y reinstall glibc-common</div><div class="line">RUN localedef -c -f UTF-8 -i zh_CN zh_CN.utf8</div><div class="line">ENV LC_ALL zh_CN.utf8</div></pre></td></tr></table></figure></p>
 <h2 id="XTERM环境变量缺失"><a href="#XTERM环境变量缺失" class="headerlink" title="XTERM环境变量缺失"></a>XTERM环境变量缺失</h2><p>在Dockerfile中增加<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ENV</span> TERM=xterm</div></pre></td></tr></table></figure></p>
 
           
@@ -1909,7 +1909,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1920,7 +1920,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1931,7 +1931,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
