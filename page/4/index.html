@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/timestamp-border-limit/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/30/dockerfile-ref/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/09/10/timestamp-border-limit/" itemprop="url">timestamp时间戳边界处理</a></h1>
+                <a class="post-title-link" href="/2017/10/30/dockerfile-ref/" itemprop="url">Dockerfile指南</a></h1>
         
 
         <div class="post-meta">
@@ -293,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-09-10T00:00:00+08:00">
-                2015-09-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-30T10:15:10+08:00">
+                2017-10-30
               </time>
             
 
@@ -316,8 +316,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA</span>
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
                   </a>
                 </span>
 
@@ -355,10 +355,113 @@
       
         
           
-            <p>在处理时间戳的问题的时候，首先需要了解时间戳是什么，如何计算。那么，<strong><em>时间戳</em></strong>实际上一个long型的数值，代表了距离<strong>1970年1月1日上午8点0分0秒</strong>的全部毫秒数。</p>
-<p>这里格外需要注意的一点就是，是<strong>上午8点0分0秒</strong>，而不是从<strong>0点0分0秒</strong>算起。<br>如果忽略这一个细节，就会很容易犯错误。例如，判断两个时间戳是否是同一天。</p>
-<p>如果两个时间戳所代表的时间距离1970年1月1日的天数相同，则表明两者同一天为真，否则为假。但是，考虑到时间戳为0的时间实际上表示的是<strong>1970年1月1日上午8点0分0秒</strong>，那么在进行运算的时候，就必须要补上这8个小时的误差。如下代码所示：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> EIGHT_COMPLEMENT_MILLISECONDS = <span class="number">8</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000L</span>;</div><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> MILLISECONDS_OF_DAY = <span class="number">24</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000L</span>;</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isSameDay</span><span class="params">(<span class="keyword">long</span> timestamp1,<span class="keyword">long</span> timestamp2)</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> ((timestamp1+EIGHT_COMPLEMENT_MILLISECONDS) / MILLISECONDS_OF_DAY) </div><div class="line">		== ((timestamp2+EIGHT_COMPLEMENT_MILLISECONDS) / MILLISECONDS_OF_DAY);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+            <h2 id="Dockerfile-命令指令列表"><a href="#Dockerfile-命令指令列表" class="headerlink" title="Dockerfile 命令指令列表"></a>Dockerfile 命令指令列表</h2><p><a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="external">官方文档</a></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">指令</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FROM</td>
+<td style="text-align:left">设置镜像使用的基础镜像</td>
+</tr>
+<tr>
+<td style="text-align:center">MAINTAINER</td>
+<td style="text-align:left">设置镜像的作者</td>
+</tr>
+<tr>
+<td style="text-align:center">RUN</td>
+<td style="text-align:left">编译镜像时，运行的脚本</td>
+</tr>
+<tr>
+<td style="text-align:center">CMD</td>
+<td style="text-align:left">设置容器的启动命令。container启动时执行的命令，但是一个Dockerfile中只能有一条CMD命令，多条则只执行最后一条CMD.</td>
+</tr>
+<tr>
+<td style="text-align:center">ENV</td>
+<td style="text-align:left">设置环境变量</td>
+</tr>
+<tr>
+<td style="text-align:center">ADD</td>
+<td style="text-align:left">复制本地主机文件、目录或者远程文件 URLS 从 并且添加到容器指定路径中 。</td>
+</tr>
+<tr>
+<td style="text-align:center">COPY</td>
+<td style="text-align:left">COPY复制新文件或者目录从 并且添加到容器指定路径中 。用法同ADD，唯一的不同是不能指定远程文件 URLS。</td>
+</tr>
+<tr>
+<td style="text-align:center">ENTRYPOINT</td>
+<td style="text-align:left">配置容器启动后执行的命令，并且不可被 docker run 提供的参数覆盖，而CMD是可以被覆盖的。如果需要覆盖，则可以使用docker run –entrypoint选项。每个 Dockerfile 中只能有一个ENTRYPOINT，当指定多个时，只有最后一个生效。</td>
+</tr>
+<tr>
+<td style="text-align:center">EXPOSE</td>
+<td style="text-align:left">容器对外映射的本地端口</td>
+</tr>
+<tr>
+<td style="text-align:center">VOLUME</td>
+<td style="text-align:left">创建一个可以从本地主机或其他容器挂载的挂载点</td>
+</tr>
+<tr>
+<td style="text-align:center">USER</td>
+<td style="text-align:left">指定运行容器时的用户名或 UID</td>
+</tr>
+<tr>
+<td style="text-align:center">WORKDIR</td>
+<td style="text-align:left">为后续的RUN、CMD、ENTRYPOINT指令配置工作目录。可以使用多个WORKDIR指令，后续命令如果参数是相对路径，则会基于之前命令指定的路径。</td>
+</tr>
+<tr>
+<td style="text-align:center">ONBUILD</td>
+<td style="text-align:left">配置当所创建的镜像作为其它新创建镜像的基础镜像时，所执行的操作指令。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Dockerfile编写最佳实践"><a href="#Dockerfile编写最佳实践" class="headerlink" title="Dockerfile编写最佳实践"></a>Dockerfile编写最佳实践</h2><p><a href="https://docs.docker.com/engine/userguide/eng-image/dockerfile_best-practices/" target="_blank" rel="external">最佳实践</a></p>
+<ul>
+<li><p>使用.dockerignore文件</p>
+<p>  为了在docker build过程中更快上传和更加高效，应该使用一个.dockerignore文件用来排除构建镜像时不需要的文件或目录。例如,除非.Git在构建过程中需要用到，否则你应该将它添加到.dockerignore文件中，这样可以节省很多时间。</p>
+</li>
+<li><p>避免安装不必要的软件包</p>
+<p>  为了降低复杂性、依赖性、文件大小以及构建时间，应该避免安装额外的或不必要的包。例如，不需要在一个数据库镜像中安装一个文本编辑器。</p>
+</li>
+<li><p>每个容器都跑一个进程</p>
+<p>  在大多数情况下，一个容器应该只单独跑一个程序。解耦应用到多个容器使其更容易横向扩展和重用。如果一个服务依赖另外一个服务，可以参考 Linking Containers Together。</p>
+</li>
+<li><p>最小化层</p>
+<p>  我们知道每执行一个指令，都会有一次镜像的提交，镜像是分层的结构，对于Dockerfile，应该找到可读性和最小化层之间的平衡。</p>
+</li>
+<li><p>多行参数排序</p>
+<p>  如果可能，通过字母顺序来排序，这样可以避免安装包的重复并且更容易更新列表，另外可读性也会更强，添加一个空行使用\换行:</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">RUN apt-get update &amp;&amp; apt-get install -y \</div><div class="line">bzr \</div><div class="line">cvs \</div><div class="line">git \</div><div class="line">mercurial \</div><div class="line">subversion</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建缓存</p>
+<p>  镜像构建过程中会按照Dockerfile的顺序依次执行，每执行一次指令 Docker 会寻找是否有存在的镜像缓存可复用，如果没有则创建新的镜像。如果不想使用缓存，则可以在docker build时添加–no-cache=true选项。</p>
+<p>  从基础镜像开始就已经在缓存中了，下一个指令会对比所有的子镜像寻找是否执行相同的指令，如果没有则缓存失效。在大多数情况下只对比Dockerfile指令和子镜像就足够了。ADD和COPY指令除外，执行ADD和COPY时存放到镜像的文件也是需要检查的，完成一个文件的校验之后再利用这个校验在缓存中查找，如果检测的文件改变则缓存失效。RUN apt-get -y update命令只检查命令是否匹配，如果匹配就不会再执行更新了。为了有效地利用缓存，你需要保持你的 Dockerfile 一致，并且尽量在末尾修改。</p>
+</li>
+</ul>
+<p>Dockerfile 指令</p>
+<ul>
+<li>FROM: 只要可能就使用官方镜像库作为基础镜像</li>
+<li><p>RUN: 为保持可读性、方便理解、可维护性，把长或者复杂的RUN语句使用\分隔符分成多行<br>  不建议RUN apt-get update独立成行，否则如果后续包有更新，那么也不会再执行更新<br>  避免使用RUN apt-get upgrade或者dist-upgrade，很多必要的包在一个非privileged权限的容器里是无法升级的。如果知道某个包更新，使用apt-get install -y xxx</p>
+<p>  例子:</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">RUN apt-get update &amp;&amp; apt-get install -y \</div><div class="line">    aufs-tools \</div><div class="line">    automake \</div><div class="line">    btrfs-tools \</div><div class="line">    build-essential \</div><div class="line">    curl \</div><div class="line">    dpkg-sig \</div><div class="line">    git \</div><div class="line">    iptables \</div><div class="line">    libapparmor-dev \</div><div class="line">    libcap-dev \</div><div class="line">    libsqlite3-dev \</div><div class="line">    lxc=1.0* \</div><div class="line">    mercurial \</div><div class="line">    parallel \</div><div class="line">    reprepro \</div><div class="line">    ruby1.9.1 \</div><div class="line">    ruby1.9.1-dev \</div><div class="line">    s3cmd=1.1.0*</div></pre></td></tr></table></figure>
+</li>
+<li><p>CMD: 推荐使用<code>CMD [“executable”, “param1”, “param2”…]</code>这种格式，<code>CMD [“param”, “param”]</code>则配合ENTRYPOINT使用</p>
+</li>
+<li>EXPOSE: Dockerfile 指定要公开的端口，使用docker run时指定映射到宿主机的端口即可</li>
+<li><p>ENV: 为了使新的软件更容易运行，可以使用ENV更新PATH变量。如<code>ENV PATH /usr/local/nginx/bin:$PATH</code>。确保<code>CMD [&quot;ninx&quot;]</code>即可运行</p>
+<p>  ENV也可以这样定义变量：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">ENV PG_MAJOR 9.3</div><div class="line">ENV PG_VERSION 9.3.4</div><div class="line">RUN curl -SL http://example.com/postgres-$PG_VERSION.tar.xz | tar -xJC /usr/src/postgress &amp;&amp; …</div><div class="line">ENV PATH /usr/local/postgres-$PG_MAJOR/bin:$PATH</div></pre></td></tr></table></figure>
+</li>
+<li><p>ADD or COPY : ADD比COPY多一些特性「tar 文件自动解包和支持远程 URL」，不推荐添加远程 URL<br>  如不推荐这种方式:</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ADD http://example.com/big.tar.xz /usr/src/things/</div><div class="line">RUN tar -xJf /usr/src/things/big.tar.xz -C /usr/src/things</div><div class="line">RUN make -C /usr/src/things all</div></pre></td></tr></table></figure>
+<p>  推荐使用 curl 或者 wget 替换，使用如下方式:</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">RUN mkdir -p /usr/src/things \</div><div class="line">    &amp;&amp; curl -SL http://example.com/big.tar.gz \</div><div class="line">    | tar -xJC /usr/src/things \</div><div class="line">    &amp;&amp; make -C /usr/src/things all</div></pre></td></tr></table></figure>
+<p>  如果不需要添加 tar 文件，推荐使用COPY。</p>
+</li>
+</ul>
 
           
         
@@ -398,7 +501,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
