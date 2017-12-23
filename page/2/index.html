@@ -262,159 +262,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/22/docker-network/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="清风明月多多想毕业">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="清风明月的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/22/docker-network/" itemprop="url">docker网络</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-22T09:49:53+08:00">
-                2017-10-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/服务器/" itemprop="url" rel="index">
-                    <span itemprop="name">服务器</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Docker的网络类型"><a href="#Docker的网络类型" class="headerlink" title="Docker的网络类型"></a>Docker的网络类型</h2><p>Docker 安装成功后会安装三种网络，可以通过命令<code>docker network ls</code>查看<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">NETWORK ID          NAME                DRIVER              SCOPE</div><div class="line">7135d9d919c3        bridge              bridge              <span class="built_in">local</span></div><div class="line">86e79a49b27f        host                host                <span class="built_in">local</span></div><div class="line">0015c3361f3d        none                null                <span class="built_in">local</span></div></pre></td></tr></table></figure></p>
-<p>在创建容器的时候，可以通过<code>--net</code>进行指定。 </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  ~ docker run -d --net=host docker.gz.cvte.cn/hello-world-jar/hello-docker:master-91d61c7</div><div class="line">ab14e449f4241372ce034ca2fede8d6cd9dd7cf55ad0713db02f649df02ef341</div></pre></td></tr></table></figure>
-<p><code>docker network inspect &lt;net&gt;</code>查看网络详情。</p>
-<p><img src="/2017/10/22/docker-network/docker-network-inspect.png" alt=""></p>
-<p>当启动一个容器的时候，就会想对应的网络的containers中添加subnet和gateway, 在全局注册相关的网络信息。</p>
-<p><img src="/2017/10/22/docker-network/docker-network-inspect-containers.png" alt=""></p>
-<h2 id="docker0"><a href="#docker0" class="headerlink" title="docker0"></a>docker0</h2><p>另外，Docker安装成功之后，会为bridge网络创建一个默认的docker0的虚拟网络设备，所有的docker容器都是通过桥接模式挂载到docker0上实现宿主机上容器和容器之间的通信。<br>使用brctl show可以看到虚拟机的网络关系:<br><img src="/2017/10/22/docker-network/docker-network-bridge-map.png" alt=""></p>
-<p>其中veth开头的是docker container的虚拟网卡，docker每新建一个container, docker0就会创建一个新的虚拟网卡，名称以veth开头，其余是随机的.</p>
-<p>在container上实际看到的是eth0这些.<br><img src="/2017/10/22/docker-network/docker-network-container.png" alt=""><br>container上的eth0 和 宿主机上的veth2368ab8 类似一个 PIPE.<br>挂载到docker0上docker container就这样实现网络互通。</p>
-<p>Docker使用route和iptables（要注意 MASQUERADE），为容器创建NAT，这样就可以连接到外网。</p>
-<p><img src="/2017/10/22/docker-network/docker-network-ip-route.png" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/21/nat/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1904,6 +1751,194 @@ rpc.idmapd 名字映射后台进程
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/12/02/io-effection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="清风明月多多想毕业">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="清风明月的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/12/02/io-effection/" itemprop="url">频繁IO对系统性能的影响</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-12-02T00:00:00+08:00">
+                2015-12-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index">
+                    <span itemprop="name">JAVA</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近在维护系统的时候，发现有个页面加载速度明显比其他页面的加载速度慢一些，遂逐行进行跟踪排查，最后发现一段操作数据库的代码，其形式如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">List&lt;T&gt; ts = **Dao.findBy**(query);</div><div class="line"><span class="keyword">for</span>(T t : ts)&#123;</div><div class="line">    E e = *****Dao.findBy***(t.get**());</div><div class="line">    ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这里在循环中出现了频繁的数据库操作，共访问数据库<code>ts.size()+1</code>次。虽然，现在各种ORM框架都提供了对数据池的支持与较好的管理，省去了很多的打开连接关闭连接的操作，但是访问数据库的IO开销依然不得不纳入思考的范围。</p>
+<p><em>为了验证频繁的数据库操作所带来的IO开销是否会对系统的性能造成一定的影响，下面通过一个例子进行测试比较：</em></p>
+<p><strong>首先，假设有一个学校，学校有多个班级，每个班级都有一定数量的学生。现在学校领导想要知道某个年级某几个班级今年的学生的数量有多少。</strong></p>
+<p>接下来，我们将通过编码来实现该功能。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">开发环境</th>
+<th style="text-align:center">开发技术</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">IDEA,MySQL</td>
+<td style="text-align:center">hibernate,junit</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>##搭建项目的框架<br>首先，添加Hibernate配置文件hibernate.cfg.xml<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version='1.0' encoding='utf-8'?&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE hibernate-configuration PUBLIC</span></div><div class="line"><span class="meta">        "-//Hibernate/Hibernate Configuration DTD//EN"</span></div><div class="line"><span class="meta">        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">hibernate-configuration</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">session-factory</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connection.url"</span>&gt;</span></div><div class="line">            jdbc:mysql://localhost:3306/hibernate?characterEncoding=utf-8</div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connection.driver_class"</span>&gt;</span></div><div class="line">            com.mysql.jdbc.Driver</div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connection.username"</span>&gt;</span>root <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connection.password"</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- DB schema will be updated if needed --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hbm2ddl.auto"</span>&gt;</span>update<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dialect"</span>&gt;</span>org.hibernate.dialect.MySQLDialect<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"show_sql"</span>&gt;</span>true<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"current_session_context_class"</span>&gt;</span>thread<span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">mapping</span> <span class="attr">class</span>=<span class="string">"com.zdw.hibernate.entity.ClassRoom"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">mapping</span> <span class="attr">class</span>=<span class="string">"com.zdw.hibernate.entity.Student"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">session-factory</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">hibernate-configuration</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>定义实体类：<code>ClassRoom</code> 和 <code>Student</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> javax.persistence.Column;</div><div class="line"><span class="keyword">import</span> javax.persistence.Entity;</div><div class="line"><span class="keyword">import</span> javax.persistence.GeneratedValue;</div><div class="line"><span class="keyword">import</span> javax.persistence.GenerationType;</div><div class="line"><span class="keyword">import</span> javax.persistence.Id;</div><div class="line"><span class="keyword">import</span> javax.persistence.Table;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> zhoudongwei</span></div><div class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></div><div class="line"><span class="comment"> * <span class="doctag">@since</span> 1.0</span></div><div class="line"><span class="comment"> */</span></div><div class="line"></div><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="meta">@Table</span>(name = <span class="string">"t_classroom"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassRoom</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Id</span></div><div class="line">	<span class="meta">@GeneratedValue</span>(strategy= GenerationType.AUTO)</div><div class="line">	<span class="keyword">private</span> Integer id;</div><div class="line"></div><div class="line">	<span class="meta">@Column</span>(length=<span class="number">255</span>,nullable=<span class="keyword">true</span>,name=<span class="string">"class_name"</span>)</div><div class="line">	<span class="keyword">private</span> String className;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getId</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> id;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(Integer id)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.id = id;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getClassName</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> className;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setClassName</span><span class="params">(String className)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.className = className;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">import</span> javax.persistence.Column;</div><div class="line"><span class="keyword">import</span> javax.persistence.Entity;</div><div class="line"><span class="keyword">import</span> javax.persistence.GeneratedValue;</div><div class="line"><span class="keyword">import</span> javax.persistence.GenerationType;</div><div class="line"><span class="keyword">import</span> javax.persistence.Id;</div><div class="line"><span class="keyword">import</span> javax.persistence.Table;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> zhoudongwei</span></div><div class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></div><div class="line"><span class="comment"> * <span class="doctag">@since</span> 1.0</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="meta">@Table</span>(name=<span class="string">"t_student"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</div><div class="line">	<span class="meta">@Id</span></div><div class="line">	<span class="meta">@GeneratedValue</span>(strategy= GenerationType.AUTO)</div><div class="line">	<span class="keyword">private</span> Integer id;</div><div class="line">	<span class="meta">@Column</span>(length=<span class="number">255</span>,nullable=<span class="keyword">true</span>,name=<span class="string">"name"</span>)</div><div class="line">	<span class="keyword">private</span> String name;</div><div class="line">	<span class="meta">@Column</span>(length=<span class="number">255</span>,nullable=<span class="keyword">true</span>,name=<span class="string">"class_id"</span>)</div><div class="line">	<span class="keyword">private</span> Integer classId;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getId</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> id;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(Integer id)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.id = id;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> name;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.name = name;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getClassId</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> classId;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setClassId</span><span class="params">(Integer classId)</span> </span>&#123;</div><div class="line">		<span class="keyword">this</span>.classId = classId;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>编写Hibernate工具类HibernateUtil<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zdw.hibernate.utils;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.hibernate.SessionFactory;</div><div class="line"><span class="keyword">import</span> org.hibernate.boot.registry.StandardServiceRegistry;</div><div class="line"><span class="keyword">import</span> org.hibernate.boot.registry.StandardServiceRegistryBuilder;</div><div class="line"><span class="keyword">import</span> org.hibernate.cfg.Configuration;</div><div class="line"><span class="keyword">import</span> org.hibernate.service.Service;</div><div class="line"><span class="keyword">import</span> org.hibernate.service.ServiceRegistry;</div><div class="line"><span class="keyword">import</span> org.hibernate.service.ServiceRegistryBuilder;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.Serializable;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> zhoudongwei</span></div><div class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></div><div class="line"><span class="comment"> * <span class="doctag">@since</span> 1.0</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HibernateUtil</span></span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> SessionFactory sessionFactory = buildSessionFactory();</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> SessionFactory <span class="title">buildSessionFactory</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">try</span> &#123;</div><div class="line">			<span class="comment">// Create the SessionFactory from hibernate.cfg.xml</span></div><div class="line">			Configuration configuration = <span class="keyword">new</span> Configuration().configure();</div><div class="line">			StandardServiceRegistry serviceRegistry = <span class="keyword">new</span> StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();</div><div class="line">			SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);</div><div class="line">			<span class="keyword">return</span> sessionFactory;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">catch</span> (Throwable ex) &#123;</div><div class="line">			<span class="comment">// Make sure you log the exception, as it might be swallowed</span></div><div class="line">			System.err.println(<span class="string">"Initial SessionFactory creation failed."</span> + ex);</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> ExceptionInInitializerError(ex);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> SessionFactory <span class="title">getSessionFactory</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> sessionFactory;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>##编写测试类<br>为了测试我们的想法，首先需要先向数据库中添加数据。<br>编写测试类<code>ClassRoomAndStudentGenerator</code>，在数据库中随机添加一定量的数据，由于在实体类中没有定义ClassRoom和Student的关系映射，所以在设置某个学生的班级id的时候，要保证不要设置一个不存在的班级id。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zdw.hibernate.dao.test;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.seewo.hibernate.entity.ClassRoom;</div><div class="line"><span class="keyword">import</span> com.seewo.hibernate.entity.HibernateSessionFactory;</div><div class="line"><span class="keyword">import</span> com.seewo.hibernate.entity.HibernateUtil;</div><div class="line"><span class="keyword">import</span> com.seewo.hibernate.entity.Student;</div><div class="line"><span class="keyword">import</span> org.hibernate.Session;</div><div class="line"><span class="keyword">import</span> org.junit.Test;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.hibernate.Query;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"><span class="keyword">import</span> java.util.Random;</div><div class="line"><span class="keyword">import</span> org.junit.runners.MethodSorters;</div><div class="line"><span class="keyword">import</span> org.junit.FixMethodOrder;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"><span class="comment"> * <span class="doctag">@author</span> zhoudongwei</span></div><div class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></div><div class="line"><span class="comment"> * <span class="doctag">@since</span> 1.0</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="meta">@FixMethodOrder</span>(MethodSorters.NAME_ASCENDING)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClassRoomAndStudentGenerator</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CLASS_NUM = <span class="number">10</span>;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> STUDENT_NUM = <span class="number">100</span>;</div><div class="line"></div><div class="line"></div><div class="line">	<span class="meta">@Test</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addClassroom</span><span class="params">()</span></span>&#123;</div><div class="line"></div><div class="line">		Session session = HibernateUtil.getSessionFactory().openSession();</div><div class="line">		session.beginTransaction();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; CLASS_NUM ; i++) &#123;</div><div class="line">			ClassRoom classRoom = <span class="keyword">new</span> ClassRoom();</div><div class="line">			classRoom.setClassName(<span class="string">"实验"</span>+i+<span class="string">"班"</span>);</div><div class="line">			session.persist(classRoom);</div><div class="line">			System.out.println(classRoom.getId());</div><div class="line"></div><div class="line">		&#125;</div><div class="line">		session.getTransaction().commit();</div><div class="line">		session.close();</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="meta">@Test</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addStudent</span><span class="params">()</span></span>&#123;</div><div class="line">		Random random = <span class="keyword">new</span> Random();</div><div class="line">		Session session = HibernateUtil.getSessionFactory().openSession();</div><div class="line">		session.beginTransaction();</div><div class="line"></div><div class="line">		<span class="keyword">int</span> classId = <span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; STUDENT_NUM; i++) &#123;</div><div class="line">			Student student = <span class="keyword">new</span> Student();</div><div class="line">			classId = random.nextInt(CLASS_NUM);</div><div class="line">			student.setClassId(classId);</div><div class="line">			student.setName(<span class="string">"student_"</span>+classId+<span class="string">"_"</span>+i);</div><div class="line">			session.persist(student);</div><div class="line">		&#125;</div><div class="line">		session.getTransaction().commit();</div><div class="line">		session.close();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>首先我们编写本文一开始提到的<code>loop</code>方法，这种方法的想法就是：先查询出这些班级的ids，然后遍历这些id，查询班级id为特定值的学生个数。思路很简单，代码也很好编写，但是需要访问<code>n+1</code>次数据库。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line"><span class="meta">@Test</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loopCount</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</div><div class="line">		Session session = HibernateUtil.getSessionFactory().openSession();</div><div class="line">		session.beginTransaction();</div><div class="line">		List&lt;ClassRoom&gt; classRooms = session.createQuery(<span class="string">"from ClassRoom "</span>).list();</div><div class="line">		<span class="keyword">for</span> (ClassRoom classRoom : classRooms) &#123;</div><div class="line">			Integer classId = classRoom.getId();</div><div class="line">			Query query = session.createQuery(<span class="string">"select count(*) from Student where classId = :classId"</span>);</div><div class="line">			query.setParameter(<span class="string">"classId"</span>, classId);</div><div class="line">			List res = query.list();</div><div class="line">		&#125;</div><div class="line">		session.getTransaction().commit();</div><div class="line">		session.close();</div><div class="line">		<span class="keyword">long</span> end = System.currentTimeMillis();</div><div class="line">		System.out.println(end - start);</div><div class="line"></div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<pre><code>我在方法的前后统计其执行的时间，来与不同的实现方式进行对比。
+</code></pre><p>第二种思路：全连接。从两个表中选择<code>班级id=学生班级id</code>然后<code>group by 班级id</code>，最后<code>count(*)</code>返回结果。只需要访问一次数据库。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">innerJoinCount</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</div><div class="line">		Session session = HibernateUtil.getSessionFactory().openSession();</div><div class="line">		session.beginTransaction();</div><div class="line"></div><div class="line">		Query query = session.createQuery(<span class="string">"select t.id,t.className,count(t.id) from ClassRoom t ,Student s where t.id = s.classId group by t.id"</span>);</div><div class="line">		List&lt;Object[]&gt; res = query.list();</div><div class="line"></div><div class="line">		session.getTransaction().commit();</div><div class="line">		session.close();</div><div class="line">		<span class="keyword">long</span> end = System.currentTimeMillis();</div><div class="line">		System.out.println(end - start);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第三种思路：利用<code>in</code>进行查询。首先，查询出指定的班级ids,利用<code>in</code>字句进行查询，返回结果。访问数据库两次。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Test</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">batchCount</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">long</span> start = System.currentTimeMillis();</div><div class="line">		Session session = HibernateUtil.getSessionFactory().openSession();</div><div class="line">		session.beginTransaction();</div><div class="line"></div><div class="line">		List&lt;ClassRoom&gt; classRooms = session.createQuery(<span class="string">"from ClassRoom "</span>).list();</div><div class="line">		List&lt;Integer&gt; classIds = <span class="keyword">new</span> ArrayList&lt;Integer&gt;(classRooms.size());</div><div class="line">		<span class="keyword">for</span> (ClassRoom classRoom : classRooms) &#123;</div><div class="line">			classIds.add(classRoom.getId());</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		Query query = session.createQuery(<span class="string">"select classId,count(*) from Student where classId in (:classIds) group by classId"</span>);</div><div class="line">		query.setParameterList(<span class="string">"classIds"</span>, classIds);</div><div class="line">		List&lt;Object&gt; res =query.list();</div><div class="line"></div><div class="line">		session.getTransaction().commit();</div><div class="line">		session.close();</div><div class="line">		<span class="keyword">long</span> end = System.currentTimeMillis();</div><div class="line">		System.out.println(end - start);</div><div class="line"></div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>当改变</p>
+<pre><code>private static final int CLASS_NUM = 10; //100,1000
+private static final int STUDENT_NUM = 100; //1000,10000
+</code></pre><p>的值就会有不同的结果出现。</p>
+<p>当<code>CLASS_NUM=10，STUDENT_NUM=100</code>时，</p>
+<pre><code>loopCount : 1352 ms
+innberJoinCount : 1345 ms
+batchCount : 1368 ms
+</code></pre><p>当<code>CLASS_NUM=100，STUDENT_NUM=10000</code>时，</p>
+<pre><code>loopCount : 1780ms
+innberJoinCount : 1346ms
+batchCount : 1434ms
+</code></pre><p>当<code>CLASS_NUM=1000，STUDENT_NUM=100000</code>时，</p>
+<pre><code>loopCount : 25615 ms
+innberJoinCount : 1472 ms
+batchCount : 1605 ms
+</code></pre><p>当数据量增大的时候，可以明显的看到，每多一次数据库访问，就会额外的多带来一定的开销。如果一次查询就能完成的工作不建议分为多次查询。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1954,7 +1989,7 @@ rpc.idmapd 名字映射后台进程
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
