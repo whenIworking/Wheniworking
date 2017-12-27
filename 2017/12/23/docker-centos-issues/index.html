@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="清风明月的博客">
 <meta property="og:description" content="校对时区在Dockerfile中增加12RUN cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \    &amp;amp;&amp;amp; echo &quot;Asia/Shanghai&quot; &amp;gt; /etc/timezone 应用日志中文乱码在Dockerfile中增加123RUN yum -y install kde-l10n-Chinese &amp;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-23T01:48:51.000Z">
+<meta property="og:updated_time" content="2017-12-27T10:08:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="基础镜像定制">
 <meta name="twitter:description" content="校对时区在Dockerfile中增加12RUN cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \    &amp;amp;&amp;amp; echo &quot;Asia/Shanghai&quot; &amp;gt; /etc/timezone 应用日志中文乱码在Dockerfile中增加123RUN yum -y install kde-l10n-Chinese &amp;">
@@ -355,6 +355,10 @@
         <h2 id="校对时区"><a href="#校对时区" class="headerlink" title="校对时区"></a>校对时区</h2><p>在Dockerfile中增加<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">RUN</span> cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \</div><div class="line">    &amp;&amp; echo "Asia/Shanghai" &gt; /etc/timezone</div></pre></td></tr></table></figure></p>
 <h2 id="应用日志中文乱码"><a href="#应用日志中文乱码" class="headerlink" title="应用日志中文乱码"></a>应用日志中文乱码</h2><p>在Dockerfile中增加<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">RUN</span> yum -y install kde-l10n-Chinese &amp;&amp; yum -y reinstall glibc-common</div><div class="line">RUN localedef -c -f UTF-8 -i zh_CN zh_CN.utf8</div><div class="line">ENV LC_ALL zh_CN.utf8</div></pre></td></tr></table></figure></p>
 <h2 id="XTERM环境变量缺失"><a href="#XTERM环境变量缺失" class="headerlink" title="XTERM环境变量缺失"></a>XTERM环境变量缺失</h2><p>在Dockerfile中增加<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ENV</span> TERM=xterm</div></pre></td></tr></table></figure></p>
+<h2 id="ENV的两种写法"><a href="#ENV的两种写法" class="headerlink" title="ENV的两种写法"></a>ENV的两种写法</h2><p>定义多个ENV，有两种写法：第一种是通过一条ENV指定，这种方式需要用 <code>&lt;key&gt;=&lt;value&gt;</code> ，并且只会创建一层文件系统；第二种是分开用多条ENV定义，可以<code>&lt;key&gt;=&lt;value&gt;</code>也可以写成 <code>&lt;key&gt; &lt;value&gt;</code>但是会创建多层文件系统。<br>第一种：<br><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ENV</span> TERM=xterm \</div><div class="line">LC_ALL=zh_CN.utf8</div></pre></td></tr></table></figure></p>
+<p>第二种：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ENV</span> TERM=xterm </div><div class="line"><span class="keyword">ENV</span> LC_ALL=zh_CN.utf8</div></pre></td></tr></table></figure>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">ENV</span> TERM xterm </div><div class="line"><span class="keyword">ENV</span> LC_ALL zh_CN.utf8</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -551,7 +555,7 @@ var jiathis_config={
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#校对时区"><span class="nav-number">1.</span> <span class="nav-text">校对时区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用日志中文乱码"><span class="nav-number">2.</span> <span class="nav-text">应用日志中文乱码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XTERM环境变量缺失"><span class="nav-number">3.</span> <span class="nav-text">XTERM环境变量缺失</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#校对时区"><span class="nav-number">1.</span> <span class="nav-text">校对时区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用日志中文乱码"><span class="nav-number">2.</span> <span class="nav-text">应用日志中文乱码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XTERM环境变量缺失"><span class="nav-number">3.</span> <span class="nav-text">XTERM环境变量缺失</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ENV的两种写法"><span class="nav-number">4.</span> <span class="nav-text">ENV的两种写法</span></a></li></ol></div>
             
 
           </div>
