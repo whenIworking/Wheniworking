@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/22/docker-network/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/24/jenkins-fail-gfw/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/22/docker-network/" itemprop="url">docker网络</a></h1>
+                <a class="post-title-link" href="/2017/10/24/jenkins-fail-gfw/" itemprop="url">1024 Jenkins重启Failed</a></h1>
         
 
         <div class="post-meta">
@@ -293,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-22T09:49:53+08:00">
-                2017-10-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-24T14:24:40+08:00">
+                2017-10-24
               </time>
             
 
@@ -355,18 +355,12 @@
       
         
           
-            <h2 id="Docker的网络类型"><a href="#Docker的网络类型" class="headerlink" title="Docker的网络类型"></a>Docker的网络类型</h2><p>Docker 安装成功后会安装三种网络，可以通过命令<code>docker network ls</code>查看<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">NETWORK ID          NAME                DRIVER              SCOPE</div><div class="line">7135d9d919c3        bridge              bridge              <span class="built_in">local</span></div><div class="line">86e79a49b27f        host                host                <span class="built_in">local</span></div><div class="line">0015c3361f3d        none                null                <span class="built_in">local</span></div></pre></td></tr></table></figure></p>
-<p>在创建容器的时候，可以通过<code>--net</code>进行指定。 </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">➜  ~ docker run -d --net=host docker.gz.cvte.cn/hello-world-jar/hello-docker:master-91d61c7</div><div class="line">ab14e449f4241372ce034ca2fede8d6cd9dd7cf55ad0713db02f649df02ef341</div></pre></td></tr></table></figure>
-<p><code>docker network inspect &lt;net&gt;</code>查看网络详情。</p>
-<p><img src="/2017/10/22/docker-network/docker-network-inspect.png" alt=""></p>
-<p>当启动一个容器的时候，就会想对应的网络的containers中添加subnet和gateway, 在全局注册相关的网络信息。</p>
-<p><img src="/2017/10/22/docker-network/docker-network-inspect-containers.png" alt=""></p>
-<h2 id="docker0"><a href="#docker0" class="headerlink" title="docker0"></a>docker0</h2><p>另外，Docker安装成功之后，会为bridge网络创建一个默认的docker0的虚拟网络设备，所有的docker容器都是通过桥接模式挂载到docker0上实现宿主机上容器和容器之间的通信。<br>使用brctl show可以看到虚拟机的网络关系:<br><img src="/2017/10/22/docker-network/docker-network-bridge-map.png" alt=""></p>
-<p>其中veth开头的是docker container的虚拟网卡，docker每新建一个container, docker0就会创建一个新的虚拟网卡，名称以veth开头，其余是随机的.</p>
-<p>在container上实际看到的是eth0这些.<br><img src="/2017/10/22/docker-network/docker-network-container.png" alt=""><br>container上的eth0 和 宿主机上的veth2368ab8 类似一个 PIPE.<br>挂载到docker0上docker container就这样实现网络互通。</p>
-<p>Docker使用route和iptables（要注意 MASQUERADE），为容器创建NAT，这样就可以连接到外网。</p>
-<p><img src="/2017/10/22/docker-network/docker-network-ip-route.png" alt=""></p>
+            <p>今天是1024，程序员的节日，也是十九大胜利闭幕的日子。<br>刚到公司，还没有开始干活，就听到了微信群里讲，Jenkins挂了。<br>自从方舟上线以来，jenkins就成为了整个CI/CD的入口，现在因为重启失败，已经激起民怨了。</p>
+<p>打开浏览器，就是Jenkins正在重启的首页，等待10分钟左右也不见好转。查看log，也是没有任何错误信息。百思不得其解，拷贝jenkins.war到备份服务器，运行war包。仍然是卡死在jenkins重启的界面，难道今天Jenkins要放假？</p>
+<p>本着程序员不信玄学的精神，坚持为人民服务的思想，我把war包scp到本地，运行war包，依然是重启的界面。</p>
+<p>多年以后，你如果想问我是怎么解决这个问题的。我可能会说，我关掉了WIFI。</p>
+<p>Jenkins日志出现了，连接update center失败的信息，原来重启后，需要访问 update.jenkins-ci.org 。然而在1024这天，这个网站被墙了。</p>
+<p>配置 update.jenkins-ci.org 指向一个不存在的IP，快速失败就能进入Jenkins了。</p>
 
           
         
@@ -406,7 +400,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -452,7 +446,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

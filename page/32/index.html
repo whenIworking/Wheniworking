@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="JAVA," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,18 +79,16 @@
 
 
 
-<meta name="description" content="Java日期的操作在日常的应用开发中使用非常普遍，然而每次使用都不得不去查文档，效率很低。工欲善其事必先利其器，所以需要好好总结一番。Java的日期的常用操作其实主要有以下几种：  字符串转为日期对象 日期对象转换为字符串 时间戳转换为日期对象 日期对象不同的格式转换 Calendar类的使用  DateFormat 类是一个用来格式化日期或者时间的抽象类。DateFormat提供了很多根据本地化">
-<meta name="keywords" content="JAVA">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Java日期">
-<meta property="og:url" content="http://wheniworking.com/2015/09/10/java-date/index.html">
+<meta name="description" content="用宽容的胸怀接受不能改变的，用极大的勇气改变能够改变的">
+<meta property="og:type" content="website">
+<meta property="og:title" content="清风明月的博客">
+<meta property="og:url" content="http://wheniworking.com/page/32/index.html">
 <meta property="og:site_name" content="清风明月的博客">
-<meta property="og:description" content="Java日期的操作在日常的应用开发中使用非常普遍，然而每次使用都不得不去查文档，效率很低。工欲善其事必先利其器，所以需要好好总结一番。Java的日期的常用操作其实主要有以下几种：  字符串转为日期对象 日期对象转换为字符串 时间戳转换为日期对象 日期对象不同的格式转换 Calendar类的使用  DateFormat 类是一个用来格式化日期或者时间的抽象类。DateFormat提供了很多根据本地化">
+<meta property="og:description" content="用宽容的胸怀接受不能改变的，用极大的勇气改变能够改变的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-12T17:11:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java日期">
-<meta name="twitter:description" content="Java日期的操作在日常的应用开发中使用非常普遍，然而每次使用都不得不去查文档，效率很低。工欲善其事必先利其器，所以需要好好总结一番。Java的日期的常用操作其实主要有以下几种：  字符串转为日期对象 日期对象转换为字符串 时间戳转换为日期对象 日期对象不同的格式转换 Calendar类的使用  DateFormat 类是一个用来格式化日期或者时间的抽象类。DateFormat提供了很多根据本地化">
+<meta name="twitter:title" content="清风明月的博客">
+<meta name="twitter:description" content="用宽容的胸怀接受不能改变的，用极大的勇气改变能够改变的">
 
 
 
@@ -120,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://wheniworking.com/2015/09/10/java-date/"/>
+  <link rel="canonical" href="http://wheniworking.com/page/32/"/>
 
 
 
 
 
-  <title>Java日期 | 清风明月的博客</title>
+  <title>清风明月的博客</title>
   
 
 
@@ -145,7 +143,8 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -248,9 +247,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -280,7 +279,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java日期</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/09/10/java-date/" itemprop="url">Java日期</a></h1>
         
 
         <div class="post-meta">
@@ -352,7 +353,9 @@
       
 
       
-        <p>Java日期的操作在日常的应用开发中使用非常普遍，然而每次使用都不得不去查文档，效率很低。工欲善其事必先利其器，所以需要好好总结一番。<br>Java的日期的常用操作其实主要有以下几种：</p>
+        
+          
+            <p>Java日期的操作在日常的应用开发中使用非常普遍，然而每次使用都不得不去查文档，效率很低。工欲善其事必先利其器，所以需要好好总结一番。<br>Java的日期的常用操作其实主要有以下几种：</p>
 <ul>
 <li>字符串转为日期对象</li>
 <li>日期对象转换为字符串</li>
@@ -417,6 +420,8 @@
 <p><code>Calendar</code> 类的常见用法就是时间，日期时间的累加和累减以及日期的循环操作。</p>
 <p>示例：获取一段时间内的所有日期完成循环操作<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span>  <span class="keyword">void</span> <span class="title">findDates</span><span class="params">(String startTime,String endTime)</span> </span>&#123;</div><div class="line">        SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</div><div class="line">        Date dBegin= <span class="keyword">null</span>;</div><div class="line">        Date dEnd = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            dBegin = format.parse(startTime);</div><div class="line">            dEnd = format.parse(endTime);</div><div class="line">        &#125; <span class="keyword">catch</span> (ParseException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        Calendar calBegin = Calendar.getInstance();</div><div class="line">        <span class="comment">// 使用给定的 Date 设置此 Calendar 的时间</span></div><div class="line">        calBegin.setTime(dBegin);</div><div class="line">        <span class="comment">// 测试此日期是否在指定日期之后</span></div><div class="line">        <span class="keyword">while</span> (dEnd.after(calBegin.getTime())) &#123;</div><div class="line">            <span class="comment">//业务代码</span></div><div class="line">            <span class="comment">// 根据日历的规则，为给定的日历字段添加或减去指定的时间量</span></div><div class="line">            calBegin.add(Calendar.DAY_OF_MONTH, <span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//业务代码</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
 
+          
+        
       
     </div>
     
@@ -431,36 +436,14 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
-          
-        </div>
+
+      
+
       
 
       
       
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2015/09/10/timestamp-border-limit/" rel="prev" title="timestamp时间戳边界处理">
-                timestamp时间戳边界处理 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -470,37 +453,14 @@
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-        <!-- JiaThis Button BEGIN -->
-<div class="jiathis_style">
-<span class="jiathis_txt">分享到：</span>
-<a class="jiathis_button_fav">收藏夹</a>
-<a class="jiathis_button_copy">复制网址</a>
-<a class="jiathis_button_email">邮件</a>
-<a class="jiathis_button_weixin">微信</a>
-<a class="jiathis_button_qzone">QQ空间</a>
-<a class="jiathis_button_tqq">腾讯微博</a>
-<a class="jiathis_button_douban">豆瓣</a>
-<a class="jiathis_button_share">一键分享</a>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/31/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><span class="page-number current">32</span>
+  </nav>
 
-<a href="http://www.jiathis.com/share?uid=2140465" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
-<a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" >
-var jiathis_config={
-  data_track_clickback:true,
-  summary:"",
-  shortUrl:false,
-  hideMore:false
-}
-</script>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=" charset="utf-8"></script>
-<!-- JiaThis Button END -->
-      
-    </div>
-  </div>
 
 
           </div>
@@ -508,8 +468,6 @@ var jiathis_config={
 
 
           
-  
-
 
         </div>
         
@@ -530,17 +488,8 @@ var jiathis_config={
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -602,22 +551,6 @@ var jiathis_config={
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串转为日期对象"><span class="nav-number">1.</span> <span class="nav-text">字符串转为日期对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日期对象转为字符串"><span class="nav-number">2.</span> <span class="nav-text">日期对象转为字符串</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -737,10 +670,6 @@ var jiathis_config={
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
-
-
 
   
 

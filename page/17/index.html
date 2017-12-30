@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/13/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/13/nfs-server/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/13/hello-world/" itemprop="url">Hello World</a></h1>
+                <a class="post-title-link" href="/2017/10/13/nfs-server/" itemprop="url">搭建NFS服务器</a></h1>
         
 
         <div class="post-meta">
@@ -293,7 +293,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-13T00:05:16+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-13T14:25:06+08:00">
                 2017-10-13
               </time>
             
@@ -303,6 +303,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -333,15 +355,93 @@
       
         
           
-            <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+            <p>NFS是NetWork File System， 即网络文件系统。客户端通过挂在的方式将NFS服务器端共享的数据目录挂载在本地目录下。</p>
+<h3 id="nfs为什么需要RPC？"><a href="#nfs为什么需要RPC？" class="headerlink" title="nfs为什么需要RPC？"></a>nfs为什么需要RPC？</h3><p>因为NFS支持的功能非常多，不同功能会使用不同的程序来启动。因此，NFS对应的功能对应的端口无法固定。端口不固定造成客户端和服务器之间的通信障碍，所以需要RPC来从中帮忙。NFS启动时会随机取用若干端口，然后主动向RPC服务注册取用相关端口和功能信息，RPC使用固定端口111来监听来自NFS客户端的请求，并将争取的NFS服务端口信息返回给客户端，这样客户端与服务端就可以进行数据传输了。</p>
+<h4 id="nfs的工作流程"><a href="#nfs的工作流程" class="headerlink" title="nfs的工作流程"></a>nfs的工作流程</h4><pre><code>• 由程序在NFS客户端发起存取文件的请求，客户端本地的RPC服务会通过网络向NFS服务端的RPC的111端口发出文件存取功能的请求。
+• NFS服务端的RPC找到对应已经注册的NFS端口，通知客户端RPC服务
+• 客户度获取正确的端口，并与NFS daemon联机存取数据
+• 存取数据成功之后，返回前端访问程序，完成一次存取操作
+</code></pre><h3 id="nfs服务安装与配置"><a href="#nfs服务安装与配置" class="headerlink" title="nfs服务安装与配置"></a>nfs服务安装与配置</h3><p>nfs-utils<br>rpcbind (在centos5及以下叫做 portmap)</p>
+<ul>
+<li><p>查看是否安装nfs</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">rpm -qa nfs-utils rpcbind</div><div class="line">yum install nfs-utils rpcbind</div></pre></td></tr></table></figure>
+</li>
+<li><p>启动nfs服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">systemctl start nfs</div><div class="line">systemctl status nfs</div></pre></td></tr></table></figure>
+</li>
+<li><p>启动rpcbind服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">systemctl start rpcbind</div><div class="line">systemctl status rpcbind</div></pre></td></tr></table></figure>
+</li>
+<li><p>查看rpc</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">lsof -I :111</div><div class="line">netstat -ntlpu | grep rpcbind</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>如果找不到 lsof 和 netstat命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install net-tools lsof</div></pre></td></tr></table></figure></p>
+<p>查看nfs服务向rpc注册的端口信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpcinfo -p localhost</div></pre></td></tr></table></figure></p>
+<p>检查rpcbind是否是开机启动<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chkconfig --list rpcbind</div></pre></td></tr></table></figure></p>
+<p>再次查看rpc注册的端口信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpcinfo -p localhost</div></pre></td></tr></table></figure></p>
+<h3 id="nfs常见进程详解"><a href="#nfs常见进程详解" class="headerlink" title="nfs常见进程详解"></a>nfs常见进程详解</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ps -fe | egrep <span class="string">"rpc|nfs"</span></div></pre></td></tr></table></figure>
+<pre><code>nfsd(rpc.nfsd)主进程，主要是管理客户端能否登入服务端，登入者ID判别。
+mountd(rpc.mountd)管理NFS文件系统，登入者的权限管理
+rpc.lockd(非必要)用来锁定文件，用于客户端同时写入
+rpc.statd(非必要)检查文件一致性
+rpc.idmapd 名字映射后台进程
+</code></pre><ul>
+<li><p>配置nfs开机自启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">chkconfig rpcbind on</div><div class="line">chkconfig nfs on</div><div class="line">chkconfig --list rpcbind</div><div class="line">chekconfig --list nfs</div></pre></td></tr></table></figure>
+</li>
+<li><p>nfs服务端配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/exports</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="exports文件配置格式"><a href="#exports文件配置格式" class="headerlink" title="exports文件配置格式"></a>exports文件配置格式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NFS共享目录  NFS客户端地址1(param1,param2…)  NFS客户端地址1(param1,param2…)</div></pre></td></tr></table></figure>
+<ul>
+<li><p>NFS共享目录 ： </p>
+<ul>
+<li>要用绝对路径，可被nfsnobody读写</li>
+</ul>
+</li>
+<li><p>NFS客户端地址：</p>
+<ul>
+<li>指定IP： 172.17.84.25</li>
+<li>指定子网所有主机： 192.18.80.0/24</li>
+<li>指定域名的主机： test.com</li>
+<li>指定域名所有主机： *.test.com</li>
+<li>所有主机： *</li>
+</ul>
+</li>
+<li><p>参数：</p>
+<ul>
+<li>ro： 目录只读</li>
+<li>rw： 目录读写</li>
+<li>sync：将数据同步写入内存缓冲区与磁盘中，效率低，但可以保证数据的一致性</li>
+<li>async：将数据先保存在内存缓冲区中，必要时才写入磁盘</li>
+<li>all_squash：将远程访问的所有普通用户及所属组都映射为匿名用户或用户组(nfsnobody)</li>
+<li>no_all_squash：与all_squash取反(默认设置)</li>
+<li>root_squash：将root用户及所属组都映射为匿名用户或用户组(默认设置)</li>
+<li>no_root_squash：与rootsquash取反</li>
+<li>anonuid=xxx：将远程访问的所有用户都映射为匿名用户，并指定该用户为本地用户(UID=xxx)</li>
+<li>anongid=xxx：将远程访问的所有用户组都映射为匿名用户组账户</li>
+</ul>
+</li>
+</ul>
+<h3 id="挂载共享目录"><a href="#挂载共享目录" class="headerlink" title="挂载共享目录"></a>挂载共享目录</h3><ul>
+<li><p>创建要共享的目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir -p /data/WebRoot</div><div class="line">chown nfnobody:nfsnobody /data/WebRoot</div></pre></td></tr></table></figure>
+</li>
+<li><p>重新加载nfs配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">exportfs -rv</div></pre></td></tr></table></figure>
+</li>
+<li><p>客户端查看nfs服务器挂载情况</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">showmount -e 172.18.80.55 (服务端ip)</div></pre></td></tr></table></figure>
+</li>
+<li><p>客户端挂载测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir -p /data/WebRoot</div><div class="line">mount -t nfs 172.18.80.55:/data/WebRoot /data/WebRoot</div></pre></td></tr></table></figure>
+</li>
+<li><p>卸载挂载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">umount /data/WebRoot</div></pre></td></tr></table></figure>
+</li>
+</ul>
 
           
         
@@ -381,7 +481,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/16/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/18/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/16/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><span class="page-number current">17</span><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/18/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -427,7 +527,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

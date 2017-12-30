@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/16/k8s-pod-volume/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/17/k8s-service/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/16/k8s-pod-volume/" itemprop="url">k8s:Pod容器共享Volume</a></h1>
+                <a class="post-title-link" href="/2017/10/17/k8s-service/" itemprop="url">K8s中的Service</a></h1>
         
 
         <div class="post-meta">
@@ -293,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-16T22:08:25+08:00">
-                2017-10-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-17T23:20:11+08:00">
+                2017-10-17
               </time>
             
 
@@ -355,25 +355,14 @@
       
         
           
-            <h2 id="容器共享"><a href="#容器共享" class="headerlink" title="容器共享"></a>容器共享</h2><p>在同个Pod中的多个容器能够共享Pod的存储卷Volume。Volume可以被定义为各种类型，多个容器各自进行挂载操作，将一个Volume挂载为容器内部需要的目录。<br><img src="/2017/10/16/k8s-pod-volume/k8s-pod-volume.jpg" alt=""></p>
-<p>定义Pod的配置文件 <code>pod-volume.yaml</code>：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></div><div class="line"><span class="attr">kind:</span> <span class="string">Pod</span></div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> <span class="string">pod-volume</span></div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  containers:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">tomcat</span></div><div class="line"><span class="attr">    image:</span> <span class="string">tomcat</span></div><div class="line"><span class="attr">    ports:</span></div><div class="line"><span class="attr">    - containerPort:</span> <span class="number">8080</span></div><div class="line"><span class="attr">    volumeMounts:</span></div><div class="line"><span class="attr">    - name:</span> <span class="string">app-logs</span></div><div class="line"><span class="attr">      mountPath:</span> <span class="string">/usr/local/tomcat/logs</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">busybox</span></div><div class="line"><span class="attr">    image:</span> <span class="string">busybox</span></div><div class="line"><span class="attr">    command:</span> <span class="string">["sh",</span> <span class="string">"-c"</span> <span class="string">,"tail</span> <span class="bullet">-f</span> <span class="string">/logs/catalina*.log"]</span></div><div class="line"><span class="attr">    volumeMounts:</span></div><div class="line"><span class="attr">    - name:</span> <span class="string">app-logs</span></div><div class="line"><span class="attr">      mountPath:</span> <span class="string">/logs</span></div><div class="line"><span class="attr">  volumes:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">app-logs</span></div><div class="line"><span class="attr">    emptyDir:</span> <span class="string">&#123;&#125;</span></div></pre></td></tr></table></figure>
-<p>创建Pod<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl create -f pod-volume.yaml</div></pre></td></tr></table></figure></p>
-<p>查看<br>这里设置的volume的名称为 <code>app-logs</code>， 类型为emptyDir,挂载到tomcat容器内的 <code>/usr/local/tomcat/logs</code> 目录， 同时挂载到 busybox 容器内的<code>logs</code> 目录。 tomcat容器在启动后会想 <code>/usr/local/tomcat/logs</code> 写文件， busybox 就可以读取目录中的文件了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl logs pod-volume -c busybox</div></pre></td></tr></table></figure></p>
-<p><img src="/2017/10/16/k8s-pod-volume/k8s-pod-logreader.png" alt=""></p>
-<h2 id="Volume类型"><a href="#Volume类型" class="headerlink" title="Volume类型"></a>Volume类型</h2><h3 id="emptyDir"><a href="#emptyDir" class="headerlink" title="emptyDir"></a>emptyDir</h3><p>一个emptyDir是在Pod分到Node时创建的。它的初始内容为空，并且无须指定宿主机上对应的目录文件，是K8s自动分配的一个目录。当Pod从Node上移除时，emptyDir的数据也会被永久删除。它的主要用途如下：</p>
-<ul>
-<li>临时空间。</li>
-<li>长时间任务的中间过程CheckPoint的临时保存目录</li>
-<li>一个容器需要从另一个容器获取数据的目录（多容器的共享目录）</li>
-</ul>
-<h3 id="hostPath"><a href="#hostPath" class="headerlink" title="hostPath"></a>hostPath</h3><p>hostPath为在Pod上挂载宿主机上的文件或目录，它通常可以用于以下几个方面：</p>
-<ul>
-<li>容器应用程序生成的日志文件需要永久保存，可以使用宿主机的高速文件系统进行存储</li>
-<li>需要访问宿主机上Docker引擎内部数据结构的容器应用，可以通过定义hostPath为宿主机<code>/var/lib/docker</code>目录，使容器内部应用可以直接访问Docker的文件系统。需要注意的时，不同Node上的相同配置的Pod可能会因为宿主机上的目录和文件不同而导致对Volume上目录和文件的访问结果不一致。如果使用了资源配额管理，k8s无法将hostPath在宿主机上使用的资源纳入管理</li>
-</ul>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="attr">volumes:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">persist-storage</span></div><div class="line"><span class="attr">    hostPath:</span></div><div class="line"><span class="attr">      path:</span> <span class="string">"/data"</span></div></pre></td></tr></table></figure>
-<h3 id="NFS"><a href="#NFS" class="headerlink" title="NFS"></a>NFS</h3><p>使用NFS网络类型文件系统提供的共享目录存储数据是，需要在系统中部署NFS server。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="attr">volumes:</span></div><div class="line"><span class="attr">  - name:</span> <span class="string">nfs</span></div><div class="line"><span class="attr">    nfs:</span></div><div class="line"><span class="attr">      server:</span> <span class="string">nfs-server.localhost</span></div><div class="line"><span class="attr">      path:</span> <span class="string">/</span></div></pre></td></tr></table></figure></p>
+            <p>Service是Kubernetes的核心概念，通过创建Service，可以统一为一组具有相同功能的容器提供一个统一的入口地址，并且将请求负载分发到后端的各个容器应用上。</p>
+<p>Pod, Rc 和 Service之间的关系如图：<br><img src="/2017/10/17/k8s-service/k8s-service-overview.jpg" alt=""></p>
+<p>K8s的Service定义了一个服务的访问入口地址，前端应用通过这个入口地址访问其背后的一组由Pod副本组成的集群实例，Service与其后端Pod副本集群直接则是通过 Label Selector 类实现无缝对接的。而 RC 的作用实际上是保证Service的服务能力和服务质量始终处于预期的标准。</p>
+<p>在K8s中每个Pod都会被分配一个单独的IP地址，而且每个Pod都提供了一个独立的Endpoint(PodId + ContainerPort) 以被客户端访问，但是多个Pod副本组成一个集群类提供服务，那么就需要部署负载均衡，为这组Pod开启一个对外服务的端口，将这些Pod的Endpoint列表加入对外服务端口的转发列表。客户端就可以通过负载均衡服务器的IP地址+服务端口访问该服务，至于客户端的请求到达哪一个Pod，则由负载均衡算法决定。</p>
+<p>K8s中的Kube-proxy就是这样一个负载均衡，它负责吧Service的请求转发到后端的Pod上。比较鸡贼的是，K8s为每个Service分配了一个全局唯一的虚拟IP地址，这个虚拟IP地址就是Cluster IP。如此一来，每个服务都有一个唯一的IP地址。</p>
+<p>在Pod的在创建和销毁的过程中，IP地址会发生变化。但是Service一旦被创建就会被分配一个Cluster IP，并且在Service的整个生命周期，它的Cluster IP不会发生变化。那么只需要在Service的Name和Cluster Ip之间左一层DNS解析，就可以轻松的解决服务发现的问题。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></div><div class="line"><span class="attr">kind:</span> <span class="string">Service</span></div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> <span class="string">mysql</span></div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  ports:</span></div><div class="line"><span class="attr">    - port:</span> <span class="number">3306</span></div><div class="line"><span class="attr">  selector:</span></div><div class="line"><span class="attr">    app:</span> <span class="string">mysql</span></div></pre></td></tr></table></figure>
+<p><img src="/2017/10/17/k8s-service/k8s-service-example.png" alt=""></p>
 
           
         
@@ -413,7 +402,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -459,7 +448,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

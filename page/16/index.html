@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/13/nfs-server/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/10/14/k8s-setup-issues/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/13/nfs-server/" itemprop="url">搭建NFS服务器</a></h1>
+                <a class="post-title-link" href="/2017/10/14/k8s-setup-issues/" itemprop="url">安装K8S与问题解决</a></h1>
         
 
         <div class="post-meta">
@@ -293,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-13T14:25:06+08:00">
-                2017-10-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-14T00:00:00+08:00">
+                2017-10-14
               </time>
             
 
@@ -355,93 +355,18 @@
       
         
           
-            <p>NFS是NetWork File System， 即网络文件系统。客户端通过挂在的方式将NFS服务器端共享的数据目录挂载在本地目录下。</p>
-<h3 id="nfs为什么需要RPC？"><a href="#nfs为什么需要RPC？" class="headerlink" title="nfs为什么需要RPC？"></a>nfs为什么需要RPC？</h3><p>因为NFS支持的功能非常多，不同功能会使用不同的程序来启动。因此，NFS对应的功能对应的端口无法固定。端口不固定造成客户端和服务器之间的通信障碍，所以需要RPC来从中帮忙。NFS启动时会随机取用若干端口，然后主动向RPC服务注册取用相关端口和功能信息，RPC使用固定端口111来监听来自NFS客户端的请求，并将争取的NFS服务端口信息返回给客户端，这样客户端与服务端就可以进行数据传输了。</p>
-<h4 id="nfs的工作流程"><a href="#nfs的工作流程" class="headerlink" title="nfs的工作流程"></a>nfs的工作流程</h4><pre><code>• 由程序在NFS客户端发起存取文件的请求，客户端本地的RPC服务会通过网络向NFS服务端的RPC的111端口发出文件存取功能的请求。
-• NFS服务端的RPC找到对应已经注册的NFS端口，通知客户端RPC服务
-• 客户度获取正确的端口，并与NFS daemon联机存取数据
-• 存取数据成功之后，返回前端访问程序，完成一次存取操作
-</code></pre><h3 id="nfs服务安装与配置"><a href="#nfs服务安装与配置" class="headerlink" title="nfs服务安装与配置"></a>nfs服务安装与配置</h3><p>nfs-utils<br>rpcbind (在centos5及以下叫做 portmap)</p>
-<ul>
-<li><p>查看是否安装nfs</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">rpm -qa nfs-utils rpcbind</div><div class="line">yum install nfs-utils rpcbind</div></pre></td></tr></table></figure>
-</li>
-<li><p>启动nfs服务</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">systemctl start nfs</div><div class="line">systemctl status nfs</div></pre></td></tr></table></figure>
-</li>
-<li><p>启动rpcbind服务</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">systemctl start rpcbind</div><div class="line">systemctl status rpcbind</div></pre></td></tr></table></figure>
-</li>
-<li><p>查看rpc</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">lsof -I :111</div><div class="line">netstat -ntlpu | grep rpcbind</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>如果找不到 lsof 和 netstat命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install net-tools lsof</div></pre></td></tr></table></figure></p>
-<p>查看nfs服务向rpc注册的端口信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpcinfo -p localhost</div></pre></td></tr></table></figure></p>
-<p>检查rpcbind是否是开机启动<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chkconfig --list rpcbind</div></pre></td></tr></table></figure></p>
-<p>再次查看rpc注册的端口信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpcinfo -p localhost</div></pre></td></tr></table></figure></p>
-<h3 id="nfs常见进程详解"><a href="#nfs常见进程详解" class="headerlink" title="nfs常见进程详解"></a>nfs常见进程详解</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ps -fe | egrep <span class="string">"rpc|nfs"</span></div></pre></td></tr></table></figure>
-<pre><code>nfsd(rpc.nfsd)主进程，主要是管理客户端能否登入服务端，登入者ID判别。
-mountd(rpc.mountd)管理NFS文件系统，登入者的权限管理
-rpc.lockd(非必要)用来锁定文件，用于客户端同时写入
-rpc.statd(非必要)检查文件一致性
-rpc.idmapd 名字映射后台进程
-</code></pre><ul>
-<li><p>配置nfs开机自启动</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">chkconfig rpcbind on</div><div class="line">chkconfig nfs on</div><div class="line">chkconfig --list rpcbind</div><div class="line">chekconfig --list nfs</div></pre></td></tr></table></figure>
-</li>
-<li><p>nfs服务端配置</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/exports</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="exports文件配置格式"><a href="#exports文件配置格式" class="headerlink" title="exports文件配置格式"></a>exports文件配置格式</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">NFS共享目录  NFS客户端地址1(param1,param2…)  NFS客户端地址1(param1,param2…)</div></pre></td></tr></table></figure>
-<ul>
-<li><p>NFS共享目录 ： </p>
-<ul>
-<li>要用绝对路径，可被nfsnobody读写</li>
-</ul>
-</li>
-<li><p>NFS客户端地址：</p>
-<ul>
-<li>指定IP： 172.17.84.25</li>
-<li>指定子网所有主机： 192.18.80.0/24</li>
-<li>指定域名的主机： test.com</li>
-<li>指定域名所有主机： *.test.com</li>
-<li>所有主机： *</li>
-</ul>
-</li>
-<li><p>参数：</p>
-<ul>
-<li>ro： 目录只读</li>
-<li>rw： 目录读写</li>
-<li>sync：将数据同步写入内存缓冲区与磁盘中，效率低，但可以保证数据的一致性</li>
-<li>async：将数据先保存在内存缓冲区中，必要时才写入磁盘</li>
-<li>all_squash：将远程访问的所有普通用户及所属组都映射为匿名用户或用户组(nfsnobody)</li>
-<li>no_all_squash：与all_squash取反(默认设置)</li>
-<li>root_squash：将root用户及所属组都映射为匿名用户或用户组(默认设置)</li>
-<li>no_root_squash：与rootsquash取反</li>
-<li>anonuid=xxx：将远程访问的所有用户都映射为匿名用户，并指定该用户为本地用户(UID=xxx)</li>
-<li>anongid=xxx：将远程访问的所有用户组都映射为匿名用户组账户</li>
-</ul>
-</li>
-</ul>
-<h3 id="挂载共享目录"><a href="#挂载共享目录" class="headerlink" title="挂载共享目录"></a>挂载共享目录</h3><ul>
-<li><p>创建要共享的目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir -p /data/WebRoot</div><div class="line">chown nfnobody:nfsnobody /data/WebRoot</div></pre></td></tr></table></figure>
-</li>
-<li><p>重新加载nfs配置</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">exportfs -rv</div></pre></td></tr></table></figure>
-</li>
-<li><p>客户端查看nfs服务器挂载情况</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">showmount -e 172.18.80.55 (服务端ip)</div></pre></td></tr></table></figure>
-</li>
-<li><p>客户端挂载测试</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mkdir -p /data/WebRoot</div><div class="line">mount -t nfs 172.18.80.55:/data/WebRoot /data/WebRoot</div></pre></td></tr></table></figure>
-</li>
-<li><p>卸载挂载</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">umount /data/WebRoot</div></pre></td></tr></table></figure>
-</li>
-</ul>
+            <h2 id="安装K8s"><a href="#安装K8s" class="headerlink" title="安装K8s"></a>安装K8s</h2><p>在CentOS7的环境中安装k8s还是比较容易的。目前，CentOS仓库中的Kubernetes是1.5.2，能够支持的Docker的版本为1.12。所以，在安装的时候，需要确认CentOS中是否已经安装了Docker。如果已经安装了Docker并且Docker的版本大于1.12，那么安装Kubernetes可能会失败。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rpm -qa | grep docker</div></pre></td></tr></table></figure></p>
+<p>如果已经安装了比较新的Docker，例如17.09，就需要先删除。</p>
+<p>安装K8s<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install etcd kubernetes</div></pre></td></tr></table></figure></p>
+<p>按照以下顺序启动服务，就可以得到一个节点的K8s环境了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ssystemctl restart etcd</div><div class="line">systemctl restart docker</div><div class="line">systemctl restart kube-apiserver</div><div class="line">systemctl restart kube-controller-manager</div><div class="line">systemctl restart kube-scheduler</div><div class="line">systemctl restart kubelet</div><div class="line">systemctl restart kube-proxy</div></pre></td></tr></table></figure></p>
+<h2 id="遇到的issues"><a href="#遇到的issues" class="headerlink" title="遇到的issues"></a>遇到的issues</h2><h3 id="issue-1-：-无法创建pod"><a href="#issue-1-：-无法创建pod" class="headerlink" title="issue 1 ： 无法创建pod"></a>issue 1 ： 无法创建pod</h3><p>创建一个MySQL服务的RC配置文件mysql-rc.yaml，来测试K8S是否正常</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></div><div class="line"><span class="attr">kind:</span> <span class="string">ReplicationController</span></div><div class="line"><span class="attr">metadata:</span></div><div class="line"><span class="attr">  name:</span> <span class="string">mysql</span></div><div class="line"><span class="attr">spec:</span></div><div class="line"><span class="attr">  replicas:</span> <span class="number">1</span></div><div class="line"><span class="attr">  selector:</span></div><div class="line"><span class="attr">    app:</span> <span class="string">mysql</span></div><div class="line"><span class="attr">  template:</span></div><div class="line"><span class="attr">    metadata:</span></div><div class="line"><span class="attr">      labels:</span></div><div class="line"><span class="attr">        app:</span> <span class="string">mysql</span></div><div class="line"><span class="attr">    spec:</span></div><div class="line"><span class="attr">      containers:</span></div><div class="line"><span class="attr">      - name:</span> <span class="string">mysql</span></div><div class="line"><span class="attr">        image:</span> <span class="string">mysql</span></div><div class="line"><span class="attr">        ports:</span></div><div class="line"><span class="attr">        - containerPort:</span> <span class="number">3306</span></div><div class="line"><span class="attr">        env:</span></div><div class="line"><span class="attr">        - name:</span> <span class="string">MYSQL_ROOT_PASSWORD</span></div><div class="line"><span class="attr">          value:</span> <span class="string">"123456"</span></div></pre></td></tr></table></figure>
+<p>发布到K8S集群，执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl create -f mysql-rc.yaml</div></pre></td></tr></table></figure></p>
+<p>查看刚刚创建的RC：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl get rc</div></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NAME DESIRED CURRENT AGE</div><div class="line">mysql 1        1      1m</div></pre></td></tr></table></figure>
+<p>查看pod<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">kubectl get pods</div></pre></td></tr></table></figure></p>
+<p><img src="/2017/10/14/k8s-setup-issues/pod-no-exist.jpeg" alt="pod-no-exist"><br>发现并没有创建mysql对应的pod, 这里的主要问题就是没有认证，解决方法在这里 <a href="http://www.voidcn.com/article/p-kvceqhez-vb.html" target="_blank" rel="external">解决认证问题</a>。</p>
+<h3 id="issue-2-：-创建pod-status-pending"><a href="#issue-2-：-创建pod-status-pending" class="headerlink" title="issue 2 ： 创建pod status pending"></a>issue 2 ： 创建pod status pending</h3><p>K8S 创建容器后，查看pod状态，一直是 ContainerCreating，主要原因运行POD所需要的镜像由于网路原因无法获取. 发现是无法获取<code>registry.access.redhat.com/rhel7/pod-infrastructure:latest</code> 这个镜像。<br>去到测试服务器上，将该镜像tag为私有仓库的镜像，推送到私有仓库。从私有仓库拉下来，重新tag回 <code>registry.access.redhat.com/rhel7/pod-infrastructure:latest</code> 。<br><img src="/2017/10/14/k8s-setup-issues/can-not-get-images.jpeg" alt="can-not-get-images"><br>网路上还有另外一种说法是无法获取 <code>gcr.io/pause:2.0</code> 镜像，但是解决的思路是一样的。</p>
 
           
         
@@ -481,7 +406,7 @@ rpc.idmapd 名字映射后台进程
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -527,7 +452,7 @@ rpc.idmapd 名字映射后台进程
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

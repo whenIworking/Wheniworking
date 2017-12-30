@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/java-date/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/09/10/Annotation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/09/10/java-date/" itemprop="url">Java日期</a></h1>
+                <a class="post-title-link" href="/2015/09/10/Annotation/" itemprop="url">Annotation的工作原理</a></h1>
         
 
         <div class="post-meta">
@@ -355,70 +355,19 @@
       
         
           
-            <p>Java日期的操作在日常的应用开发中使用非常普遍，然而每次使用都不得不去查文档，效率很低。工欲善其事必先利其器，所以需要好好总结一番。<br>Java的日期的常用操作其实主要有以下几种：</p>
-<ul>
-<li>字符串转为日期对象</li>
-<li>日期对象转换为字符串</li>
-<li>时间戳转换为日期对象</li>
-<li>日期对象不同的格式转换</li>
-<li>Calendar类的使用</li>
-</ul>
-<p><code>DateFormat</code> 类是一个用来格式化日期或者时间的抽象类。<code>DateFormat</code>提供了很多根据本地化或者指定类型 的格式化<em>类方法</em>。<br><code>SimpleDateFormat</code>是<code>DateFormat</code>的子类，是一个以国别敏感的方式格式化和分析数据的具体类。 它允许格式化 (<code>date -&gt; text</code>)、语法分析 (<code>text -&gt; date</code>)和标准化。</p>
-<p><code>SimpleDateFormat</code> 允许以为日期-时间格式化选择任何用户指定的方式启动。 但是，希望用 <code>DateFormat</code> 中的 <code>getTimeInstance</code>、 <code>getDateInstance</code> 或 <code>getDateTimeInstance</code> 创建一个日期-时间格式化程序。 每个类方法返回一个以缺省格式化方式初始化的日期／时间格式化程序。 可以根据需要用 <code>applyPattern</code> 方法修改格式化方式。 </p>
-<blockquote>
-<p> <code>SimpleDateFormat</code> 函数语法：<br> **- G 年代标志符</p>
-<ul>
-<li>y 年</li>
-<li>M 月</li>
-<li>d 日</li>
-<li>h 时 在上午或下午 (1~12)</li>
-<li>H 时 在一天中 (0~23)</li>
-<li>m 分</li>
-<li>s 秒</li>
-<li>S 毫秒</li>
-<li>E 星期</li>
-<li>D 一年中的第几天</li>
-<li>F 一月中第几个星期几</li>
-<li>w 一年中第几个星期</li>
-<li>W 一月中第几个星期</li>
-<li>a 上午 / 下午 标记符</li>
-<li>k 时 在一天中 (1~24)</li>
-<li>K 时 在上午或下午 (0~11)  z 时区**</li>
-</ul>
-</blockquote>
-<h2 id="字符串转为日期对象"><a href="#字符串转为日期对象" class="headerlink" title="字符串转为日期对象"></a>字符串转为日期对象</h2><p><strong>主要方法</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> Date <span class="title">parse</span><span class="params">(String source)</span>  <span class="keyword">throws</span> ParseException</span></div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>Parses text from the beginning of the given string to produce a date.<br>The method may not use the entire text of the given string.</p>
-</blockquote>
-<p>用法示例：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">String str = <span class="string">"2015-8-23 15:10:34"</span>;</div><div class="line"><span class="comment">//定义SimpleFormat格式</span></div><div class="line">SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH-mm-ss"</span>);</div><div class="line">Date date = format.parse(str); <span class="comment">//这里有异常抛出，ParseException</span></div></pre></td></tr></table></figure></p>
-<h2 id="日期对象转为字符串"><a href="#日期对象转为字符串" class="headerlink" title="日期对象转为字符串"></a>日期对象转为字符串</h2><p><strong>主要方法</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> String <span class="title">format</span><span class="params">(Date date)</span></span></div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>Formats a Date into a date/time string.</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Date date = <span class="keyword">new</span> Date();</div><div class="line"><span class="comment">//定义SimpleFormat格式</span></div><div class="line">SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH-mm-ss"</span>);</div><div class="line">String dateStr = format.foramt(date);</div></pre></td></tr></table></figure>
-<p>##时间戳与日期的转换<br><strong>主要方法</strong></p>
-<p>Date类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getTime</span><span class="params">()</span></span></div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>返回一个时间戳：某个时间距1970年1月1日0时0分0秒的总的毫秒数</p>
-</blockquote>
-<p>SimpleDateFormat类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> String <span class="title">format</span><span class="params">(Object obj)</span></span></div><div class="line"><span class="function"><span class="keyword">public</span> Date <span class="title">parse</span><span class="params">(String source)</span>  <span class="keyword">throws</span> ParseException</span></div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>首先转换为format的格式的日期字符串，然后利用parse转换为日期对象</p>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">long</span> timestamp = <span class="number">445555555</span>；</div><div class="line"><span class="comment">//定义SimpleFormat格式</span></div><div class="line">SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH-mm-ss"</span>);</div><div class="line">String dateStr = format.foramt(timestamp);</div><div class="line">Date date = format.parse(str); <span class="comment">//这里有异常抛出，ParseException</span></div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Date或者String转化为时间戳</span></div><div class="line">SimpleDateFormat format =  newSimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</div><div class="line">String time=<span class="string">"1970-01-06 11:45:55"</span>;</div><div class="line">Date date = format.parse(time);</div><div class="line">System.out.print(<span class="string">"Format To times:"</span>+date.getTime());</div></pre></td></tr></table></figure>
-<p>##小结</p>
-<p><strong>注意：  定义<code>SimpleDateFormat时newSimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</code> 里面字符串头尾不能有空格，有空格那么用转换时对应的时间格式也要有空格（两者是对应的），如下所示：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Date或者String转化为时间戳</span></div><div class="line">      SimpleDateFormat format =  newSimpleDateFormat(<span class="string">" yyyy-MM-dd HH:mm:ss "</span>);</div><div class="line">      String time=<span class="string">"1970-01-06 11:45:55"</span>;</div><div class="line">      Date date = format.parse(time);</div><div class="line">      System.out.print(<span class="string">"Format To times:"</span>+date.getTime());</div></pre></td></tr></table></figure></p>
-<p>运行结果出错：</p>
-<pre><code>Exception in thread &quot;main&quot;java.text.ParseException: Unparseable date: &quot;1970-01-06 11:45:55&quot;
-</code></pre><p>改正，添加对应的空格：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">SimpleDateFormat format =  newSimpleDateFormat(<span class="string">" yyyy-MM-dd HH:mm:ss "</span>);</div><div class="line">String time=<span class="string">" 1970-01-06 11:45:55 "</span>;<span class="comment">//注：改正后这里前后也加了空格</span></div><div class="line">Date date = format.parse(time);</div><div class="line">System.out.print(<span class="string">"Format To times:"</span>+date.getTime());</div></pre></td></tr></table></figure></p>
-<p> 运行结果正常：</p>
-<pre><code>Format To times:445555000
-</code></pre><p>#Calendar类用法</p>
-<p><code>Calendar</code> 类是Util包下的一个用来方便管理日期的操作类。</p>
-<p><code>Calendar</code> 可以用 <code>DateFormat</code>的 <code>getCalendar</code> 方法获得，也时可以通过 <code>Calendar</code>的类方法<code>getInstance</code>方法取得。</p>
-<p><code>Calendar</code> 类的常见用法就是时间，日期时间的累加和累减以及日期的循环操作。</p>
-<p>示例：获取一段时间内的所有日期完成循环操作<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span>  <span class="keyword">void</span> <span class="title">findDates</span><span class="params">(String startTime,String endTime)</span> </span>&#123;</div><div class="line">        SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</div><div class="line">        Date dBegin= <span class="keyword">null</span>;</div><div class="line">        Date dEnd = <span class="keyword">null</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            dBegin = format.parse(startTime);</div><div class="line">            dEnd = format.parse(endTime);</div><div class="line">        &#125; <span class="keyword">catch</span> (ParseException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        Calendar calBegin = Calendar.getInstance();</div><div class="line">        <span class="comment">// 使用给定的 Date 设置此 Calendar 的时间</span></div><div class="line">        calBegin.setTime(dBegin);</div><div class="line">        <span class="comment">// 测试此日期是否在指定日期之后</span></div><div class="line">        <span class="keyword">while</span> (dEnd.after(calBegin.getTime())) &#123;</div><div class="line">            <span class="comment">//业务代码</span></div><div class="line">            <span class="comment">// 根据日历的规则，为给定的日历字段添加或减去指定的时间量</span></div><div class="line">            calBegin.add(Calendar.DAY_OF_MONTH, <span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="comment">//业务代码</span></div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+            <p>Annotation的出现真的是非常惊艳，能把许多繁琐的工作化整为零。那么Annotation到底是怎么工作的呢，那么就亲自编写一个Annotation程序尝试一下就比较清楚了。</p>
+<p>下面就演示一个简单的Annotation到底是怎么起作用的:</p>
+<p>先定义一个叫Hello的Annotation注解</p>
+<p>下面就演示一个简单的Annotation到底是怎么起作用的:</p>
+<p>先定义一个叫Hello的Annotation注解<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)<span class="comment">//表示运行时能获取参数</span></div><div class="line"><span class="meta">@Target</span>(&#123;ElementType.METHOD&#125;)<span class="comment">//表示只能作用在方法上面</span></div><div class="line"><span class="keyword">public</span> <span class="meta">@interface</span> Hello &#123;</div><div class="line">    <span class="function">String <span class="title">name</span><span class="params">()</span> <span class="keyword">default</span> "hello world!"</span>;<span class="comment">//能设置默认值</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>但是仅仅是这个注解是没什么作用的，还必须有解析器来解析她，下面再来写一个解析器Parser.java:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Parser</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">parser</span><span class="params">(Object obj)</span></span>&#123;</div><div class="line">        Method[] ms=obj.getClass().getMethods();<span class="comment">//取得对象的所有方法</span></div><div class="line">        <span class="keyword">for</span>(Method m:ms)&#123;<span class="comment">//遍历方法</span></div><div class="line">            <span class="keyword">if</span>(m.isAnnotationPresent(Hello.class))&#123;<span class="comment">//判断方法是否有Hello注解</span></div><div class="line">                Hello hel=m.getAnnotation(Hello.class);<span class="comment">//取得Hello注解中属性的值</span></div><div class="line">                System.out.println(<span class="string">"before……"</span>+hel.name());</div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    m.invoke(obj, <span class="keyword">null</span>);<span class="comment">//唤醒函数</span></div><div class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                    e.printStackTrace();</div><div class="line">                &#125; </div><div class="line">                System.out.println(<span class="string">"after……"</span>+hel.name());</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样一个完整的annotation注解就完成了，下面来测试一下，先写一个目标类Sample.java：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sample</span> </span>&#123;</div><div class="line">        <span class="keyword">private</span> String something;</div><div class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">getSomething</span><span class="params">()</span> </span>&#123;</div><div class="line">            <span class="keyword">return</span> something;</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSomething</span><span class="params">(String something)</span> </span>&#123;</div><div class="line">            <span class="keyword">this</span>.something = something;</div><div class="line">        &#125;</div><div class="line">        <span class="meta">@Hello</span> <span class="comment">//在此处使用注解</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">func</span><span class="params">()</span></span>&#123;</div><div class="line">            System.out.println(something);</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>最后运行测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        Sample sample=<span class="keyword">new</span> Sample();</div><div class="line">        sample.setSomething(<span class="string">"some functions"</span>);</div><div class="line">        Parser.parser(sample); <span class="comment">//调用解析器进行解析分析</span></div><div class="line">    &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>控制台打印结果：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">before……hello world!</div><div class="line">some functions</div><div class="line">after……hello world!</div></pre></td></tr></table></figure></p>
+<p>Spring中运用Annotation控制事务其实是一样的道理，所以Java的反射机制真的是很强大啊</p>
 
           
         
@@ -458,7 +407,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/29/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="extend next" rel="next" href="/page/31/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/29/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/29/">29</a><span class="page-number current">30</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/31/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -504,7 +453,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
