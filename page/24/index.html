@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/10/28/jpa-1/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2015/11/03/jpa-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2015/10/28/jpa-1/" itemprop="url">jpa(1)</a></h1>
+                <a class="post-title-link" href="/2015/11/03/jpa-2/" itemprop="url">jpa(2)</a></h1>
         
 
         <div class="post-meta">
@@ -293,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-28T00:00:00+08:00">
-                2015-10-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-11-03T00:00:00+08:00">
+                2015-11-03
               </time>
             
 
@@ -355,166 +355,17 @@
       
         
           
-            <p><code>SPring Data JPA</code> 提供的编程接口：</p>
-<ul>
-<li><code>Repository</code> ： 最顶层的接口，是一个空接口，目的是为了统一所有的 <code>Repository</code> 的类型，且能让组件扫描的时候自动识别。</li>
-<li><code>CrudRepository</code>： <code>Repository</code> 的子接口，提供<code>CRUD</code>的功能</li>
-<li><code>PageingAndSortingRepository</code> ： <code>CrudRepository</code> 的子接口，添加分页排序的功能</li>
-<li><code>JpaRepository</code> ： <code>PageingAndSortingRepository</code> 的子接口，增加批量操作等功能</li>
-<li><code>JpaSpecificationExecutor</code> ： 用来做复杂查询的接口</li>
+            <ul>
+<li>使用<code>Criteria</code>查询</li>
+<li><code>JpaSpecificationExecutor</code> 接口的使用</li>
+<li><code>@Query</code> 和 <code>@NamedQuery</code> 的使用</li>
 </ul>
-<h2 id=""><a href="#" class="headerlink" title=""></a><img src="http://d.pcs.baidu.com/thumbnail/0d3a57298038ca2dd772a2fb758e1f80?fid=2266416092-250528-93475818706227&amp;time=1440748800&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-tfdz%2FT%2BweDtIW0Qzac6BBjUiyTM%3D&amp;rt=sh&amp;expires=2h&amp;r=390105949&amp;sharesign=unknown&amp;size=c710_u500&amp;quality=100" alt="接口的继承关系图："></h2><h1 id="JpaRepository-接口方法："><a href="#JpaRepository-接口方法：" class="headerlink" title="JpaRepository 接口方法："></a><code>JpaRepository</code> 接口方法：</h1><ul>
-<li>delete 删除或者批量删除</li>
-<li>findAll 查找所有</li>
-<li>findOne 查找单个</li>
-<li>save 保存单个或批量保存</li>
-<li><p>saveAndFlush 保存并保存到数据库</p>
-<p>示例：用户管理</p>
-<p><code>persitent.xml</code> 配置文件</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"> &lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">persistence</span> <span class="attr">xmlns</span>=<span class="string">"http://java.sun.com/xml/ns/persistence"</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">persistence-unit</span> <span class="attr">name</span>=<span class="string">"userPU"</span> <span class="attr">transaction-type</span>=<span class="string">"RESOURCE_LOCAL"</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--jpa的提供者--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">provider</span>&gt;</span>org.hibernate.ejb.HibernatePersistence<span class="tag">&lt;/<span class="name">provider</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">properties</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!--声明数据库连接的驱动--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.connection.driver_class"</span> <span class="attr">value</span>=<span class="string">"com.mysql.jdbc.Driver"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!--jdbc数据库的连接地址--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.connection.url"</span> <span class="attr">value</span>=<span class="string">"jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8&amp;amp;autoReconnect=true"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.connection.username"</span> <span class="attr">value</span>=<span class="string">"root"</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.connection.password"</span> <span class="attr">value</span>=<span class="string">"zdw890926"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!--配置方言--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.dialect"</span> <span class="attr">value</span>=<span class="string">"org.hibernate.dialect.MySQL5Dialect"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!--激活查询日志功能--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.show_sql"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!--优雅地输出Sql--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.format_sql"</span> <span class="attr">value</span>=<span class="string">"true"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!--添加一条解释型标注--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.use_sql_comments"</span> <span class="attr">value</span>=<span class="string">"false"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!--配置如何根据java模型生成数据库表结构,常用update,validate--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hibernate.hbm2ddl.auto"</span> <span class="attr">value</span>=<span class="string">"update"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">persistence-unit</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">persistence</span>&gt;</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p> <code>Spring</code> 上下文的配置文件 <code>applicationContext.xml</code> 文件：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"> <span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span>  </span></div><div class="line"><span class="tag">    <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span>   </span></div><div class="line"><span class="tag">    <span class="attr">xmlns:jdbc</span>=<span class="string">"http://www.springframework.org/schema/jdbc"</span>    </span></div><div class="line"><span class="tag">    <span class="attr">xmlns:jee</span>=<span class="string">"http://www.springframework.org/schema/jee"</span>   </span></div><div class="line"><span class="tag">    <span class="attr">xmlns:tx</span>=<span class="string">"http://www.springframework.org/schema/tx"</span>  </span></div><div class="line"><span class="tag">    <span class="attr">xmlns:jpa</span>=<span class="string">"http://www.springframework.org/schema/data/jpa"</span>  </span></div><div class="line"><span class="tag">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"  </span></span></div><div class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd  </span></span></div><div class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd  </span></span></div><div class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd  </span></span></div><div class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd  </span></span></div><div class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd  </span></span></div><div class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"</span>  </span></div><div class="line"><span class="tag">    <span class="attr">default-lazy-init</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!--第一步--&gt;</span></div><div class="line">    <span class="comment">&lt;!--定义服务层代码存放的包扫描路径--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"javaskills.jpa.usermanage.service"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!--第二步--&gt;</span></div><div class="line">    <span class="comment">&lt;!--定义实体的工厂bean--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"entityManagerFactory"</span> <span class="attr">class</span>=<span class="string">"org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"persistenceUnitName"</span> <span class="attr">value</span>=<span class="string">"userPU"</span> /&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"persistenceXmlLocation"</span> <span class="attr">value</span>=<span class="string">"classpath:persistent.xml"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!--第三步--&gt;</span></div><div class="line">    <span class="comment">&lt;!--定义事务管理器--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.orm.jpa.JpaTransactionManager"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"entityManagerFactory"</span> <span class="attr">ref</span>=<span class="string">"entityManagerFactory"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!--第四步--&gt;</span></div><div class="line">    <span class="comment">&lt;!--定义repository接口的存放目录--&gt;</span></div><div class="line">    <span class="comment">&lt;!--定义接口实现的后缀，通常用Impl--&gt;</span></div><div class="line">    <span class="comment">&lt;!--定义实体工厂的引用--&gt;</span></div><div class="line">    <span class="comment">&lt;!--定义事务管理器的引用--&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">jpa:repositories</span> <span class="attr">base-package</span>=<span class="string">"javaskills.jpa.usermanage.repository"</span></span></div><div class="line"><span class="tag">   					  <span class="attr">repository-impl-postfix</span>=<span class="string">"Impl"</span> </span></div><div class="line"><span class="tag">   					  <span class="attr">entity-manager-factory-ref</span>=<span class="string">"entityManagerFactory"</span> </span></div><div class="line"><span class="tag">   					  <span class="attr">transaction-manager-ref</span>=<span class="string">"transactionManager"</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!--第五步--&gt;</span></div><div class="line">    <span class="comment">&lt;!--声明采用注解的方式申明事务--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>查询操作的基本实现 — 方法名构造方法</p>
-<pre><code>find + 全局修饰 + By + 实体的属性名称 + 限定词 + 连接词 + ... （其他实体属性）+ OrderBy + 排序属性 + 排序方向
-</code></pre><p>例如<br><code>findDistinctByFirstNameIgnoreCaseAndLastNameOrderByAgeDesc(String firstName,String lastName)</code></p>
-<blockquote>
-<p>其中：<br>        <code>Distinct</code> 是全局修饰 非必须<br>        <code>FirstName</code> 和 <code>LastName</code> 是实体的属性名<br>        <code>And</code> 是连接词<br>        <code>IgnoreCase</code> 是限定词<br>        <code>Age</code> 是排序属性<br>        <code>Desc</code> 是排序方向<br>        <strong>限定词和连接词统称为“关键词”</strong></p>
-<p>关键词分类：<br>全局修饰： <code>Distinct</code> , <code>Top</code> , <code>First</code><br>关键词： <code>IsNull</code>,<code>IsNotNull</code>,<code>Like</code>,<code>NotLike</code>,<code>Containing</code>,<code>In</code>,<code>NotIn</code>,<code>IgnoreCase</code>,<code>Between</code>,<code>Equals</code>,<code>LessThan</code>,<code>GreaterThan</code>,<code>After</code>,<code>Before</code>……<br>排序方向：<code>Asc</code>,<code>Desc</code><br>连接词：<code>And</code>,<code>Or</code></p>
-</blockquote>
-<p>Table 2.3. Supported keywords inside method names</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Keyword</th>
-<th style="text-align:left">Sample</th>
-<th style="text-align:left">JPQL</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>And</code></td>
-<td style="text-align:left"><code>findByLastnameAndFirstname</code></td>
-<td style="text-align:left"><code>… where x.lastname = ?1 and x.firstname = ?2</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>Or</code></td>
-<td style="text-align:left"><code>findByLastnameOrFirstname</code></td>
-<td style="text-align:left"><code>… where x.lastname = ?1 or x.firstname = ?2</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>Is</code>,<code>Equals</code></td>
-<td style="text-align:left"><code>findByFirstname</code>, <code>findByFirstnameIs</code>, <code>findByFirstnameEquals</code></td>
-<td style="text-align:left"><code>… where x.firstname = 1?</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>Between</code></td>
-<td style="text-align:left"><code>findByStartDateBetween</code></td>
-<td style="text-align:left"><code>… where x.startDate between 1? and ?2</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>LessThan</code></td>
-<td style="text-align:left"><code>findByAgeLessThan</code></td>
-<td style="text-align:left"><code>… where x.age &lt; ?1</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>LessThanEqual</code></td>
-<td style="text-align:left"><code>findByAgeLessThanEqual</code></td>
-<td style="text-align:left"><code>… where x.age &lt;= ?1</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>GreaterThan</code></td>
-<td style="text-align:left"><code>findByAgeGreaterThan</code></td>
-<td style="text-align:left"><code>… where x.age &gt; ?1</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>GreaterThanEqual</code></td>
-<td style="text-align:left"><code>findByAgeGreaterThanEqual</code></td>
-<td style="text-align:left"><code>… where x.age &gt;= ?1</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>After</code></td>
-<td style="text-align:left"><code>findByStartDateAfter</code></td>
-<td style="text-align:left"><code>… where x.startDate &gt; ?1</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>Before</code></td>
-<td style="text-align:left"><code>findByStartDateBefore</code></td>
-<td style="text-align:left"><code>… where x.startDate &lt; ?1</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>IsNull</code></td>
-<td style="text-align:left"><code>findByAgeIsNull</code></td>
-<td style="text-align:left"><code>… where x.age is null</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>IsNotNull,NotNull</code></td>
-<td style="text-align:left"><code>findByAge(Is)NotNull</code></td>
-<td style="text-align:left"><code>… where x.age not null</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>Like</code></td>
-<td style="text-align:left"><code>findByFirstnameLike</code></td>
-<td style="text-align:left"><code>… where x.firstname like ?1</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>NotLike</code></td>
-<td style="text-align:left"><code>findByFirstnameNotLike</code></td>
-<td style="text-align:left"><code>… where x.firstname not like ?1</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>StartingWith</code></td>
-<td style="text-align:left"><code>findByFirstnameStartingWith</code></td>
-<td style="text-align:left"><code>… where x.firstname like ?1</code> \ <code>(parameter bound with appended %)</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>EndingWith</code></td>
-<td style="text-align:left"><code>findByFirstnameEndingWith</code></td>
-<td style="text-align:left"><code>… where x.firstname like ?1</code> \ <code>(parameter bound with prepended %)</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>Containing</code></td>
-<td style="text-align:left"><code>findByFirstnameContaining</code></td>
-<td style="text-align:left"><code>… where x.firstname like ?1</code> \ <code>(parameter bound wrapped in %)</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>OrderBy</code></td>
-<td style="text-align:left"><code>findByAgeOrderByLastnameDesc</code></td>
-<td style="text-align:left"><code>… where x.age = ?1 order by x.lastname desc</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>Not</code></td>
-<td style="text-align:left"><code>findByLastnameNot</code></td>
-<td style="text-align:left"><code>… where x.lastname &lt;&gt; ?1</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>In</code></td>
-<td style="text-align:left"><code>findByAgeIn(Collection&lt;Age&gt; ages)</code></td>
-<td style="text-align:left"><code>… where x.age in ?1</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>NotIn</code></td>
-<td style="text-align:left"><code>findByAgeNotIn(Collection&lt;Age&gt; age)</code></td>
-<td style="text-align:left"><code>… where x.age not in ?1</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>True</code></td>
-<td style="text-align:left"><code>findByActiveTrue()</code></td>
-<td style="text-align:left"><code>… where x.active = true</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>False</code></td>
-<td style="text-align:left"><code>findByActiveFalse()</code></td>
-<td style="text-align:left"><code>… where x.active = false</code></td>
-</tr>
-<tr>
-<td style="text-align:left"><code>IgnoreCase</code></td>
-<td style="text-align:left"><code>findByFirstnameIgnoreCase</code></td>
-<td style="text-align:left"><code>… where UPPER(x.firstame</code></td>
-</tr>
-</tbody>
-</table>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="meta">@Table</span>(name = <span class="string">"user"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Id</span></div><div class="line">    <span class="meta">@GeneratedValue</span></div><div class="line">    <span class="keyword">private</span> Integer id;</div><div class="line">    <span class="keyword">private</span> String name;</div><div class="line">    <span class="keyword">private</span> String address;</div><div class="line">    <span class="keyword">private</span> String phone;</div><div class="line">    <span class="comment">//省略getter和setter</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="使用-Criteria-查询"><a href="#使用-Criteria-查询" class="headerlink" title="使用 Criteria 查询"></a>使用 <code>Criteria</code> 查询</h1><p><code>Criteria</code> 对不同的函数进行了切分，然后通过对这些函数进行组合来完成一些较为复杂的查询。</p>
+<pre><code>JPQL ： select u from User u where u.old &gt; 20
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(root);</div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),<span class="number">20</span>);</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    List&lt;User&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<pre><code>JPQL ： select u.old,u.name from User u where u.old &gt; 20
+</code></pre><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//如果只查询某几个字段，那么返回的结果就不能是对象而是一个对象数组</span></div><div class="line"><span class="keyword">public</span> List&lt;Object[]&gt; findAll()&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    <span class="comment">//cq.select(root);</span></div><div class="line">    <span class="comment">//cq.select(root.get("old"); 如果只查询一个字段，可以使用select</span></div><div class="line">    cq.multiselect(root.get(<span class="string">"old"</span>),root.get(<span class="string">"name"</span>));<span class="comment">//查询多个字段使用multiselect</span></div><div class="line">    Predicate pre = cb.greaterThan(root.get(<span class="string">"old"</span>).as(Integer.class),cb.parameter(Integer.class,<span class="string">"old"</span>));</div><div class="line">    cq.where(pre);</div><div class="line">    </div><div class="line">    Query query = entityManager.createQuery(cq);</div><div class="line">    query.setParameter(<span class="string">"old"</span>,<span class="number">20</span>);</div><div class="line">    List&lt;Object[]&gt; users = query.getResultList();</div><div class="line">    <span class="keyword">return</span> users;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//如果想要查询多个字段，但是又想返回对象那就需要使用construct进行构造</span></div><div class="line"><span class="function"><span class="keyword">public</span> List&lt;User&gt; <span class="title">findAll</span><span class="params">()</span></span>&#123;</div><div class="line">    CriteriaBuilder cb = entirymanager.getCriteriaBuilder();</div><div class="line">    CriteriaQuery cq = cb.createQuery();</div><div class="line">    Root&lt;User&gt; root = cq.from(User.class);</div><div class="line">    cq.select(cb.construct(User.class,root.get(<span class="string">"old"</span>),root.get(<span class="string">"name)));</span></div><div class="line"><span class="string">    cq.multiselect(root.get("</span>old<span class="string">"),root.get("</span>name<span class="string">"));</span></div><div class="line"><span class="string">    Predicate pre = cb.greaterThan(root.get("</span>old<span class="string">").as(Integer.class),cb.parameter(Integer.class,"</span>old<span class="string">"));</span></div><div class="line"><span class="string">    cq.where(pre);</span></div><div class="line"><span class="string">    </span></div><div class="line"><span class="string">    Query query = entityManager.createQuery(cq);</span></div><div class="line"><span class="string">    query.setParameter("</span>old<span class="string">",20);</span></div><div class="line"><span class="string">    List&lt;User&gt; users = query.getResultList();</span></div><div class="line"><span class="string">    return users;</span></div><div class="line"><span class="string">&#125;</span></div></pre></td></tr></table></figure>
+<p>如果要进行<code>join</code>操作，就需要使用 <code>Root</code> 的 <code>join</code> 操作</p>
 
           
         
@@ -554,7 +405,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/23/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><a class="extend next" rel="next" href="/page/25/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/23/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/25/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -600,7 +451,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">33</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -622,7 +473,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
