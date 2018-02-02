@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2018/01/01/java-cglib/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2018/02/02/java-iterator-bug/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/01/java-cglib/" itemprop="url">深入cglib</a></h1>
+                <a class="post-title-link" href="/2018/02/02/java-iterator-bug/" itemprop="url">迭代器Remove问题</a></h1>
         
 
         <div class="post-meta">
@@ -293,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-01T15:55:17+08:00">
-                2018-01-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-02T23:46:13+08:00">
+                2018-02-02
               </time>
             
 
@@ -333,7 +333,15 @@
       
         
           
-            
+            <p>今天遇到这样一段代码，觉得很有意思,是一个清空元素的操作，当时还纳闷儿为啥不用 <code>clear()</code> 呢，原来就是一个 puzzle 。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ArrayList&lt;Integer&gt; arr = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</div><div class="line">arr.add(<span class="number">1</span>);</div><div class="line">arr.add(<span class="number">1</span>);</div><div class="line">arr.add(<span class="number">3</span>);</div><div class="line">Iterator&lt;Integer&gt; it = arr.iterator();</div><div class="line"><span class="keyword">while</span> (it.hasNext()) &#123;</div><div class="line">    it.remove();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>乍一看，觉得是可以的，但是直接运行就出抛出异常.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Exception in thread <span class="string">"main"</span> java.lang.IllegalStateException</div><div class="line">at java.util.ArrayList$Itr.remove(ArrayList.java:<span class="number">864</span>)</div><div class="line">at com.cvte.proxy.App.main(App.java:<span class="number">37</span>)</div><div class="line">at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</div><div class="line">at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:<span class="number">62</span>)</div><div class="line">at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:<span class="number">43</span>)</div><div class="line">at java.lang.reflect.Method.invoke(Method.java:<span class="number">498</span>)</div><div class="line">at com.intellij.rt.execution.application.AppMain.main(AppMain.java:<span class="number">147</span>)</div></pre></td></tr></table></figure>
+<p>这个问题和常见的 <code>ConcurrentModificationException</code> 不太一样。产生  <code>ConcurrentModificationException</code> 问题的原因主要是，在通过迭代器遍历容器元素列表的时候容器发生了结构性变化，导致迭代器内部维护的索引位置失效。</p>
+<p>那么，只能来翻看一下<code>ArrayList</code>的源码了，找到迭代器的<code>remove()</code>方法<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (lastRet &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException();</div><div class="line">    checkForComodification();</div><div class="line"></div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">        ArrayList.<span class="keyword">this</span>.remove(lastRet);</div><div class="line">        cursor = lastRet;</div><div class="line">        lastRet = -<span class="number">1</span>;</div><div class="line">        expectedModCount = modCount;</div><div class="line">    &#125; <span class="keyword">catch</span> (IndexOutOfBoundsException ex) &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> ConcurrentModificationException();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>通过错误信息可以看到，之所以抛出 <code>IllegalStateException</code> 就是因为 <code>lastRet</code> 小于 0.<br>继续看一下Iterator的内部实现<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Itr</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">E</span>&gt; </span>&#123;</div><div class="line">        <span class="keyword">int</span> cursor;       <span class="comment">// index of next element to return</span></div><div class="line">        <span class="keyword">int</span> lastRet = -<span class="number">1</span>; <span class="comment">// index of last element returned; -1 if no such</span></div><div class="line">        <span class="keyword">int</span> expectedModCount = modCount;</div><div class="line">        ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>原来 <code>lastRet</code> 表示的是最后一个返回的索引位置，如果没有，就为-1.所以，想一想也是合理的，你都没有返回元素，你让我删个啥玩意儿呢？</p>
+<p>所以，如果一定要这么搞，那么在调用 <code>remove()</code> 之前就需要先调用一次 <code>next()</code> 让它有东西可以删除。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">ArrayList&lt;Integer&gt; arr = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</div><div class="line">arr.add(<span class="number">1</span>);</div><div class="line">arr.add(<span class="number">1</span>);</div><div class="line">arr.add(<span class="number">3</span>);</div><div class="line">Iterator&lt;Integer&gt; it = arr.iterator();</div><div class="line"><span class="keyword">while</span> (it.hasNext()) &#123;</div><div class="line">    it.next();</div><div class="line">    it.remove();</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
           
         
       
@@ -372,7 +380,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -418,7 +426,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/12/20/harbor-s3-307/">
+    <link itemprop="mainEntityOfPage" href="http://wheniworking.com/2017/12/23/docker-pull-inside/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="清风明月多多想毕业">
@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/20/harbor-s3-307/" itemprop="url">Harbor定制nginx</a></h1>
+                <a class="post-title-link" href="/2017/12/23/docker-pull-inside/" itemprop="url">详解docker pull</a></h1>
         
 
         <div class="post-meta">
@@ -293,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-20T10:15:10+08:00">
-                2017-12-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-23T09:24:29+08:00">
+                2017-12-23
               </time>
             
 
@@ -355,20 +355,48 @@
       
         
           
-            <h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>最近公司的Harbor仓库使用Amazon S3。docker在push和pull镜像会出现失败的情况，主要原因是公司内网某些网段无法访问acc.gz.test.cn。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">error pulling image configuration: Get http://acc.gz.test.cn/Vault_For_Test/harbor/prefix/docker/registry/v2/blobs/sha256/c5/c59f17fe53b08db7dae3f597e863281517faf09739f1f6b35965cd6931de 88b3/data?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=bv2enbwmVLqusc1teSvh%2F20171218%2Fus-west-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20171218T032155Z&amp;X-Amz-Expires=1200&amp;X-Amz-SignedHeaders =host&amp;X-Amz-Signature=3fc5d5bdb223efeedc6da18f90b4f300fd1bec06dedcf947a88621fd8d5aae7a: dial tcp: lookup ac.gz.test.cn on 172.17.82.12:53: no such host</div></pre></td></tr></table></figure>
-<p>本来该问题的解决方法比较简单，在内网找一个能够访问acc.gz.test.cn的网关，通过Nginx代理，在不能访问的网段配置Hosts文件即可即可。然而考虑到用户的使用习惯，还是决定解决一下。</p>
-<p>通过错误信息，可以判断docker在push或者pull的时候，发生了重定向的操作。重定向的Location就是报错信息中的<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">http://acc.gz.test.cn/Vault_For_Test/harbor/prefix/docker/registry/v2/blobs/sha256/c5/c59f17fe53b08db7dae3f597e863281517faf09739f1f6b35965cd6931de</div><div class="line">88b3/data?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=bv2enbwmVLqusc1teSvh%2F20171218%2Fus-west-1%2Fs3%2Faws4_request&amp;X-Amz-Date=20171218T032155Z&amp;X-Amz-Expires=1200&amp;X-Amz-SignedHeaders</div><div class="line">=host&amp;X-Amz-Signature=3fc5d5bdb223efeedc6da18f90b4f300fd1bec06dedcf947a88621fd8d5aae7a</div></pre></td></tr></table></figure></p>
-<p>查看nginx的日志信息，发现在访问Registry的V2接口的时候，有返回307的响应。<br><img src="/2017/12/20/harbor-s3-307/harbor-nginx-log.png" alt=""></p>
-<p>那么，在Harbor的nginx这里做一些手脚，当返回的响应是307的时候，修改Location字段，将acc.gz.test.cn替换为其他可以被DNS解析的域名，将该域名代理到acc.gz.test.cn。</p>
-<p><img src="/2017/12/20/harbor-s3-307/harbor-s3-307-solution.png" alt=""></p>
-<h2 id="定制Nginx"><a href="#定制Nginx" class="headerlink" title="定制Nginx"></a>定制Nginx</h2><p>因为需要修改HTTP响应，Harbor自带的Nginx是不行的，需要使用openresty。</p>
-<p>首先，修改docker-compose.yml 文件。<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="attr">proxy:</span></div><div class="line"><span class="attr">    image:</span> <span class="string">openresty/openresty:alpine</span></div><div class="line"><span class="attr">    container_name:</span> <span class="string">nginx</span></div><div class="line"><span class="attr">    restart:</span> <span class="string">always</span></div><div class="line"><span class="attr">    volumes:</span></div><div class="line"><span class="bullet">      -</span> <span class="string">./common/config/nginx:/usr/local/openresty/nginx/conf:z</span></div><div class="line">      <span class="comment">#- ./common/config/nginx:/etc/nginx:z</span></div></pre></td></tr></table></figure></p>
-<p>其次，修改common/templates/nginx/nginx.https.conf。将acc.gz.test.cn 替换为其他可在内网解析域名，例如 acc-test.gz.test.cn。</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">location</span> /v2/ &#123;</div><div class="line">      <span class="attribute">proxy_pass</span> http://ui/registryproxy/v2/;</div><div class="line">      <span class="attribute">proxy_set_header</span> Host $<span class="variable">$http_host</span>;</div><div class="line">      <span class="attribute">proxy_set_header</span> X-Real-IP $<span class="variable">$remote_addr</span>;</div><div class="line">      <span class="attribute">proxy_set_header</span> X-Forwarded-For $<span class="variable">$proxy_add_x_forwarded_for</span>;</div><div class="line"></div><div class="line">      <span class="comment"># When setting up Harbor behind other proxy, such as an Nginx instance, remove the below line if the proxy already has similar settings.</span></div><div class="line">      <span class="attribute">proxy_set_header</span> X-Forwarded-Proto $<span class="variable">$scheme</span>;</div><div class="line">      <span class="attribute">proxy_buffering</span> <span class="literal">off</span>;</div><div class="line">      <span class="attribute">proxy_request_buffering</span> <span class="literal">off</span>;</div><div class="line">      <span class="attribute">header_filter_by_lua</span> <span class="string">'</span></div><div class="line"><span class="string">          if 307 == ngx.status then</span></div><div class="line"><span class="string">              location = ngx.header.Location</span></div><div class="line"><span class="string">              ngx.header.Location = string.gsub(location,"acc.gz.test.cn","acc-test.gz.test.cn")</span></div><div class="line"><span class="string">          end</span></div><div class="line"><span class="string">      '</span>;</div><div class="line"></div><div class="line">    &#125;</div></pre></td></tr></table></figure>
-<p>接下来，不要忘了修改https的证书位置。Harbor默认将nginx的证书挂载到/etc/nginx/cert/。但是没有提供修改的方式，可以执行完./install 或者 ./prepare 之后，人工修改证书挂载到openresty中的位置 。修改./common/config/nginx/nginx.conf 。<br><figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="attribute">ssl_certificate</span> /usr/local/openresty/nginx/conf/cert/gz.test.cn.crt;</div><div class="line"><span class="attribute">ssl_certificate_key</span> /usr/local/openresty/nginx/conf/cert/gz.test.cn.key;</div></pre></td></tr></table></figure></p>
-<p>最后，重启harbor 。此时不要再执行./install 或 ./prepare<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker-compose down </div><div class="line">docker-compose up -d</div></pre></td></tr></table></figure></p>
-<h2 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h2><p> 其中，需要注意设置正确的Host  proxy_set_header Host acc.gz.test.cn;<br> <figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"> <span class="section">server</span> &#123;</div><div class="line">    <span class="attribute">listen</span>       <span class="number">80</span>;</div><div class="line">    <span class="attribute">server_name</span>  acc-test.gz.test.cn;</div><div class="line"></div><div class="line">    <span class="comment">#charset koi8-r;</span></div><div class="line">    <span class="attribute">access_log</span>  /usr/local/nginx/log/acc-test.gz.test.cn.log  main;</div><div class="line"></div><div class="line">    <span class="attribute">location</span>  / &#123;</div><div class="line">        <span class="attribute">proxy_pass</span> http://acc.gz.test.cn/;</div><div class="line">        <span class="attribute">proxy_redirect</span>     <span class="literal">off</span>;</div><div class="line">        <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span>   Connection <span class="string">""</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span>   Cookie <span class="variable">$http_cookie</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span>   Host acc.gz.test.cn;</div><div class="line">        <span class="attribute">proxy_set_header</span>   X-Real-IP <span class="variable">$remote_addr</span>;</div><div class="line">        ...</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+            <p>使用Docker拉取镜像的时候，我们一条命令就可以完成该工作。</p>
+<p><img src="/2017/12/23/docker-pull-inside/docker-pull-1.png" alt=""></p>
+<p>有的时候可能会遇到需要登录的情况。<br><img src="/2017/12/23/docker-pull-inside/docker-pull-2.png" alt=""><br>此时，只需要执行 docker login docker.gz.test.cn 就可以了。<br>如果你的好奇心多一点，会看到拉取某些镜像的时候是分层的。<br><img src="/2017/12/23/docker-pull-inside/docker-pull-3.png" alt=""></p>
+<p>那么，在这个过程中，docker是怎么认证的？又是如何实现分层拉取的呢？</p>
+<h2 id="Docker-Registry的认证"><a href="#Docker-Registry的认证" class="headerlink" title="Docker Registry的认证"></a>Docker Registry的认证</h2><p><a href="https://docs.docker.com/registry/spec/auth/token/" target="_blank" rel="external">参考文档</a></p>
+<p><img src="/2017/12/23/docker-pull-inside/docker-pull-4.png" alt=""></p>
+<ul>
+<li>尝试从Registry拉取镜像</li>
+<li>如果该Registry需要认证，那么会返回401未认证，并且在HTTP响应头中返回如何进行认证的信息。</li>
+<li><strong>Registry</strong> 客户端带到认证服务请求一个Bearer Token。</li>
+<li>认证服务认证通过，返回Token</li>
+<li>Docker客户端在HTTP 请求头中带上 Bearer Token到registry</li>
+<li>Registry验证Bearer Token之后，就可以开始拉取镜像的操作了。</li>
+</ul>
+<h2 id="docker-pull"><a href="#docker-pull" class="headerlink" title="docker pull"></a>docker pull</h2><p><a href="https://docs.docker.com/registry/spec/api/#pulling-an-image" target="_blank" rel="external">参考文档</a></p>
+<p>首先，镜像是一个 JSON 格式的清单（manifest）和单个的层文件的组合。拉取镜像的过程就围绕着检索这两个组件而进行。</p>
+<p>那么，在拉取镜像的时候，需要首先获取该镜像的清单数据。该接口的定义如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">GET /v2/&lt;name&gt;/manifests/&lt;reference&gt;</div><div class="line">Authorization: Bearer &lt;Token&gt;</div><div class="line"> </div><div class="line"> </div><div class="line">&#123;</div><div class="line">   <span class="attr">"name"</span>: &lt;name&gt;,</div><div class="line">   <span class="attr">"tag"</span>: &lt;tag&gt;,</div><div class="line">   <span class="attr">"fsLayers"</span>: [</div><div class="line">      &#123;</div><div class="line">         <span class="attr">"blobSum"</span>: &lt;digest&gt;</div><div class="line">      &#125;,</div><div class="line">      ...</div><div class="line">    ]</div><div class="line">   ],</div><div class="line">   <span class="attr">"history"</span>: &lt;v1 images&gt;,</div><div class="line">   <span class="attr">"signature"</span>: &lt;JWS&gt;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>获取该清单之后，我们就知道，该镜像都有哪些分层数据组成，然后将这些数据一层一层下载下来即可。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">GET /v2/&lt;name&gt;/blobs/&lt;digest&gt;</div><div class="line"> </div><div class="line"> </div><div class="line">//This endpoint may issue a 307 (302 for &lt;HTTP 1.1) redirect to another service for downloading the layer and clients should be prepared to handle redirects.</div></pre></td></tr></table></figure>
+<p>这里明确指出，拉取镜像的时候会出现307或者302，在 <a href="http://gapme.cn/2017/12/20/harbor-s3-307/" target="_blank" rel="external">Harbor存储使用S3的坑会</a> 我们曾遇到类似的问题。</p>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>看完官方文档，我们来验证一下。</p>
+<p>拉取一个镜像：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker pull docker.gz.test.cn/ccloud/ccloud-server:master-20f6fe2</div></pre></td></tr></table></figure></p>
+<p>打开Harbor的nginx的日志，可以看到如下的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Dec 22 11:56:37 172.20.0.1 proxy[7494]: 172.18.144.48 - &quot;GET /api/repositories/ccloud/ccloud-server/tags?detail=1 HTTP/1.1&quot; 200 436 &quot;https://docker.gz.cvte.cn/harbor/projects/11/repositories &quot; &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36&quot; 0.085 0.085 .</div><div class="line">Dec 22 11:56:44 172.20.0.1 proxy[7494]: 10.10.14.39 - &quot;GET /v2/ HTTP/1.1&quot; 401 87 &quot;-&quot; &quot;docker/17.09.0-ce go/go1.8.3 git-commit/afdb6d4 kernel/3.10.0-693.2.2.el7.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/17.09.0-ce \x5C(linux\x5C))&quot; 0.003 0.003 .</div><div class="line">Dec 22 11:56:44 172.20.0.1 proxy[7494]: 10.10.14.39 - &quot;GET /service/token?account=admin&amp;scope=repository%3Accloud%2Fccloud-server%3Apull&amp;service=harbor-registry HTTP/1.1&quot; 200 972 &quot;-&quot; &quot;docker/17.09.0-ce go/go1.8.3 git-commit/afdb6d4 kernel/3.10.0-693.2.2.el7.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/17.09.0-ce \x5C(linux\x5C))&quot; 0.032 0.032 .</div><div class="line">Dec 22 11:56:44 172.20.0.1 proxy[7494]: 10.10.14.39 - &quot;GET /v2/ccloud/ccloud-server/manifests/master-20f6fe2 HTTP/1.1&quot; 200 1374 &quot;-&quot; &quot;docker/17.09.0-ce go/go1.8.3 git-commit/afdb6d4 kernel/3.10.0-693.2.2.el7.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/17.09.0-ce \x5C(linux\x5C))&quot; 0.025 0.025 .</div><div class="line">Dec 22 11:56:44 172.20.0.1 proxy[7494]: 10.10.14.39 - &quot;GET /v2/ccloud/ccloud-server/blobs/sha256:2ae74aa5b86007104f432e295a67af7cb68a07b6325090170aa2ee303d48a597 HTTP/1.1&quot; 200 6196 &quot;-&quot; &quot;docker/17.09.0-ce go/go1.8.3 git-commit/afdb6d4 kernel/3.10.0-693.2.2.el7.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/17.09.0-ce \x5C(linux\x5C))&quot; 0.005 0.005 .</div><div class="line">Dec 22 11:56:44 172.20.0.1 proxy[7494]: 10.10.14.39 - &quot;GET /v2/ccloud/ccloud-server/blobs/sha256:e3bb99408671db266f7707cc262086fbe4cff3235314ae9bcd8054b0952c7dd0 HTTP/1.1&quot; 200 9441203 &quot;-&quot; &quot;docker/17.09.0-ce go/go1.8.3 git-commit/afdb6d4 kernel/3.10.0-693.2.2.el7.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/17.09.0-ce \x5C(linux\x5C))&quot; 0.062 0.062 .</div><div class="line">Dec 22 11:56:44 172.20.0.1 proxy[7494]: 10.10.14.39 - &quot;GET /v2/ccloud/ccloud-server/blobs/sha256:85ab9793b0946166a9de84d8f30ac3a4fd0a013d06b3760e4e66ef2742afa03c HTTP/1.1&quot; 200 7011088 &quot;-&quot; &quot;docker/17.09.0-ce go/go1.8.3 git-commit/afdb6d4 kernel/3.10.0-693.2.2.el7.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/17.09.0-ce \x5C(linux\x5C))&quot; 0.143 0.143 .</div><div class="line">Dec 22 11:56:44 172.20.0.1 proxy[7494]: 10.10.14.39 - &quot;GET /v2/ccloud/ccloud-server/blobs/sha256:1a05593689a6b5b5ac77f8c5de91364b73c6a56fc34292d553615dfd3ad05a96 HTTP/1.1&quot; 200 38996911 &quot;-&quot; &quot;docker/17.09.0-ce go/go1.8.3 git-commit/afdb6d4 kernel/3.10.0-693.2.2.el7.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/17.09.0-ce \x5C(linux\x5C))&quot; 0.518 0.518 .</div><div class="line">Dec 22 11:56:44 172.20.0.1 proxy[7494]: 10.10.14.39 - &quot;GET /v2/ccloud/ccloud-server/blobs/sha256:dc03da3116f7f80e5c3d2be41576aa29a06a957f105da6eebc4ce2350d6ce7b9 HTTP/1.1&quot; 200 60791498 &quot;-&quot; &quot;docker/17.09.0-ce go/go1.8.3 git-commit/afdb6d4 kernel/3.10.0-693.2.2.el7.x86_64 os/linux arch/amd64 UpstreamClient(Docker-Client/17.09.0-ce \x5C(linux\x5C))&quot; 0.697 0.697 .</div></pre></td></tr></table></figure>
+<ul>
+<li><p>第一行: Harbor本身检查该tags是否存在</p>
+</li>
+<li><p>第二行：尝试pull，registry v2接口返回401未认证。</p>
+</li>
+<li><p>第三行：Registry客户端到获取token，返回Docker客户端。</p>
+</li>
+<li><p>第四行：Docker客户端获取镜像的清单。</p>
+</li>
+<li><p>第五行~最后：Docker客户端按照清单，逐层下载镜像数据。</p>
+</li>
+</ul>
+<p>当这一系列过程都完成的时候，镜像就被拉取下来了。</p>
+<p><img src="/2017/12/23/docker-pull-inside/docker-pull-5.png" alt=""></p>
+<p>各位感兴趣的还可以去探索一下：</p>
+<p>1、已经存在的镜像层，怎么处理？</p>
+<p>2、自己动手写一个Docker Pull的客户端(单线程版和多线程版)</p>
 
           
         
@@ -408,7 +436,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/33/">33</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -454,7 +482,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
